@@ -1,0 +1,109 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script src="https://unpkg.com/react-redux@5.0.7/dist/react-redux.min.js"></script>
+  <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // create reducer function
+      // create Store with import { createStore } from "redux";
+      // use store.getState()
+      // use store.dispatch({ type: "bugAdded", payload: { description: "Bug1" } });
+      // use store.subscribe(() => { //logic })
+      // subscribe function: Automatically calling action AFTER redux state is loaded
+
+      //reducer
+      //#region reducer
+      let lastId = 0;
+
+      function reducer(state = [], action) {
+        switch (action.type) {
+          case "bugAdded":
+            return [
+              ...state,
+              {
+                id: ++lastId,
+                description: action.payload.description,
+                resolved: false,
+              },
+            ];
+          case "bugRemoved":
+            return state.filter((bug) => bug.id !== action.payload.id);
+          default:
+            return state;
+        }
+      }
+      //#endregion reducer
+
+      // store
+      //#region store
+      const store = Redux.createStore(reducer);
+      //#endregion store
+
+      // Testing Redux
+      //#region Testing Redux
+
+      /* TEST 1 */
+      console.log(store);
+
+      /* TEST 2 */
+      console.log(store.getState());
+
+      /* TEST 3 */
+      store.dispatch({
+        type: "bugAdded",
+        payload: { description: "Bug1" },
+      });
+      store.dispatch({
+        type: "bugRemoved",
+        payload: { id: 1 },
+      });
+      console.log(store.getState());
+
+      /* TEST 4 Subscribe */
+      store.subscribe(() => {
+        console.log("Store Changed!", store.getState());
+      });
+
+      store.dispatch({
+        type: "bugAdded",
+        payload: { description: "Bug1" },
+      });
+
+      store.dispatch({
+        type: "bugRemoved",
+        payload: { id: 1 },
+      });
+
+      /* TEST 5 UnSubscribe*/
+      const unsubscribe = store.subscribe(() => {
+        console.log("Store Changed!", store.getState());
+      });
+
+      store.dispatch({
+        type: "bugAdded",
+        payload: { description: "Bug1" },
+      });
+
+      unsubscribe();
+
+      store.dispatch({
+        type: "bugRemoved",
+        payload: { id: 1 },
+      });
+
+      var div = document.createElement("H1");
+      div.innerHTML = "Test with Inspect";
+      document.getElementById("root").appendChild(div);
+      //#endregion Testing Redux
+
+      ReactDOM.render(
+        <h1> Redux: Test with Inspect</h1>,
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>
