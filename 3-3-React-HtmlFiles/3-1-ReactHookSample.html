@@ -1,0 +1,33 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const ReactHookSample1 = () => {
+        const [fName, setfName] = React.useState("");
+        const [lName, setlName] = React.useState("");
+        const [fullName, setFullName] = React.useState("");
+
+        const updateFullName = () => {
+          (fName || lName) && setFullName(`Full Name: ${fName} ${lName}`);
+        };
+
+        return (
+          <div>
+            {/* <input type="text" placeholder="First Name" /> */}
+            <input value={fName} onChange={(e) => setfName(e.target.value)} />
+            <input value={lName} onChange={(e) => setlName(e.target.value)} />
+            <button onClick={updateFullName}>Submit</button>
+            <hr />
+            <div>{fullName}</div>
+          </div>
+        );
+      };
+
+      ReactDOM.render(<ReactHookSample1 />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

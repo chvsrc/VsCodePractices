@@ -1,0 +1,66 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function ReactUseEffectHookComponent() {
+        // useState - this.setState
+        // useEffect = componentDidMount, componentDidUpdate, componentWillUnmount
+        // useContext
+
+        // useReducer
+        // useCallback
+        // useMemo
+        // useRef
+        // useImperativeHandle
+        // useLayoutEffect
+        // useDebugValue
+
+        const [count, setCount] = React.useState(0);
+        const [effectCount, setEffectCount] = React.useState(0);
+
+        // Component did mount
+        React.useEffect(() => {
+          console.log("Component did mount with []");
+        }, []);
+
+        // Component did update
+        React.useEffect(() => {
+          console.log(`You clicked setCount: ${count} times`);
+        }, [count]);
+
+        React.useEffect(() => {
+          console.log(`You clicked effectCount: ${effectCount} times`);
+        }, [effectCount]);
+
+        // Component Will Unmount
+        React.useEffect(() => {
+          console.log("Hello World");
+          return () => {
+            console.log("Do some cleanup");
+          };
+        }, []);
+
+        return (
+          <div>
+            <h1>useState</h1>
+            <button onClick={() => setCount(count - 1)}>-</button>
+            &nbsp; {count} &nbsp;
+            <button onClick={() => setCount(count + 1)}>+</button>
+            <br />
+            <h1>useEffect</h1>
+            <p>You clicked effectCount {effectCount} times</p>
+            <button onClick={() => setEffectCount(effectCount + 1)}>
+              Increase for use Effect
+            </button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<ReactHookComponent />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
