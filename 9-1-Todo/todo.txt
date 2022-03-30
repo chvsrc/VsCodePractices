@@ -1,2 +1,12 @@
 C# Custom Extension Method
 C# Extension Methods with Linq
+
+improve performance of c# code
+https://docs.microsoft.com/en-us/dotnet/framework/performance/performance-tips
+
+// Boxing and Unboxing
+// StringBuilder
+// Finalizers === Destructor // ~
+Finalizers in C# are methods inside the class used to destroy instances of that class when they are no longer needed. 
+The Finalizer is called implicitly by the .NET Framework’s Garbage collector and therefore programmer has no control as when to invoke the Finalizer. 
+An instance variable or an object is eligible for destruction when it is no longer reachable.
