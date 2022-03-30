@@ -16,6 +16,7 @@ namespace Testing
     // static class  
     // static method 
     // this as a method parameter
+    // To convert one dto to another dto we can create a extension methods
     public static class ExtensionMethodClass
     {
         public static bool isGreaterThan5(this int input)
