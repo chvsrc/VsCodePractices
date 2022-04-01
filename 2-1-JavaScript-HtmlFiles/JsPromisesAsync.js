@@ -9,8 +9,8 @@ setTimeout(myFunction, 3000);
 // loop - every 1 sec
 setInterval(myFunction, 1000);
 
-// Promises
-function getData() {
+// Way-1 with .then and .chatch
+function getData1() {
   return new Promise((resolve, reject) => {
     client
     .get("maintenance/getData")
@@ -23,9 +23,8 @@ function getData() {
   });
 }
 
-// Way-1 with .then and .chatch
 const loadData1 = () => {
-  getData()
+  getData1()
   .then((response) => {
     this.setState({ response });
   })
@@ -35,9 +34,19 @@ const loadData1 = () => {
 };
 
 // Way-2 with try and catch
+const getData2 = () => {
+  try {
+    let response = await client.get("maintenance/getData");
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
 const loadData2 = async () => {
   try {
-    let response = await getData();
+    let response = await getData2();
     this.setState({ response });
   } catch (error) {
     console.log(error.toString());
