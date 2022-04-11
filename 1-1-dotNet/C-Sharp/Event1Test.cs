@@ -15,17 +15,17 @@ public class Program
     {
         ProcessBusinessLogic bl = new ProcessBusinessLogic();
         // register with an event
-        Console.WriteLine("Step 1");
+        Console.WriteLine("execution step 1");
         bl.ProcessCompleted += bl_ProcessCompleted;
-        Console.WriteLine("Step 2");
+        Console.WriteLine("execution step 2");
         bl.StartProcess();
-        Console.WriteLine("Step 8");
+        Console.WriteLine("execution step 8");
     }
 
     // event handler
     public static void bl_ProcessCompleted()
     {
-        Console.WriteLine("Step 5");
+        Console.WriteLine("execution step 5");
     }
 }
 
@@ -40,17 +40,17 @@ public class ProcessBusinessLogic
 
     public void StartProcess()
     {
-        Console.WriteLine("Step 3");
+        Console.WriteLine("execution step 3");
         // some code here..
         OnProcessCompleted();
-        Console.WriteLine("Step 7");
+        Console.WriteLine("execution step 7");
     }
 
 
     protected virtual void OnProcessCompleted()
     {
-        Console.WriteLine("Step 4");
+        Console.WriteLine("execution step 4");
         ProcessCompleted?.Invoke();
-        Console.WriteLine("Step 6");
+        Console.WriteLine("execution step 6");
     }
 }
