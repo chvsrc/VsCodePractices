@@ -16,7 +16,7 @@
       // subscribe function: Automatically calling action AFTER redux state is loaded
 
       //reducer
-      //#region reducer
+      //#region create reducer function
       let lastId = 0;
 
       function reducer(state = [], action) {
@@ -36,7 +36,7 @@
             return state;
         }
       }
-      //#endregion reducer
+      //#endregion create reducer function
 
       // store
       //#region store
@@ -47,12 +47,15 @@
       //#region Testing Redux
 
       /* TEST 1 */
+      console.log("TEST 1");
       console.log(store);
 
       /* TEST 2 */
+      console.log("TEST 2");
       console.log(store.getState());
 
       /* TEST 3 */
+      console.log("TEST 3");
       store.dispatch({
         type: "bugAdded",
         payload: { description: "Bug1" },
@@ -64,6 +67,7 @@
       console.log(store.getState());
 
       /* TEST 4 Subscribe */
+      console.log("TEST 4");
       store.subscribe(() => {
         console.log("Store Changed!", store.getState());
       });
@@ -79,6 +83,7 @@
       });
 
       /* TEST 5 UnSubscribe*/
+      console.log("TEST 5");
       const unsubscribe = store.subscribe(() => {
         console.log("Store Changed!", store.getState());
       });
