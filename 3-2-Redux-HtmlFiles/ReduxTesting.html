@@ -17,6 +17,10 @@
 
       //reducer
       //#region create reducer function
+      // reducer must be pure function
+      // a pure function is a function that if we call it multiple times and give it the
+      // same arguments it always returns the same result and is free of side effects
+      // dont call Api's, dont use div elements
       let lastId = 0;
 
       function reducer(state = [], action) {
@@ -46,30 +50,33 @@
       // Testing Redux
       //#region Testing Redux
 
-      /* TEST 1 */
-      console.log("TEST 1");
+      /* TEST 1 :: createStore*/
+      console.log("TEST 1 :: createStore");
       console.log(store);
 
-      /* TEST 2 */
-      console.log("TEST 2");
+      /* TEST 2 :: getState*/
+      console.log("TEST 2 :: getState");
       console.log(store.getState());
 
-      /* TEST 3 */
-      console.log("TEST 3");
+      /* TEST 3 :: dispatch with type*/
+      console.log("TEST 3 :: dispatch with type :: to updating/deleting data");
       store.dispatch({
         type: "bugAdded",
         payload: { description: "Bug1" },
       });
+      console.log(store.getState());
       store.dispatch({
         type: "bugRemoved",
         payload: { id: 1 },
       });
       console.log(store.getState());
 
-      /* TEST 4 Subscribe */
-      console.log("TEST 4");
+      /* TEST 4 :: Subscribe */
+      console.log(
+        "TEST 4 :: Subscribe function: Automatically calling action AFTER redux state is loaded"
+      );
       store.subscribe(() => {
-        console.log("Store Changed!", store.getState());
+        console.log("Subscribe method called", store.getState());
       });
 
       store.dispatch({
@@ -82,10 +89,10 @@
         payload: { id: 1 },
       });
 
-      /* TEST 5 UnSubscribe*/
-      console.log("TEST 5");
+      /* TEST 5 :: UnSubscribe*/
+      console.log("TEST 5 :: UnSubscribe :: ");
       const unsubscribe = store.subscribe(() => {
-        console.log("Store Changed!", store.getState());
+        console.log("Subscribe method called", store.getState());
       });
 
       store.dispatch({
@@ -93,20 +100,29 @@
         payload: { description: "Bug1" },
       });
 
+      console.log("UnSubscribe called");
       unsubscribe();
 
       store.dispatch({
         type: "bugRemoved",
         payload: { id: 1 },
       });
-
-      var div = document.createElement("H1");
-      div.innerHTML = "Test with Inspect";
-      document.getElementById("root").appendChild(div);
       //#endregion Testing Redux
 
       ReactDOM.render(
-        <h1> Redux: Test with Inspect</h1>,
+        <div>
+          <h1> Redux: Test with Inspect</h1>
+          <ul>
+            <li>createStore :: Create store with reducer function</li>
+            <li>getState :: used to get state</li>
+            <li>dispatch with type :: used to create/update/delete state</li>
+            <li>
+              subscribe function :: Automatically calling action AFTER redux
+              state is loaded
+            </li>
+            <li>unSubscribe function from subscribe function</li>
+          </ul>
+        </div>,
         document.getElementById("root")
       );
     </script>
