@@ -1,0 +1,75 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <head>
+    <style>
+      .App h1 {
+        font-size: 64px;
+        color: var(--fg);
+      }
+      .mobile {
+        font-family: "Indie Flower", cursive;
+      }
+      .tablet {
+        font-family: "VT323", monospace;
+      }
+      .laptop {
+        font-family: "Leckerli One", cursive;
+      }
+      .desktop {
+        font-family: "Montserrat Alternates", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function matchMediaQuery(breakPoints, setBreakpoint) {
+        console.log(Object.keys(breakPoints));
+        for (var key of Object.keys(breakPoints)) {
+          console.log(key, "-->", breakPoints[key]);
+          if (window.matchMedia(`${breakPoints[key]}`).matches) {
+            setBreakpoint(key);
+          }
+        }
+      }
+
+      function breakPointObserver(breakPoints, setBreakpoint) {
+        matchMediaQuery(breakPoints, setBreakpoint);
+        window.addEventListener("resize", () => {
+          matchMediaQuery(breakPoints, setBreakpoint);
+        });
+      }
+
+      const breakPoints = {
+        mobile: "(max-width:600px)",
+        tablet: "(min-width:600px) and (max-width:768px)",
+        laptop: "(min-width: 769px) and (max-width:1024px)",
+        desktop: "(min-width:1024px)",
+      };
+
+      function App() {
+        const [breakPoint, isBreakPoint] = React.useState();
+        React.useEffect(() => {
+          breakPointObserver(breakPoints, isBreakPoint);
+        }, [breakPoint]);
+
+        return (
+          <div className="App">
+            <p>Responsive Web Design :: resize the width of browser </p>
+            <h1 className={breakPoint}>
+              {breakPoint === "mobile" && "mobile"}
+              {breakPoint === "tablet" && "tablet"}
+              {breakPoint === "laptop" && "laptop"}
+              {breakPoint === "desktop" && "desktop"}
+            </h1>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
