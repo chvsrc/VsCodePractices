@@ -1,0 +1,2 @@
+Filters in ASP.NET Core allow code to run before or after specific stages in the request processing pipeline.
+

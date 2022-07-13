@@ -1,0 +1,24 @@
+<html>
+  <style>
+    .Button {
+      padding: 20px;
+      background-color: powderblue;
+      color: blue;
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        return <div className="Button" />;
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+It is software that is injected into the application pipeline to handle requests and responses. 
+
+They are just like chained to each other and form as a pipeline. 
+
+The incoming requests are passed through this pipeline where all middleware is configured, 
+and middleware can perform some action on the request before passing it to the next middleware. 
+Same as for the responses, they are also passing through the middleware but in reverse order.
+
+
+
+
+Middleware Has access to both Request and Response
+Middleware May simply pass the Request to next Middleware
+Middleware May process and then pass the Request to next Middleware
+Middleware May handle the Request and short-circuit the pipeline
+Middleware May process the outgoing Response
+Middlewares are executed in the order they are added
+
