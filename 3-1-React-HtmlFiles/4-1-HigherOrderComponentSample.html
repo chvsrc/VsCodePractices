@@ -1,0 +1,81 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const productsData = [
+        {
+          style: "Front print and paisley print",
+          title: "Dark Thug Blue-Navy T-Shirt",
+        },
+        {
+          style: "Black T-Shirt with front print",
+          title: "Cat Tee Black T-Shirt",
+        },
+        {
+          style: "Preto com listras brancas",
+          title: "White DGK Script Tee",
+        },
+      ];
+
+      const ProductsListComponent = (props) => {
+        const filteredProducts = productsData.filter((product) => {
+          let str =
+            `${product.title} ${product.style} ${product.sku}`.toUpperCase();
+          return str.indexOf(props.searchTerm.toUpperCase()) >= 0;
+        });
+        return (
+          <div>
+            <h2>Products</h2>
+            <br />
+            {filteredProducts.map((product) => (
+              <p>{`Title: ${product.title} _____ Style: ${product.style}`}</p>
+            ))}
+          </div>
+        );
+      };
+
+      const HigherOrderSearchComponent = (InputComponent) => {
+        return class extends React.Component {
+          state = { searchTerm: "" };
+          render() {
+            let { searchTerm } = this.state;
+            return (
+              <div>
+                <input
+                  onChange={(e) =>
+                    this.setState({ searchTerm: event.target.value })
+                  }
+                  value={searchTerm}
+                  type="text"
+                />
+                <br />
+                <InputComponent searchTerm={searchTerm} />
+              </div>
+            );
+          }
+        };
+      };
+
+      const ResultComponent = HigherOrderSearchComponent(ProductsListComponent);
+
+      function App() {
+        return (
+          <div className="App">
+            <h3>
+              A higher-order component is a function that takes a component as
+              an argument and returns a new component.
+            </h3>
+            <ResultComponent />
+          </div>
+        );
+      }
+
+      const rootElement = document.getElementById("root");
+      ReactDOM.render(<App />, rootElement);
+    </script>
+  </body>
+</html>

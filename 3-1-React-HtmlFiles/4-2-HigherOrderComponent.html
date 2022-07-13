@@ -1,0 +1,40 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const HigherOrderComponent = (inputComponent) => {
+        return class outputComponent extends React.Component {
+          render() {
+            const newProps = {
+              title: "New Header",
+              footer: false,
+              showFeatureX: false,
+              showFeatureY: true,
+            };
+
+            return <inputComponent {...this.props} {...newProps} />;
+          }
+        };
+      };
+
+      function App() {
+        return (
+          <div>
+            <h3>
+              A higher-order component is a function that takes a component as
+              an argument and returns a new component.
+            </h3>
+            <br />
+            <button>Test</button>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
