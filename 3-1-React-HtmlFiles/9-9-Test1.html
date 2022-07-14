@@ -1,0 +1,106 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function createUUID() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+          /[xy]/g,
+          function (c) {
+            var r = (Math.random() * 16) | 0,
+              v = c == "x" ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          }
+        );
+      }
+
+      function TodoItem(props) {
+        const [applyStyle, setApplyStyle] = React.useState(false);
+        return (
+          <div>
+            <div>
+              {props.itemData.uniqueId} &emsp; ::
+              {props.itemData.textVal} &emsp;
+              <button
+                style={{ backgroundColor: applyStyle ? "#8Cc152" : "" }}
+                onClick={() => setApplyStyle(!applyStyle)}
+              >
+                Complete
+              </button>
+              <button
+                className="removeTodoItem"
+                onClick={() => props.removeItem()}
+              >
+                x
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      function TodoForm(props) {
+        const [textVal, setTextVal] = React.useState("");
+        const [todoList, setTodoList] = React.useState([]);
+        const todoListItems = todoList.map((o) => {
+          return (
+            <li>
+              <TodoItem
+                key={o.uniqueId}
+                itemData={o}
+                removeItem={() => {
+                  // setData(data.filter((o, i) => i !== index));
+                  setTodoList(
+                    todoList.filter((a) => o.uniqueId !== a.uniqueId)
+                  );
+
+                  // to update specific item data
+                  // todoList.filter((item) => { if (data.uniqueId === item.uniqueId) { return { ...item, textVal: data.updatedData }; } return item; })
+                }}
+              />
+            </li>
+          );
+        });
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          // Math.random()
+          const updateList = [...todoList, { uniqueId: createUUID(), textVal }];
+          setTodoList(updateList);
+          setTextVal("");
+        };
+
+        return (
+          <div>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="itemInput"
+                value={textVal}
+                onChange={(e) => {
+                  setTextVal(e.target.value);
+                }}
+              />
+              <button className="addItemButton">Add Item</button>
+            </form>
+            <ul>{todoListItems}</ul>
+          </div>
+        );
+      }
+
+      function TodoApp() {
+        return (
+          <div className="app">
+            <div className="todo-list">
+              todo items go here <TodoForm />
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<TodoApp />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
