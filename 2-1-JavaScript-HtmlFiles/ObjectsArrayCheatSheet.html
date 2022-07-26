@@ -1,0 +1,41 @@
+<html>
+  <body>
+    <p id="responseId"></p>
+    <button onclick="clicked()">Click</button>
+    <p id="responseId2"></p>
+    <p id="responseId3"></p>
+    <p id="responseId4"></p>
+    <script>
+      let employeeList = [
+        { uniqueId: 101, name: "Siva101", age: 21 },
+        { uniqueId: 102, name: "Siva102", age: 29 },
+        { uniqueId: 103, name: "Siva103", age: 31 },
+        { uniqueId: 104, name: "Siva104", age: 45 },
+        { uniqueId: 105, name: "Siva105", age: 39 },
+      ];
+      document.getElementById("responseId").innerHTML =
+        JSON.stringify(employeeList);
+      const clicked = () => {
+        // adding new item
+        const addedDataList = [
+          ...employeeList,
+          { uniqueId: 106, name: "Siva106", age: 60 },
+        ];
+        document.getElementById("responseId2").innerHTML =
+          "Added 106 Data :: " + JSON.stringify(addedDataList);
+
+        // removing 103
+        const removedDataList = employeeList.filter((o) => o.uniqueId !== 103);
+        document.getElementById("responseId3").innerHTML =
+          "removed 103 Data :: " + JSON.stringify(removedDataList);
+
+        // updating 104 - name
+        const updatedDataList = employeeList.map((o) =>
+          o.uniqueId === 104 ? { ...o, name: "SivaUpdatedName" } : o
+        );
+        document.getElementById("responseId4").innerHTML =
+          "updated 104 Data :: " + JSON.stringify(updatedDataList);
+      };
+    </script>
+  </body>
+</html>

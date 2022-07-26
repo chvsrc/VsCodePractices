@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.13.12/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const Counter = (props) => {
+        const [clicks, setClick] = React.useState(0);
+        React.useEffect(() => {
+          setClick(parseInt(props.initial));
+        }, []);
+
+        return (
+          <>
+            <button
+              onClick={() => {
+                parseInt(props.min) < clicks && setClick(clicks - 1);
+              }}
+            >
+              -
+            </button>
+            &emsp;{"Clicks :: " + clicks} &emsp;
+            <button
+              onClick={() => {
+                parseInt(props.max) > clicks && setClick(clicks + 1);
+              }}
+            >
+              +
+            </button>
+          </>
+        );
+      };
+
+      const App = () => {
+        return <Counter min="5" max="15" initial="10" />;
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
