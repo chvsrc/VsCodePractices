@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.13.12/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      class ErrorBoundary extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = { error: null, errorInfo: null };
+        }
+
+        // This method is called if any error is encountered
+        componentDidCatch(error, errorInfo) {
+          // Catch errors in any components below and re-render with error message
+          this.setState({
+            error: error,
+            errorInfo: errorInfo,
+          });
+          // You can also log error messages to an error reporting service here
+        }
+
+        render() {
+          if (this.state.errorInfo) {
+            // Error path
+            return (
+              <div style={{ color: "#FF0000" }}>
+                <p className="error">An Error Has Occurred</p>
+                <details>
+                  {this.state.error && this.state.error.toString()}
+                  <br />
+                  {this.state.errorInfo.componentStack}
+                </details>
+              </div>
+            );
+          }
+          // Normally, just render children, i.e. in case no error is Found
+          return this.props.children;
+        }
+      }
+
+      function Counter() {
+        const [count, setCount] = React.useState(0);
+
+        if (count === 3) {
+          // Simulate a JS error
+          throw new Error("Crashed!!!!");
+        }
+
+        return (
+          <div>
+            <p>You clicked {count} times</p>
+            <button onClick={() => setCount(count + 1)}>Click me</button>
+          </div>
+        );
+      }
+
+      function App() {
+        return (
+          <div style={{ marginLeft: "30px", marginTop: "50px" }}>
+            <h1 style={{ textAlign: "center" }}>
+              To see the working of Error boundaries click on the Counters to
+              increase the value
+            </h1>
+            <hr />
+            <ErrorBoundary>
+              <Counter />
+              <Counter />
+            </ErrorBoundary>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
