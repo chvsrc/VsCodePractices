@@ -1,0 +1,27 @@
+<html>
+  <body>
+    <h1>Virtual DOM vs Real DOM</h1>
+    <ol>
+      <li>DOM - Document Object Model.</li>
+      <br/>
+      <li>The virtual DOM is a programming concept.</li>
+      <li>and The virtual DOM is an virtual representation of a UI is kept in memory.</li>
+      <li>and it will allways synced with the real DOM by using ReactDOM library.</li>
+      <li>This process is called reconciliation.</li>
+      <br/>
+      <li>Every react component hsa state and render action.</li>
+      <li>This state here is the data that we want to display when the component is rendered.</li>
+      <li>And the render method, as you can tell, is responsible for describing what the Ul should look like.</li>
+      <li>The output of this render method is a React element, which is a simple plain JavaScript object that maps to a DOM element.</li>
+      <li>It's not a real DOM element.</li>
+      <li>It's just a plain JavaScript object that represents that DOM element in memory.</li>
+      <li>So react keeps a lightweight representation of the DOM in memory, which we'll refer to as the virtual DOM.</li>
+      <li>Unlike the browser or the real DOM, this virtual DOM is cheap to create.</li>
+      <li>when we change the state of a component, we get a new React element.</li>
+      <li>React will then compare this element and its children with the previous one.</li>
+      <li>It figures out what has changed, and then it will update a part of the real DOM to keep it in sync with the virtual DOM.</li>
+    </ol>
+    <img src="VirtualDOM.png" width="1200" height="600" />
+    </script>
+  </body>
+</html>

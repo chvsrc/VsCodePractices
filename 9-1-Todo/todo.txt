@@ -15,3 +15,132 @@ c# ref vs out vs in
 
 delegate
 event
+
+
+Inline Styling
+JavaScript Object
+CSS Stylesheet
+
+
+/////
+Explain the lifecycle methods of components.
+getInitialState(): This is executed before the creation of the component.
+componentDidMount(): Is executed when the component gets rendered and placed on the DOM.
+shouldComponentUpdate(): Is invoked when a component determines changes to the DOM and returns a “true” or “false” value based on certain conditions.
+componentDidUpdate(): Is invoked immediately after rendering takes place.
+componentWillUnmount(): Is invoked immediately before a component is destroyed and unmounted permanently.
+So far, if you have any doubts about the above React interview questions and answers, please ask your questions in the section below.
+////
+
+----
+In react every class component has mainly three lifecycle phases.
+The three phases are: Mounting, Updating, and Unmounting.
+
+1) Mounting : Mounting means putting elements into the DOM.
+ a) constructor()
+ b) static getDerivedStateFromProps()
+ c) render()
+ d) componentDidMount()
+
+2) Updating : The next phase in the lifecycle is when a component is updated. 
+A component is updated whenever there is a change in the component's state or props.
+ a) static getDerivedStateFromProps()
+ b) shouldComponentUpdate()
+ c) render()
+ d) getSnapshotBeforeUpdate()
+ e) componentDidUpdate()
+
+
+3) Unmounting : The next phase in the lifecycle is when a component is removed from the DOM, or unmounting as React likes to call it.
+in Unmounting 
+
+React has only one built-in method that gets called when a component is unmounted:
+ a) componentWillUnmount(): The componentWillUnmount method is called when the component is about to be removed from the DOM.
+
+
+
+
+What is the virtual DOM?
+
+
+Every react component hsa state and render method. 
+
+This state here is the data that we want to display when the component is rendered. 
+
+And the render method, as you can tell, is responsible for describing what the Ul should look like. 
+The output of this render method is a React element, which is a simple plain JavaScript object that maps to a DOM element. 
+It's not a real DOM element. 
+It's just a plain JavaScript object that represents that DOM element in memory. 
+So react keeps a lightweight representation of the DOM in memory, which we'll refer to as the virtual DOM. 
+Unlike the browser or the real DOM, this virtual DOM is cheap to create
+
+when we change the state of a component, we get a new React element. 
+React will then compare this element and its children with the previous one. 
+It figures out what has changed, and then it will update a part of the real DOM to keep it in sync with the virtual DOM.
+
+
+
+So that means when building applications with React, unlike vanilla JavaScript, or Query would no longer have to work with the DOM API in browsers. 
+In other words, we no longer have to write code, equate and manipulate the DOM or attach event handlers to DOM elements.
+We simply change the state of our components and react will automatically update the DOM to match that state. 
+
+Resume
+Developed Proof of concept(POC) applications with Asp.net core web api. and to test published in Azure Web Apps with our azure devops pipeline.
+Used Azure Application Insights 
+Adaptive Cards
+JUST
+API conusmeing
+Common commponent for error handling
+location api ducration checking
+telemetry services
+dashbord with Azure Application Insights 
+cardName
+
+
+
+
+React creates a tree of custom objects representing a part of the DOM. For example, instead of creating an actual DIV element containing a UL element, it creates a React.div object that contains a React.ul object. It can manipulate these objects very quickly without actually touching the real DOM or going through the DOM API. Then, when it renders a component, it uses this virtual DOM to figure out what it needs to do with the real DOM to get the two trees to match.
+
+You can think of the virtual DOM like a blueprint. It contains all the details needed to construct the DOM, but because it doesn't require all the heavyweight parts that go into a real DOM, it can be created and changed much more easily.
+
+
+
+
+
+//
+
+React Js Interview Question
+• What is React js
+• What is difference between virtual dom and shallow dom, dom in React is
+• What is controlled and uncontrolled component in React is
+• What is hooks in React is
+• What is jsx, babel, webpack
+• What is Redux
+• What is reducer , action, store in Redux
+• What is middleware in Redux
+• Explain data flow in Redux
+• What is Redux-Thunk
+• What is Redux-Saga, Difference between Redux-thunk and Redux-saga
+• Difference between class component and function component
+• How can we implement componentWillUnmount in function component
+• useFffect.UseState.useMemo.useCallback hooks in Details
+• Explain lifecycle method in React js
+• What is difference between export default and export in React is
+• What is portal in React is
+• What is reconciliation in React is
+• What is useRef in React is
+• What is server side render in React is
+• What is useStrict in React is
+• What is fragment in React js
+• What is react router in React is
+• What is node module in React is
+• What is the default localhost server port in react js.
+• how can we change the local server port
+• What is high order component in React is
+• What is pure component in React is
+• What is difference state and props in React is
+• How to optimize React is app
+• What is difference between React js and Angular js
+• What is prop drilling in React js how to overcome it
+• What is context api in React is
+• What is super, constructor , render function in React is
