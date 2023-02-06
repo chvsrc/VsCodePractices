@@ -1,3 +1,7 @@
+// cd VsCodePractices/1-1-dotNet/C-Sharp
+// csc CollectionsGenericsTest.cs
+// mono CollectionsGenericsTest.exe
+
 /*
 Generics are declared with "Less than <" and "Greater than >" in C#
 
