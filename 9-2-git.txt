@@ -1,0 +1,59 @@
+git reset head~
+
+git reset HEAD~1
+
+git clean -f-d
+
+git checkout systest
+
+git checkout -b systest origin/systest
+
+git reset - -hard
+
+git checkout HEAD - - src/js/business/
+
+git stash -u
+
+git stash apply
+
+clean install
+
+git stash show "stash@(e)" -p › changes.patch
+
+************************************************************************
+
+gitMerge.bat
+
+cd C:\
+
+mkdir Repos\workspace-java\app
+
+cd C: \Repos\workspace-java
+
+git clone https: //git-codecommit.us.amazonaws.com/v1/repos/app
+
+cd app 
+
+git checkout dev 
+
+git pull
+
+git checkout systest
+
+git pull
+
+git merge dev
+
+git push
+
+************************************************************************
+
+gitPull.bat
+
+cd C: /Repos/workspace-java/app
+
+git checkout dev git pull
+
+@pause
+
+************************************************************************
