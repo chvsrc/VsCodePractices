@@ -1,424 +1,193 @@
+<!DOCTYPE html>
 <html>
 
 <head>
   <style>
-    html {
+    * {
       box-sizing: border-box;
     }
 
-    *,
-    *:before,
-    *:after {
-      box-sizing: inherit;
-    }
-
-    body {
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.5;
-      margin: 0;
-      padding: 0;
-    }
-
-    .header {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/mNWsZDYUCFs/1500x1000');
-      background-size: cover;
-    }
-
-    .hero {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 400px;
-      color: #ffffff;
-    }
-
-    .button {
-      padding: 10px 16px;
-      border-radius: 6px;
-      background-color: transparent;
-      border: 1px solid #cccccc;
-    }
-
-    .thumbnail {
-      padding: 4px;
-      line-height: 1.42857143;
-      border: 1px solid #ddd;
+    input[type=text],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
       border-radius: 4px;
+      resize: vertical;
     }
 
-    .text-center {
-      text-align: center;
+    label {
+      padding: 12px 12px 12px 12px;
+      display: inline-block;
     }
 
-    .image {
-      display: block;
-      max-width: 100%;
-      height: auto;
+    input[type=submit] {
+      background-color: #04AA6D;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
     }
 
-    .image--center {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .image--circle {
-      border-radius: 50%;
-    }
-
-    .footer {
-      height: 50px;
-      background-color: #404040;
-      margin-top: 30px;
-    }
-
-    /* GRID */
-
-    /* CONTAINER */
     .container {
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 15px;
-      padding-right: 15px;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
     }
 
-    @media (min-width: 768px) {
-      .container {
-        width: 750px;
+    .col-sm-1 {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    .col-sm-2 {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+
+    /* Clear floats after the columns */
+    .row::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .example {
+      padding: 20px;
+      color: white;
+    }
+
+    /* Extra small devices (phones, 600px and down) */
+    @media only screen and (max-width: 600px) {
+      .example {
+        background: red;
       }
     }
 
-    @media (min-width: 992px) {
-      .container {
-        width: 970px;
+    /* Small devices (portrait tablets and large phones, 600px and up) */
+    @media only screen and (min-width: 600px) {
+      .example {
+        background: green;
       }
     }
 
-    @media (min-width: 1200px) {
-      .container {
-        width: 1170px;
-      }
-    }
-
-
-    /* ROW */
-    .row {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-gap: 20px;
-    }
-
-
-    .col-xs-12 {
-      grid-column: span 12
-    }
-
-    .col-xs-11 {
-      grid-column: span 11;
-    }
-
-    .col-xs-10 {
-      grid-column: span 10
-    }
-
-    .col-xs-9 {
-      grid-column: span 9
-    }
-
-    .col-xs-8 {
-      grid-column: span 8
-    }
-
-    .col-xs-7 {
-      grid-column: span 7
-    }
-
-    .col-xs-6 {
-      grid-column: span 6
-    }
-
-    .col-xs-5 {
-      grid-column: span 5
-    }
-
-    .col-xs-4 {
-      grid-column: span 4
-    }
-
-    .col-xs-3 {
-      grid-column: span 3
-    }
-
-    .col-xs-2 {
-      grid-column: span 2
-    }
-
-    .col-xs-1 {
-      grid-column: span 1
-    }
-
-    @media (min-width: 768px) {
-      .col-sm-12 {
-        grid-column: span 12
-      }
-
-      .col-sm-11 {
-        grid-column: span 11;
-      }
-
-      .col-sm-10 {
-        grid-column: span 10
-      }
-
-      .col-sm-9 {
-        grid-column: span 9
-      }
-
-      .col-sm-8 {
-        grid-column: span 8
-      }
-
-      .col-sm-7 {
-        grid-column: span 7
-      }
-
-      .col-sm-6 {
-        grid-column: span 6
-      }
-
-      .col-sm-5 {
-        grid-column: span 5
-      }
-
-      .col-sm-4 {
-        grid-column: span 4
-      }
-
-      .col-sm-3 {
-        grid-column: span 3
-      }
-
-      .col-sm-2 {
-        grid-column: span 2
+    /* Medium devices (landscape tablets, 768px and up) */
+    @media only screen and (min-width: 768px) {
+      .example {
+        background: blue;
       }
 
       .col-sm-1 {
-        grid-column: span 1
+        float: left;
+        width: calc(100% / 6);
+        margin-top: 6px;
+      }
+
+      .col-sm-2 {
+        float: left;
+        width: calc(2 * 100% / 6);
+        margin-top: 6px;
+      }
+
+      label {
+        padding: 12px 12px 12px 12px;
+        display: inline;
+        position: absolute;
       }
     }
 
-    @media (min-width: 992px) {
-      .col-md-12 {
-        grid-column: span 12
+    /* Large devices (laptops/desktops, 992px and up) */
+    @media only screen and (min-width: 992px) {
+      .example {
+        background: yellow;
       }
 
-      .col-md-11 {
-        grid-column: span 11;
+      .col-sm-1 {
+        float: left;
+        width: calc(100% / 9);
+        margin-top: 6px;
       }
 
-      .col-md-10 {
-        grid-column: span 10
-      }
-
-      .col-md-9 {
-        grid-column: span 9
-      }
-
-      .col-md-8 {
-        grid-column: span 8
-      }
-
-      .col-md-7 {
-        grid-column: span 7
-      }
-
-      .col-md-6 {
-        grid-column: span 6
-      }
-
-      .col-md-5 {
-        grid-column: span 5
-      }
-
-      .col-md-4 {
-        grid-column: span 4
-      }
-
-      .col-md-3 {
-        grid-column: span 3
-      }
-
-      .col-md-2 {
-        grid-column: span 2
-      }
-
-      .col-md-1 {
-        grid-column: span 1
+      .col-sm-2 {
+        float: left;
+        width: calc(2 * 100% / 9);
+        margin-top: 6px;
       }
     }
 
-    @media (min-width: 1200px) {
-      .col-lg-12 {
-        grid-column: span 12
+    /* Extra large devices (large laptops and desktops, 1200px and up) */
+    @media only screen and (min-width: 1200px) {
+      .example {
+        background: orange;
       }
 
-      .col-lg-11 {
-        grid-column: span 11;
+      .col-sm-1 {
+        float: left;
+        width: calc(100% / 12);
+        margin-top: 6px;
       }
 
-      .col-lg-10 {
-        grid-column: span 10
-      }
-
-      .col-lg-9 {
-        grid-column: span 9
-      }
-
-      .col-lg-8 {
-        grid-column: span 8
-      }
-
-      .col-lg-7 {
-        grid-column: span 7
-      }
-
-      .col-lg-6 {
-        grid-column: span 6
-      }
-
-      .col-lg-5 {
-        grid-column: span 5
-      }
-
-      .col-lg-4 {
-        grid-column: span 4
-      }
-
-      .col-lg-3 {
-        grid-column: span 3
-      }
-
-      .col-lg-2 {
-        grid-column: span 2
-      }
-
-      .col-lg-1 {
-        grid-column: span 1
+      .col-sm-2 {
+        float: left;
+        width: calc(2 * 100% / 12);
+        margin-top: 6px;
       }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- Header -->
-  <header class="header">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 hero">
-          <h1>Local, organic, handmade goods.</h1>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Page Content -->
+  <h2>Responsive Form</h2>
+  <p>Resize the browser window to see the effect. When the screen is less than 600px wide, make the two columns stack on
+    top of each other instead of next to each other.</p>
   <div class="container">
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-8">
-        <h2>What We Do</h2>
-        <p></p>
-        Aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.
-        </p>
-        <p></p>Aaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa.</p>
-        <p><button class="button">Contact Us</button></p>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <h2>Contact Us</h2>
-        <div>
-          <strong>Abcdef & Ghij</strong>
-          <br />12345 Abc Road
-          <br />Abcdef, AZ 54321
-          <br />
-          <br />
+    <form>
+      <div class="row">
+        <div class="col-sm-1">
+          <label for="fname">First Name</label>
         </div>
-        <div>
-          <abbr title="Phone">P: </abbr>(123) 456-7890
-          <br />
-          <abbr title="Email">E: </abbr> <a href="mailto:#">Email Us</a>
+        <div class="col-sm-2">
+          <input type="text" id="fname" name="firstname" placeholder="Your name..">
+        </div>
+        <div class="col-sm-1">
+          <label for="lname">Last Name</label>
+        </div>
+        <div class="col-sm-2">
+          <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+        </div>
+        <div class="col-sm-1">
+          <label for="lname">City</label>
+        </div>
+        <div class="col-sm-2">
+          <input type="text" id="city" name="city" placeholder="City..">
+        </div>
+        <div class="col-sm-1">
+          <label for="country">Country</label>
+        </div>
+        <div class="col-sm-2">
+          <select id="country" name="country">
+            <option value="australia">Australia</option>
+            <option value="canada">Canada</option>
+            <option value="usa">USA</option>
+          </select>
         </div>
       </div>
-    </div>
-
-    <!-- /.row -->
-
-    <hr>
-
-    <div class="row text-center">
-
-      <div class="col-xs-12">
-        <h1>What we offer</h1>
-        <br />
+      <br>
+      <div class="row">
+        <input type="submit" value="Submit">
       </div>
-
-      <div class="col-xs-12 col-md-4">
-        <img class="image image--circle image--center" src="https://source.unsplash.com/1w1OMV8CEeM/300x300" alt="">
-        <h2>Aaaaaaa</h2>
-        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <img class="image image--circle image--center" src="https://source.unsplash.com/nJZbmL6pvDY/300x300" alt="">
-        <h2>Aaaaaaa</h2>
-        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
-      </div>
-      <div class="col-xs-12 col-md-4">
-        <img class="image image--circle image--center" src="https://source.unsplash.com/SK1_JK-ZHOo/300x300" alt="">
-        <h2>Aaaaaaa</h2>
-        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
-      </div>
-    </div>
-    <!-- /.row -->
-
-    <hr>
-
-    <div class="row">
-
-      <div class="col-xs-12 text-center">
-        <h1>Our Work</h1>
-        <br />
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/5f4xGaQnM1E/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/QYFi6t0P9Q0/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/EHE7XUs9wb4/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/UHFTNwaQg9o/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/nJZbmL6pvDY/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/TGYQVFiYpWw/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/Gf4WV2qyW2U/400x300" alt="">
-      </div>
-      <div class="col-lg-3 col-md-4 col-xs-6">
-        <img class="image thumbnail" src="https://source.unsplash.com/zG0_RnnxguY/400x300" alt="">
-      </div>
-    </div>
-    <!-- /.row -->
+    </form>
+    <p class="example">Resize the browser window to see how the background color of this paragraph changes on different
+      screen sizes.</p>
   </div>
-  <!-- /.container -->
-  <footer class="footer" />
 </body>
 
 </html>

@@ -1,0 +1,424 @@
+<html>
+
+<head>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *:before,
+    *:after {
+      box-sizing: inherit;
+    }
+
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://source.unsplash.com/mNWsZDYUCFs/1500x1000');
+      background-size: cover;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      color: #ffffff;
+    }
+
+    .button {
+      padding: 10px 16px;
+      border-radius: 6px;
+      background-color: transparent;
+      border: 1px solid #cccccc;
+    }
+
+    .thumbnail {
+      padding: 4px;
+      line-height: 1.42857143;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .image {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .image--center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .image--circle {
+      border-radius: 50%;
+    }
+
+    .footer {
+      height: 50px;
+      background-color: #404040;
+      margin-top: 30px;
+    }
+
+    /* GRID */
+
+    /* CONTAINER */
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        width: 750px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .container {
+        width: 970px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        width: 1170px;
+      }
+    }
+
+
+    /* ROW */
+    .row {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-gap: 20px;
+    }
+
+
+    .col-xs-12 {
+      grid-column: span 12
+    }
+
+    .col-xs-11 {
+      grid-column: span 11;
+    }
+
+    .col-xs-10 {
+      grid-column: span 10
+    }
+
+    .col-xs-9 {
+      grid-column: span 9
+    }
+
+    .col-xs-8 {
+      grid-column: span 8
+    }
+
+    .col-xs-7 {
+      grid-column: span 7
+    }
+
+    .col-xs-6 {
+      grid-column: span 6
+    }
+
+    .col-xs-5 {
+      grid-column: span 5
+    }
+
+    .col-xs-4 {
+      grid-column: span 4
+    }
+
+    .col-xs-3 {
+      grid-column: span 3
+    }
+
+    .col-xs-2 {
+      grid-column: span 2
+    }
+
+    .col-xs-1 {
+      grid-column: span 1
+    }
+
+    @media (min-width: 768px) {
+      .col-sm-12 {
+        grid-column: span 12
+      }
+
+      .col-sm-11 {
+        grid-column: span 11;
+      }
+
+      .col-sm-10 {
+        grid-column: span 10
+      }
+
+      .col-sm-9 {
+        grid-column: span 9
+      }
+
+      .col-sm-8 {
+        grid-column: span 8
+      }
+
+      .col-sm-7 {
+        grid-column: span 7
+      }
+
+      .col-sm-6 {
+        grid-column: span 6
+      }
+
+      .col-sm-5 {
+        grid-column: span 5
+      }
+
+      .col-sm-4 {
+        grid-column: span 4
+      }
+
+      .col-sm-3 {
+        grid-column: span 3
+      }
+
+      .col-sm-2 {
+        grid-column: span 2
+      }
+
+      .col-sm-1 {
+        grid-column: span 1
+      }
+    }
+
+    @media (min-width: 992px) {
+      .col-md-12 {
+        grid-column: span 12
+      }
+
+      .col-md-11 {
+        grid-column: span 11;
+      }
+
+      .col-md-10 {
+        grid-column: span 10
+      }
+
+      .col-md-9 {
+        grid-column: span 9
+      }
+
+      .col-md-8 {
+        grid-column: span 8
+      }
+
+      .col-md-7 {
+        grid-column: span 7
+      }
+
+      .col-md-6 {
+        grid-column: span 6
+      }
+
+      .col-md-5 {
+        grid-column: span 5
+      }
+
+      .col-md-4 {
+        grid-column: span 4
+      }
+
+      .col-md-3 {
+        grid-column: span 3
+      }
+
+      .col-md-2 {
+        grid-column: span 2
+      }
+
+      .col-md-1 {
+        grid-column: span 1
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .col-lg-12 {
+        grid-column: span 12
+      }
+
+      .col-lg-11 {
+        grid-column: span 11;
+      }
+
+      .col-lg-10 {
+        grid-column: span 10
+      }
+
+      .col-lg-9 {
+        grid-column: span 9
+      }
+
+      .col-lg-8 {
+        grid-column: span 8
+      }
+
+      .col-lg-7 {
+        grid-column: span 7
+      }
+
+      .col-lg-6 {
+        grid-column: span 6
+      }
+
+      .col-lg-5 {
+        grid-column: span 5
+      }
+
+      .col-lg-4 {
+        grid-column: span 4
+      }
+
+      .col-lg-3 {
+        grid-column: span 3
+      }
+
+      .col-lg-2 {
+        grid-column: span 2
+      }
+
+      .col-lg-1 {
+        grid-column: span 1
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 hero">
+          <h1>Local, organic, handmade goods.</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-8">
+        <h2>What We Do</h2>
+        <p></p>
+        Aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.
+        </p>
+        <p></p>Aaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa.</p>
+        <p><button class="button">Contact Us</button></p>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <h2>Contact Us</h2>
+        <div>
+          <strong>Abcdef & Ghij</strong>
+          <br />12345 Abc Road
+          <br />Abcdef, AZ 54321
+          <br />
+          <br />
+        </div>
+        <div>
+          <abbr title="Phone">P: </abbr>(123) 456-7890
+          <br />
+          <abbr title="Email">E: </abbr> <a href="mailto:#">Email Us</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- /.row -->
+
+    <hr>
+
+    <div class="row text-center">
+
+      <div class="col-xs-12">
+        <h1>What we offer</h1>
+        <br />
+      </div>
+
+      <div class="col-xs-12 col-md-4">
+        <img class="image image--circle image--center" src="https://source.unsplash.com/1w1OMV8CEeM/300x300" alt="">
+        <h2>Aaaaaaa</h2>
+        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <img class="image image--circle image--center" src="https://source.unsplash.com/nJZbmL6pvDY/300x300" alt="">
+        <h2>Aaaaaaa</h2>
+        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <img class="image image--circle image--center" src="https://source.unsplash.com/SK1_JK-ZHOo/300x300" alt="">
+        <h2>Aaaaaaa</h2>
+        <p> Aaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <hr>
+
+    <div class="row">
+
+      <div class="col-xs-12 text-center">
+        <h1>Our Work</h1>
+        <br />
+      </div>
+
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/5f4xGaQnM1E/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/QYFi6t0P9Q0/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/EHE7XUs9wb4/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/UHFTNwaQg9o/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/nJZbmL6pvDY/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/TGYQVFiYpWw/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/Gf4WV2qyW2U/400x300" alt="">
+      </div>
+      <div class="col-lg-3 col-md-4 col-xs-6">
+        <img class="image thumbnail" src="https://source.unsplash.com/zG0_RnnxguY/400x300" alt="">
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+  <footer class="footer" />
+</body>
+
+</html>
