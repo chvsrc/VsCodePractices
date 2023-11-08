@@ -94,7 +94,7 @@ namespace LinqTesting1
             bool isAnyStudentTeenAger = studentList.Any(s => s.Age > 12 && s.Age < 20);
             Console.WriteLine(isAnyStudentTeenAger);
 
-            Student std = new Student() { StudentID = 3, StudentName = "Bill" };
+            // Student std = new Student() { StudentID = 3, StudentName = "Bill" };
             // bool result = studentList.Contains(std, new StudentComparer()); //returns true
 
             Console.WriteLine("Successfully completed !");
