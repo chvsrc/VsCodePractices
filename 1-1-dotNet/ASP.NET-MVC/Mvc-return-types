@@ -1,0 +1,23 @@
+IActionResult
+
+ViewResult (View): This return type is used to return a webpage from an action method.Returns a ViewResult which renders the specified or default view by using controller View() helper method
+
+PartialviewResult (Partialview): This return type is used to send a part of a view which will be rendered in another view. or Returns a PartialViewResult which renders the specified or default partial view (means a view without its layout) by using controller PartialView() helper method.
+
+RedirectResult (Redirect): This return type is used to redirect to any other controller and action method depending on the URL.or. Returns a RedirectResult which Issues an HTTP 301 or 302 redirection to a specific URL by using controller Redirect() helper method. RedirectToRouteResult (RedirectToAction, RedirectToRoute): This return type is used when we want to redirect to any other action method. or. Returns a RedirectToRouteResult which Issues an HTTP 301 or 302 redirection to an action method or specific route entry by using controller RedirectToAction(), RedirectToActionPermanent(), RedirectToRoute(), RedirectToRoutePermanent() helper methods.
+
+ContentResult (Content): This return type is used to return HTTP content type like text/plain as the result of the action. or . Returns a ContentResult which renders raw text like as "Hello, DotNet Tricks!" by using controller Content() helper method.
+
+jsonResult (json): This return type is used when we want to return a JSON message. or. Returns a JsonResult which serializes an object in JSON format ( like as "{ "Message": Hello, World! }") and renders it by using controller Json() helper method.
+
+javascriptResult (javascript): This return type is used to return JavaScript code that will run in browser. or. Returns a JavaScriptResult which renders a snippet of JavaScript code like as "function hello() { alert(Hello, World!); }" by using controller JavaScript() helper method. This is used only in AJAX scenarios.
+
+FileResult (File): This return type is used to send binary output in response. or.Returns a FileResult which renders the contents of a file like as PDF, DOC, Excel etc. by using controller File() helper method.
+
+EmptyResult: This return type is used to return nothing (void) in the result. or. Returns no result returned by an action. This has no controller helper method.
+
+HttpNotFoundResult - Returns an HttpNotFoundResult which renders a 404 HTTP Status Code response by using controller HttpNotFound() helper method.
+
+HttpUnauthorizedResult - Returns an HttpUnauthorizedResult which renders a 401 HTTP Status Code (means "not authorized") response. This has no controller helper method. This is used for authentication (forms authentication or Windows authentication) to ask the user to log in.
+
+HttpStatusCodeResult - Returns an HttpStatusCodeResult which renders a specified HTTP code response. This has no controller helper method.

@@ -1,0 +1,119 @@
+<html>
+<script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+<head>
+    <style>
+        .grid {
+            display: flex;
+            /* or use "display: grid;" for CSS Grid */
+            flex-wrap: wrap;
+        }
+
+        .grid-item {
+            /* Define the width of each column for different screen sizes */
+            width: 100%;
+            /* Default: Each item takes 100% width on small screens */
+            outline: 1px solid #3700ff;
+        }
+
+        /* Media queries for larger screens */
+        @media (min-width: 768px) {
+            .grid-item {
+                width: 50%;
+                /* Each item takes 50% width on screens >= 768px */
+            }
+        }
+
+        @media (min-width: 1080px) {
+            .grid-item {
+                width: 12%;
+                /* Each item takes 25% width on screens >= 1200px */
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-item {
+                width: 12%;
+                /* Each item takes 25% width on screens >= 1200px */
+            }
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4caf50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const Grid = ({ children }) => {
+            return <div className="grid">{children}</div>;
+        };
+
+        const GridItem = ({ children }) => {
+            return <div className="grid-item">{children}</div>;
+        };
+
+        const App = () => {
+            return (
+                <div>
+                    <h1>Responsive Grid Example</h1>
+                    <Grid>
+                        <GridItem>First Name</GridItem>
+                        <GridItem>
+                            <input type="text" placeholder="Your name.." />
+                        </GridItem>
+                        <GridItem>Last Name</GridItem>
+                        <GridItem>
+                            <input type="text" placeholder="Your last name.." />
+                        </GridItem>
+                        <GridItem>5</GridItem>
+                        <GridItem>6</GridItem>
+                        <GridItem>7</GridItem>
+                        <GridItem>8</GridItem>
+                        <GridItem>9</GridItem>
+                        <GridItem>10</GridItem>
+                        <GridItem>11</GridItem>
+                        <GridItem>12</GridItem>
+                    </Grid>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+
+</html>
