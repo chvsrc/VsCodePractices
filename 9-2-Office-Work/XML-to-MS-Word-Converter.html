@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to MS Word Converter</title>
+</head>
+
+<body>
+    <marquee behavior="scroll" direction="left" scrollamount="10">
+        <h2>Text to MS Word Converter</h2>
+    </marquee>
+
+    <textarea id="xmlInput" style="width: 90%;" rows="40"></textarea>
+    <br />
+    <input id="fileName" type="text" /> &nbsp;
+    <button onclick="convertToWord()">Convert to Word</button>
+    <script>
+        resetText();
+        function resetText() {
+            const inputText = `
+<strong>NAME</strong><ul></ul>
+<strong>Full stack developer</strong><ul></ul>
+<strong>@gmail.com</strong><ul></ul>
+<hr><br>
+
+<strong>PROFESSIONAL SUMMARY:</strong><ul></ul>
+<ul>
+<li>Bullets point Text1</li>
+<li>Bullets point Text2</li>
+<li>Bullets point Text3</li>
+</ul>
+
+<strong>TECHNICAL SKILLS:</strong><ul></ul>
+&emsp;Languages: JAVA<ul></ul>
+&emsp;Front end: HTML<ul></ul>
+&emsp;Version Control: GITHUB<ul></ul>
+<br>
+
+<strong>PROFESSIONAL EXPERIENCE:</strong><ul></ul>
+<strong>Company1 – Redmond, WA (July/2023 to current)</strong><ul></ul>
+<strong>Full Stack Developer</strong><ul></ul>
+<strong>Responsibilities:</strong><ul></ul>
+<ul>
+<li>Involved in design,</li>
+<li>Bullets point Text2</li>
+<li>Bullets point Text3</li>
+</ul>
+<strong>Environment: </strong>HTML, JAVA
+<ul></ul><br>
+
+<strong>Company2 – Redmond, WA (July/2023 to current)</strong><ul></ul>
+<strong>Full Stack Developer</strong><ul></ul>
+<strong>Responsibilities:</strong><ul></ul>
+<ul>
+<li>Bullets point Text1</li>
+<li>Bullets point Text2</li>
+</ul>
+<strong>Environment: </strong>HTML, JAVA
+<ul></ul><br>
+
+<strong>Company3 – Redmond, WA (July/2023 to current)</strong><ul></ul>
+<strong>Full Stack Developer</strong><ul></ul>
+<strong>Responsibilities:</strong><ul></ul>
+<ul>
+<li>Bullets point Text1</li>
+<li>Bullets point Text2</li>
+</ul>
+<strong>Environment: </strong>HTML, JAVA
+<ul></ul><br>
+`;
+            document.getElementById("fileName").value = 'FileName';
+            document.getElementById("xmlInput").value = inputText.trim();
+        }
+        function convertToWord() {
+            const xmlText = document.getElementById('xmlInput').value;
+            const parsedText = parseXML(xmlText);
+            downloadWordFile(parsedText);
+        }
+        function parseXML(xmlText) {
+            var formattedText = xmlText
+                .replace(/<tab\/>/g, '&emsp;')
+                .replace(/<tab \/>/g, '&emsp;');
+            return formattedText;
+        }
+        function downloadWordFile(text) {
+            const htmlContent = '<html><head><meta charset="UTF-8"><style>body { font-family: Cambria, sans-serif; text-align: justify; } .Bullets { margin: 0; }</style></head><body>' + text + '</body></html>';
+            const blob = new Blob([htmlContent], { type: 'application/msword' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = document.getElementById('fileName').value + '.doc';
+            link.click();
+        }
+    </script>
+</body>
+
+</html>
