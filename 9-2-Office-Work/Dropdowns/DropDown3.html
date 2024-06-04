@@ -1,0 +1,168 @@
+<html>
+<script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<style>
+  .dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-button {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dropdown-arrow {
+    margin-left: 10px;
+  }
+
+  .dropdown-content {
+    position: absolute;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+    display: none;
+  }
+
+  .dropdown-container:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+  }
+
+  .dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .dropdown-item {
+    padding: 10px;
+  }
+
+  .dropdown-item label {
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdown-item input {
+    margin-right: 10px;
+  }
+</style>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const MultiSelectDropdown = ({ options, selectedOptions, onSelectionChange }) => {
+      const [filter, setFilter] = React.useState('');
+
+      const toggleOption = (key) => {
+        if (selectedOptions.includes(key)) {
+          onSelectionChange(selectedOptions.filter((item) => item !== key));
+        } else {
+          onSelectionChange([...selectedOptions, key]);
+        }
+      };
+
+      const getLabelByKey = (key) => {
+        const option = options.find((option) => option.key === key);
+        return option ? option.label : '';
+      };
+
+      const filteredOptions = options.filter((option) =>
+        option.label.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      return (
+        <div className="dropdown-container">
+          <div className="dropdown-button">
+            {selectedOptions.length === 0 ? 'Select options' : selectedOptions.map(getLabelByKey).join(', ')}
+            <span className="dropdown-arrow">▼</span>
+          </div>
+          <div className="dropdown-content">
+            <input
+              type="text"
+              className="dropdown-search"
+              placeholder="Search..."
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            />
+            <ul className="dropdown-menu">
+              {filteredOptions.map((option) => (
+                <li key={option.key} className="dropdown-item">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={selectedOptions.includes(option.key)}
+                      onChange={() => toggleOption(option.key)}
+                    />
+                    {option.label}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+    };
+
+    ////App
+
+    const options = [
+      { key: 1, label: 'Option 1' },
+      { key: 2, label: 'Option 2' },
+      { key: 3, label: 'Option 3' },
+      { key: 4, label: 'Option 4' },
+      { key: 5, label: 'Option 5' },
+      { key: 6, label: 'Option 6' },
+      { key: 7, label: 'Option 7' },
+      { key: 8, label: 'Option 8' },
+      { key: 9, label: 'Option 9' },
+    ];
+
+    function App() {
+      const [selectedOptions, setSelectedOptions] = React.useState([]);
+
+      const handleSelectionChange = (newSelectedOptions) => {
+        setSelectedOptions(newSelectedOptions);
+      };
+
+      return (
+        <div className="App">
+          <MultiSelectDropdown
+            options={options}
+            selectedOptions={selectedOptions}
+            onSelectionChange={handleSelectionChange}
+          />
+        </div>
+      );
+    }
+
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+
+</html>
