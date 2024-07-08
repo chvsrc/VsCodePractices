@@ -1,0 +1,283 @@
+// EmployeeUpsert.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const EmployeeUpsert = ({ employee, onSave, onClose }) => {
+  const [formData, setFormData] = useState({
+    empId: employee ? employee.empId : '',
+    empName: employee ? employee.empName : '',
+    depCode: employee ? employee.depCode : '',
+    depStatus: employee ? employee.depStatus : '',
+    createdBy: employee ? employee.createdBy : '',
+    createdAt: employee ? employee.createdAt : '',
+    updatedBy: employee ? employee.updatedBy : '',
+    updatedAt: employee ? employee.updatedAt : '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (employee) {
+        // Perform edit/update
+        await axios.put(`https://api.example.com/employees/${employee.id}`, formData);
+      } else {
+        // Perform create
+        await axios.post('https://api.example.com/employees', formData);
+      }
+      onSave();
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  return (
+    <div className="modal is-active">
+      <div className="modal-background"></div>
+      <div className="modal-content">
+        <div className="box">
+          <form onSubmit={handleSubmit}>
+            <div className="field">
+              <label className="label">Employee ID</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="empId"
+                  value={formData.empId}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Employee Name</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="empName"
+                  value={formData.empName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Department Code</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="depCode"
+                  value={formData.depCode}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Department Status</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="depStatus"
+                  value={formData.depStatus}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Created By</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="createdBy"
+                  value={formData.createdBy}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Created At</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="datetime-local"
+                  name="createdAt"
+                  value={formData.createdAt}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Updated By</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  name="updatedBy"
+                  value={formData.updatedBy}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Updated At</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="datetime-local"
+                  name="updatedAt"
+                  value={formData.updatedAt}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="field is-grouped">
+              <div className="control">
+                <button type="submit" className="button is-primary">{employee ? 'Update' : 'Create'}</button>
+              </div>
+              <div className="control">
+                <button type="button" className="button" onClick={onClose}>Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button className="modal-close is-large" aria-label="close" onClick={onClose}></button>
+    </div>
+  );
+};
+
+export default EmployeeUpsert;
+
+//////
+
+
+import React, { useMemo, useState, useEffect } from 'react';
+import { useTable } from 'react-table';
+import axios from 'axios';
+import EmployeeUpsert from './EmployeeUpsert'; // Replace with correct path
+
+const EmployeeTable = () => {
+  const [data, setData] = useState([]);
+  const [editEmployee, setEditEmployee] = useState(null);
+  const [activeComponent, setActiveComponent] = useState('TableViewer');
+
+  useEffect(() => {
+    // Fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://api.example.com/employees');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleEdit = (employee) => {
+    setEditEmployee(employee);
+    setActiveComponent('EmployeeUpsert');
+  };
+
+  const handleSave = () => {
+    setEditEmployee(null);
+    setActiveComponent('TableViewer');
+    fetchData(); // Refetch data after save
+  };
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Actions',
+        Cell: ({ row }) => (
+          <button onClick={() => handleEdit(row.original)}>Edit</button>
+        ),
+      },
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+      {
+        Header: 'Employee ID',
+        accessor: 'empId',
+      },
+      {
+        Header: 'Employee Name',
+        accessor: 'empName',
+      },
+      {
+        Header: 'Department Code',
+        accessor: 'depCode',
+      },
+      {
+        Header: 'Department Status',
+        accessor: 'depStatus',
+      },
+      {
+        Header: 'Created By',
+        accessor: 'createdBy',
+      },
+      {
+        Header: 'Created At',
+        accessor: 'createdAt',
+      },
+      {
+        Header: 'Updated By',
+        accessor: 'updatedBy',
+      },
+      {
+        Header: 'Updated At',
+        accessor: 'updatedAt',
+      },
+    ],
+    []
+  );
+
+  return (
+    <>
+      {activeComponent === 'TableViewer' && (
+        <table>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column.Header}>{column.Header}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.id}>
+                {columns.map((column) => (
+                  <td key={`${row.id}-${column.accessor}`}>{row[column.accessor]}</td>
+                ))}
+                <td><button onClick={() => handleEdit(row)}>Edit</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {activeComponent === 'EmployeeUpsert' && (
+        <EmployeeUpsert employee={editEmployee} onSave={handleSave} onClose={() => setActiveComponent('TableViewer')} />
+      )}
+    </>
+  );
+};
+
+export default EmployeeTable;
