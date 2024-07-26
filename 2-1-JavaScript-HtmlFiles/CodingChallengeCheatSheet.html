@@ -1,113 +1,142 @@
 <html>
-  <body>
-    <button onclick="clicked()">Click</button>
-    <p id="responseId"></p>
-    <script>
-      //const clicked = function() {
-      const clicked = () => {
-        console.log("Array testing...");
 
-        // pop:: remove element
-        const popArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 91];
-        const popResult = popArray.pop();
-        console.log(popArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        console.log(popResult); // 91 - value
+<body>
+  <button onclick="clicked()">Click</button>
+  <p id="responseId"></p>
+  <script>
+    //const clicked = function() {
+    const clicked = () => {
+      console.log("Array testing...");
 
-        // push:: add element
-        const pushArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const pushResult = pushArray.push(21);
-        console.log(pushArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 21]
-        console.log(pushResult); // 11 - length
+      // pop:: remove element
+      const popArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 91];
+      const popResult = popArray.pop();
+      console.log(popArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      console.log(popResult); // 91 - value
 
-        // shift:: remove first element
-        const shiftArray = [101, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const shiftResult = shiftArray.shift();
-        console.log(shiftArray); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(shiftResult); // 101 - value
+      // push:: add element
+      const pushArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const pushResult = pushArray.push(21);
+      console.log(pushArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 21]
+      console.log(pushResult); // 11 - length
 
-        // unshift:: add element in first place
-        const unshiftArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const unshiftResult = unshiftArray.unshift(111); // 111
-        console.log(unshiftArray); // [111, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(unshiftResult); // 11 - length
+      // shift:: remove first element
+      const shiftArray = [101, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const shiftResult = shiftArray.shift();
+      console.log(shiftArray); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(shiftResult); // 101 - value
 
-        // splice:: splice(startingIndex, length) - over rides
-        const spliceArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const spliceResult = spliceArray.splice(3, 5);
-        console.log(spliceArray); // [0, 1, 2, 8, 9]
-        console.log(spliceResult); // [3, 4, 5, 6, 7]
+      // unshift:: add element in first place
+      const unshiftArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const unshiftResult = unshiftArray.unshift(111); // 111
+      console.log(unshiftArray); // [111, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(unshiftResult); // 11 - length
 
-        console.log("RemoveAt");
-        // splice:: remove at:: splice(startingIndex, length) - over rides
-        const spliceArrayRemoveAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        spliceArrayRemoveAt.splice(3, 1);
-        console.log(spliceArrayRemoveAt); // [0, 1, 2, 4, 5, 6, 7, 8, 9]
+      // splice:: splice(startingIndex, length) - over rides
+      const spliceArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const spliceResult = spliceArray.splice(3, 5);
+      console.log(spliceArray); // [0, 1, 2, 8, 9]
+      console.log(spliceResult); // [3, 4, 5, 6, 7]
 
-        console.log("UpdateAt");
-        // splice:: update at:: splice(startingIndex, length) - over rides
-        const spliceArrayUpdateAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        spliceArrayUpdateAt.splice(3, 1, 999);
-        console.log(spliceArrayUpdateAt); // [0, 1, 2, 999, 4, 5, 6, 7, 8, 9]
+      console.log("RemoveAt");
+      // splice:: remove at:: splice(startingIndex, length) - over rides
+      const spliceArrayRemoveAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      spliceArrayRemoveAt.splice(3, 1);
+      console.log(spliceArrayRemoveAt); // [0, 1, 2, 4, 5, 6, 7, 8, 9]
 
-        console.log("AddAt");
-        // splice:: add at:: splice(startingIndex, length) - over rides
-        const spliceArrayAddAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        spliceArrayAddAt.splice(3, 0, 321);
-        console.log(spliceArrayAddAt); // [0, 1, 2, 321, 3, 4, 5, 6, 7, 8, 9]
+      console.log("UpdateAt");
+      // splice:: update at:: splice(startingIndex, length) - over rides
+      const spliceArrayUpdateAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      spliceArrayUpdateAt.splice(3, 1, 999);
+      console.log(spliceArrayUpdateAt); // [0, 1, 2, 999, 4, 5, 6, 7, 8, 9]
 
-        // slice:: slice(startingIndex, endingIndex)
-        const sliceArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const sliceResult = sliceArray.slice(3, 5);
-        console.log(sliceArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(sliceResult); // [3, 4]
+      console.log("AddAt");
+      // splice:: add at:: splice(startingIndex, length) - over rides
+      const spliceArrayAddAt = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      spliceArrayAddAt.splice(3, 0, 321);
+      console.log(spliceArrayAddAt); // [0, 1, 2, 321, 3, 4, 5, 6, 7, 8, 9]
 
-        // concat
-        const arr1 = [0, 1, 2];
-        const arr2 = [3, 4, 5, 6];
-        const arr3 = [7, 8];
-        const arryResult = arr1.concat(arr2, arr3);
-        console.log(arryResult); // [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      // slice:: slice(startingIndex, endingIndex)
+      const sliceArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const sliceResult = sliceArray.slice(3, 5);
+      console.log(sliceArray); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(sliceResult); // [3, 4]
 
-        // sort
-        const sortArray = [40, 100, 1, 5, 25, 10];
-        sortArray.sort();
-        console.log(sortArray); // [1, 10, 100, 25, 40, 5]
-        sortArray.sort(function (a, b) {
-          return a - b;
-        });
-        console.log(sortArray); // [1, 5, 10, 25, 40, 100]
+      // concat
+      const arr1 = [0, 1, 2];
+      const arr2 = [3, 4, 5, 6];
+      const arr3 = [7, 8];
+      const arryResult = arr1.concat(arr2, arr3);
+      console.log(arryResult); // [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-        //Deep copy
-        const copyResult1 = JSON.parse(JSON.stringify(sortArray));
-        console.log(copyResult1); // [1, 5, 10, 25, 40, 100]
-        const copyResult2 = [...sortArray];
-        console.log(copyResult2); // [1, 5, 10, 25, 40, 100]
+      // sort
+      const sortArray = [40, 100, 1, 5, 25, 10];
+      sortArray.sort();
+      console.log(sortArray); // [1, 10, 100, 25, 40, 5]
+      sortArray.sort(function (a, b) {
+        return a - b;
+      });
+      console.log(sortArray); // [1, 5, 10, 25, 40, 100]
 
-        // forEach // will not return data
-        const input1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const output1 = input1.forEach((o) => o * 2);
-        console.log(input1); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(output1); // undefined
+      //Deep copy
+      const copyResult1 = JSON.parse(JSON.stringify(sortArray));
+      console.log(copyResult1); // [1, 5, 10, 25, 40, 100]
+      const copyResult2 = [...sortArray];
+      console.log(copyResult2); // [1, 5, 10, 25, 40, 100]
 
-        // map // will return // method does not change the original array.
-        const input2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const output2 = input2.map((o) => o * 2);
-        console.log(input2); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(output2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+      // forEach // will not return data
+      const input1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const output1 = input1.forEach((o) => o * 2);
+      console.log(input1); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(output1); // undefined
 
-        // filter
-        const input3 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        const output3 = input3.filter((o) => o > 4);
-        console.log(input3); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        console.log(output3); // [5, 6, 7, 8, 9]
+      // map // will return // method does not change the original array.
+      const input2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const output2 = input2.map((o) => o * 2);
+      console.log(input2); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(output2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 
-        // class constructor extends super static
+      // filter
+      const input3 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const output3 = input3.filter((o) => o > 4);
+      console.log(input3); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      console.log(output3); // [5, 6, 7, 8, 9]
 
-        let retValue = "";
-        retValue = "Done";
-        document.getElementById("responseId").innerHTML = retValue;
-        return retValue;
-      };
-    </script>
-  </body>
+      // curd list of objects
+      const employeeList = [
+        { uniqueId: 101, name: "Siva101", age: 21 },
+        { uniqueId: 102, name: "Siva102", age: 29 },
+        { uniqueId: 103, name: "Siva103", age: 31 },
+        { uniqueId: 104, name: "Siva104", age: 45 },
+        { uniqueId: 105, name: "Siva105", age: 39 },
+      ];
+      console.log(JSON.stringify(employeeList, null, 4));
+
+      // adding new item
+      const addedDataList = [
+        ...employeeList,
+        { uniqueId: 106, name: "Siva106", age: 60 },
+      ];
+      console.log("Added 106 Data :: " + JSON.stringify(addedDataList, null, 4));
+
+      // removing 103
+      const removedDataList = employeeList.filter((o) => o.uniqueId !== 103);
+      console.log("removed 103 Data :: " + JSON.stringify(removedDataList, null, 4));
+
+      // updating 104 - name
+      const updatedDataList = employeeList.map((o) =>
+        o.uniqueId === 104 ? { ...o, name: "SivaUpdatedName" } : o
+      );
+      console.log("updated 104 Data :: " + JSON.stringify(updatedDataList, null, "\t"));
+
+      // class constructor extends super static
+
+      let retValue = "";
+      retValue = "Done";
+      document.getElementById("responseId").innerHTML = retValue;
+      return retValue;
+    };
+  </script>
+</body>
+
 </html>
