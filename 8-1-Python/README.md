@@ -32,9 +32,9 @@ comments to add reminders to yourself or other developers, or also explain your
 
 assumptions and the reasons you’ve written code in a certain way.
 
-//// This is a comment and it won’t get executed.
+\# This is a comment and it won’t get executed.
 
-//// Our comments can be multiple lines.
+\# Our comments can be multiple lines.
 
 ## Receiving Input
 
@@ -200,11 +200,11 @@ numbers = [1, 2, 3, 4, 5]
 
 numbers[0] numbers[1] numbers[-1] numbers[-2] # returns the first item
 
-//// returns the second item
+\# returns the second item
 
-//// returns the first item from the end
+\# returns the first item from the end
 
-//// returns the second item from the end
+\# returns the second item from the end
 
 numbers.append(6) # adds 6 to the end
 
@@ -288,11 +288,11 @@ We have two types of arguments:
 
 name.
 
-//// Two positional arguments
+\# Two positional arguments
 
 greet_user(“John”, “Smith”)
 
-//// Keyword arguments
+\# Keyword arguments
 
 calculate_total(order=50, shipping=5, tax=0.1)
 
@@ -402,13 +402,13 @@ There are 2 ways to import modules: we can import the entire module, or specific
 
 objects in a module.
 
-//// importing the entire converters module
+\# importing the entire converters module
 
 import converters
 
 converters.kg_to_lbs(5)
 
-//// importing one function in the converters module
+\# importing one function in the converters module
 
 from converters import kg_to_lbs
 
@@ -420,13 +420,13 @@ A package is a directory with **init**.py in it. It can contain one or more
 
 modules.
 
-//// importing the entire sales module
+\# importing the entire sales module
 
 from ecommerce import sales
 
 sales.calc_shipping()
 
-//// importing one function in the sales module
+\# importing one function in the sales module
 
 from ecommerce.sales import calc_shipping
 
