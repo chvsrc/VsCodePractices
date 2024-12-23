@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div style="text-align: center;">
+        <video id="camera" autoplay></video>
+    </div>
+    <script>
+        async function openCamera() {
+            try {
+                const videoElement = document.getElementById('camera');
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                videoElement.srcObject = stream;
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                alert('Unable to access camera. Please check permissions.');
+            }
+        }
+
+        // Open the camera when the page loads
+        openCamera();
+    </script>
+</body>
+
+</html>
