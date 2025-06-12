@@ -86,7 +86,7 @@
 
           // Write JavaScript code here
           if (camelCasedString !== "") {
-            const colName = input?.trim()?.toUpperCase()?.replace(" ", "_");
+            const colName = input?.trim()?.replace(/[^a-zA-Z0-9_ ]/g, '')?.toUpperCase()?.replace(" ", "_");
             let outputText = ' @Column(name = "' + colName + '")';
             outputText += "\n";
             outputText += " private String " + camelCasedString + ";";
