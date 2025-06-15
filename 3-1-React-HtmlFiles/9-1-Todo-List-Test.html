@@ -86,30 +86,35 @@
         return (
           <>
             <h2>Todo List</h2>
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-            /> &nbsp;
-            <button onClick={addItem}>Add</button>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <div style={{ width: '500px' }}>
+                <input
+                  type="text"
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                /> &nbsp;
+                <button onClick={addItem}>Add</button>
 
-            <ul style={{ padding: 0 }}>
-              {todoItems.map(item => (
-                <li key={item.uniqueId} style={{ listStyleType: 'none', padding: '4px 0' }}>
-                  <TodoItem
-                    item={item}
-                    updateItem={updateItem}
-                    completeItem={completeItem}
-                    removeItem={removeItem}
-                  />
-                </li>
-              ))}
-            </ul>
-
-            <br /><br /><br />
-            <pre style={{ background: '#eee', padding: '10px' }}>
-              {JSON.stringify(todoItems, null, 2)}
-            </pre>
+                <ul style={{ padding: 0 }}>
+                  {todoItems.map(item => (
+                    <li key={item.uniqueId} style={{ listStyleType: 'none', padding: '4px 0' }}>
+                      <TodoItem
+                        item={item}
+                        updateItem={updateItem}
+                        completeItem={completeItem}
+                        removeItem={removeItem}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div style={{ width: '50px' }}></div>
+              <div style={{ width: '300px' }}>
+                <pre style={{ background: '#eee', padding: '10px' }}>
+                  {JSON.stringify(todoItems, null, 2)}
+                </pre>
+              </div>
+            </div>
           </>
         );
       };
