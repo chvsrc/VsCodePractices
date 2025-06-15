@@ -60,9 +60,10 @@
         }, []);
 
         const addItem = () => {
+          const uniqueId = getNextUniqueId(todoItems);
           const newItem = {
-            uniqueId: getNextUniqueId(todoItems),
-            textVal: inputText,
+            uniqueId,
+            textVal: inputText.trim() || 'item ' + uniqueId,
             isCompleted: false,
           };
           setTodoItems([...todoItems, newItem]);
