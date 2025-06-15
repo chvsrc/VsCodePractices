@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Box Model Step by Step</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+    }
+
+    .flex-container {
+      display: flex;
+      gap: 40px;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      background-color: #f4f4f4;
+    }
+
+    .box {
+      width: 120px;
+      height: 60px;
+      text-align: center;
+      line-height: 60px;
+      background-color: #cce5ff;
+      position: relative;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .step1 {
+      background-color: #d4edda; /* Greenish - content only */
+    }
+
+    .step2 {
+      padding: 20px;
+      background-color: #fff3cd; /* Yellowish - padding added */
+      /* line-height: normal; */
+    }
+
+    .step3 {
+      padding: 20px;
+      border: 5px solid #007bff; /* Blue border */
+      background-color: #f8d7da; /* Pinkish */
+      /* line-height: normal; */
+    }
+
+    .step4 {
+      padding: 20px;
+      border: 5px solid #343a40; /* Dark border */
+      margin: 20px;
+      background-color: #e2e3e5; /* Grayish */
+      /* line-height: normal; */
+    }
+
+    .label {
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .box-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    /* 2. Box-sizing: border-box */
+    .border-box {
+      box-sizing: border-box; /* It means the padding and border are included within the width and height you set. */
+      width: 200px;
+      padding: 10px;
+      border: 5px solid black;
+      margin: 15px;
+      background-color: lightblue;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>1. Box Model: Step by Step Demonstration</h2>
+  <div class="flex-container">
+
+    <!-- Step 1: Content only -->
+    <div class="box-wrapper">
+      <div class="box step1">Content</div>
+      <div class="label">1. Only Content</div>
+    </div>
+
+    <!-- Step 2: + Padding -->
+    <div class="box-wrapper">
+      <div class="box step2">Content</div>
+      <div class="label">2. + Padding</div>
+    </div>
+
+    <!-- Step 3: + Border -->
+    <div class="box-wrapper">
+      <div class="box step3">Content</div>
+      <div class="label">3. + Border</div>
+    </div>
+
+    <!-- Step 4: + Margin -->
+    <div class="box-wrapper">
+      <div class="box step4">Content</div>
+      <div class="label">4. + Margin</div>
+    </div>
+
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <h2>2. Box-Sizing: Border-box</h2>
+  <div>box-sizing: border-box; It means the padding and border are included within the width and height you set.</div>
+  <div class="border-box">Border Box</div>
+</body>
+</html>

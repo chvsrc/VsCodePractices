@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Flexbox Examples</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+    }
+    h2 {
+      border-bottom: 2px solid #007acc;
+      padding-bottom: 4px;
+      margin-top: 40px;
+    }
+    section {
+      background: white;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+      overflow-x: auto;
+      border-radius: 4px;
+    }
+    .flex-container {
+      border: 1px solid #ccc;
+      margin-top: 12px;
+      padding: 10px;
+      background: #fafafa;
+      display: flex;
+    }
+    .flex-item {
+      background: #007acc;
+      color: white;
+      padding: 10px;
+      margin: 5px;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>CSS Flexbox Examples</h1>
+
+<section>
+  <h2>1. Make a container a flex container</h2>
+  <pre><code>.container {
+  display: flex;
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item">Item 1</div>
+    <div class="flex-item">Item 2</div>
+    <div class="flex-item">Item 3</div>
+  </div>
+</section>
+
+<section>
+  <h2>2. Center Items Horizontally</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  justify-content: center;
+}</code></pre>
+  <div class="flex-container" style="justify-content: center;">
+    <div class="flex-item">Centered</div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Center Items Vertically</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  align-items: center;
+  height: 120px;
+}</code></pre>
+  <div class="flex-container" style="align-items: center; height: 120px;">
+    <div class="flex-item" style="height: 40px;">Centered</div>
+  </div>
+</section>
+
+<section>
+  <h2>4. Justify Content and Align Items</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}</code></pre>
+  <div class="flex-container" style="justify-content: space-between; align-items: center; height: 100px;">
+    <div class="flex-item" style="height: 30px;">Item A</div>
+    <div class="flex-item" style="height: 60px;">Item B</div>
+    <div class="flex-item" style="height: 45px;">Item C</div>
+  </div>
+</section>
+
+<section>
+  <h2>5. Flex Direction: Column</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  flex-direction: column;
+}</code></pre>
+  <div class="flex-container" style="flex-direction: column;">
+    <div class="flex-item">Top</div>
+    <div class="flex-item">Middle</div>
+    <div class="flex-item">Bottom</div>
+  </div>
+</section>
+
+<section>
+  <h2>6. Flex Wrap</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}</code></pre>
+  <div class="flex-container" style="flex-wrap: wrap;">
+    <div class="flex-item" style="width: 200px;">Item 1</div>
+    <div class="flex-item" style="width: 200px;">Item 2</div>
+    <div class="flex-item" style="width: 200px;">Item 3</div>
+  </div>
+</section>
+
+<section>
+  <h2>7. Justify Content: Space Around</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  justify-content: space-around;
+}</code></pre>
+  <div class="flex-container" style="justify-content: space-around;">
+    <div class="flex-item">One</div>
+    <div class="flex-item">Two</div>
+    <div class="flex-item">Three</div>
+  </div>
+</section>
+
+<section>
+  <h2>8. Align Items: Stretch (Default)</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  align-items: stretch;
+  height: 120px;
+}</code></pre>
+  <div class="flex-container" style="align-items: stretch; height: 120px;">
+    <div class="flex-item">Item 1</div>
+    <div class="flex-item">Item 2</div>
+    <div class="flex-item">Item 3</div>
+  </div>
+</section>
+
+<section>
+  <h2>9. Align Self (Overrides Align Items)</h2>
+  <pre><code>.flex-item:nth-child(2) {
+  align-self: flex-start;
+}</code></pre>
+  <div class="flex-container" style="align-items: center; height: 100px;">
+    <div class="flex-item">Default</div>
+    <div class="flex-item" style="align-self: flex-start;">Align Self</div>
+    <div class="flex-item">Default</div>
+  </div>
+</section>
+
+<section>
+  <h2>10. Flex Shorthand</h2>
+  <pre><code>.flex-item {
+  flex: 1 0 100px;
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="flex: 1 0 100px;">1 0 100px</div>
+    <div class="flex-item" style="flex: 2 0 100px;">2 0 100px</div>
+  </div>
+</section>
+
+<section>
+  <h2>11. Flex Grow Example</h2>
+  <pre><code>.item1 {
+  flex-grow: 1;
+}
+.item2 {
+  flex-grow: 2;
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="flex-grow: 1;">Grow 1</div>
+    <div class="flex-item" style="flex-grow: 2;">Grow 2</div>
+  </div>
+</section>
+
+<section>
+  <h2>12. Order Property</h2>
+  <pre><code>.item1 { order: 3; }
+.item2 { order: 1; }
+.item3 { order: 2; }</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="order: 3;">Item 1 (3)</div>
+    <div class="flex-item" style="order: 1;">Item 2 (1)</div>
+    <div class="flex-item" style="order: 2;">Item 3 (2)</div>
+  </div>
+</section>
+
+<section>
+  <h2>13. Fixed vs Flexible Width</h2>
+  <pre><code>.fixed {
+  width: 120px;
+}
+.flexible {
+  flex-grow: 1;
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="width: 120px;">Fixed</div>
+    <div class="flex-item" style="flex-grow: 1;">Flexible</div>
+  </div>
+</section>
+
+<section>
+  <h2>14. Flex Shrink Example</h2>
+  <pre><code>.item1 {
+  flex-shrink: 1;
+}
+.item2 {
+  flex-shrink: 0;
+}</code></pre>
+  <div class="flex-container" style="width: 300px;">
+    <div class="flex-item" style="flex-shrink: 1; width: 200px;">Shrink 1</div>
+    <div class="flex-item" style="flex-shrink: 0; width: 200px;">Shrink 0</div>
+  </div>
+</section>
+
+<section>
+  <h2>15. Center Both Vertically and Horizontally</h2>
+  <pre><code>.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}</code></pre>
+  <div class="flex-container" style="justify-content: center; align-items: center; height: 150px;">
+    <div class="flex-item" style="height: 40px;">Centered</div>
+  </div>
+</section>
+
+<section>
+  <h2>16. Flex Basis Example</h2>
+  <pre><code>.flex-item {
+  flex-basis: 150px;
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="flex-basis: 150px;">Basis 150px</div>
+    <div class="flex-item" style="flex-basis: 150px;">Basis 150px</div>
+  </div>
+</section>
+
+<section>
+  <h2>17. Flex Direction: Row Reverse</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  flex-direction: row-reverse;
+}</code></pre>
+  <div class="flex-container" style="flex-direction: row-reverse;">
+    <div class="flex-item">One</div>
+    <div class="flex-item">Two</div>
+    <div class="flex-item">Three</div>
+  </div>
+</section>
+
+<section>
+  <h2>18. Flex Direction: Column Reverse</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  flex-direction: column-reverse;
+}</code></pre>
+  <div class="flex-container" style="flex-direction: column-reverse;">
+    <div class="flex-item">Top</div>
+    <div class="flex-item">Middle</div>
+    <div class="flex-item">Bottom</div>
+  </div>
+</section>
+
+<section>
+  <h2>19. Flex Wrap: Wrap-Reverse</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  height: 180px;
+}</code></pre>
+  <div class="flex-container" style="flex-wrap: wrap-reverse; height: 180px;">
+    <div class="flex-item" style="width: 100px;">Item 1</div>
+    <div class="flex-item" style="width: 100px;">Item 2</div>
+    <div class="flex-item" style="width: 100px;">Item 3</div>
+    <div class="flex-item" style="width: 100px;">Item 4</div>
+    <div class="flex-item" style="width: 100px;">Item 5</div>
+  </div>
+</section>
+
+<section>
+  <h2>20. Align Items with Different Heights</h2>
+  <pre><code>.item1 { align-self: flex-start; }
+.item2 { align-self: center; }
+.item3 { align-self: flex-end; }</code></pre>
+  <div class="flex-container" style="height: 150px;">
+    <div class="flex-item" style="align-self: flex-start;">Start</div>
+    <div class="flex-item" style="align-self: center;">Center</div>
+    <div class="flex-item" style="align-self: flex-end;">End</div>
+  </div>
+</section>
+
+<section>
+  <h2>21. Nested Flex Containers</h2>
+  <pre><code>.outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  background: #ccc;
+}</code></pre>
+  <div class="flex-container" style="justify-content: center; align-items: center;">
+    <div class="flex-container" style="flex-direction: column; background: #ddd; padding: 10px;">
+      <div class="flex-item">Nested 1</div>
+      <div class="flex-item">Nested 2</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>22. Hiding Overflow with Flexbox</h2>
+  <pre><code>.flex-container {
+  display: flex;
+  overflow: hidden;
+  width: 200px;
+}
+
+.flex-item {
+  min-width: 150px;
+}</code></pre>
+  <div class="flex-container" style="overflow: hidden; width: 200px;">
+    <div class="flex-item" style="min-width: 150px;">Item 1</div>
+    <div class="flex-item" style="min-width: 150px;">Item 2</div>
+  </div>
+</section>
+
+<section>
+  <h2>23. Equal-Height Columns</h2>
+  <pre><code>.container {
+  display: flex;
+  align-items: stretch;
+}</code></pre>
+  <div class="flex-container" style="align-items: stretch; height: 120px;">
+    <div class="flex-item">Box 1</div>
+    <div class="flex-item">Box 2</div>
+    <div class="flex-item">Box 3</div>
+  </div>
+</section>
+
+<section>
+  <h2>24. Align Content (for Wrapped Items)</h2>
+  <pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  height: 180px;
+}</code></pre>
+  <div class="flex-container" style="flex-wrap: wrap; align-content: flex-end; height: 180px;">
+    <div class="flex-item" style="width: 60px;">1</div>
+    <div class="flex-item" style="width: 60px;">2</div>
+    <div class="flex-item" style="width: 60px;">3</div>
+    <div class="flex-item" style="width: 60px;">4</div>
+    <div class="flex-item" style="width: 60px;">5</div>
+  </div>
+</section>
+
+<section>
+  <h2>25. Flex: 1 0 auto vs 1 1 auto</h2>
+  <pre><code>.item1 {
+  flex: 1 0 auto; /* Will not shrink */
+}
+.item2 {
+  flex: 1 1 auto; /* Can shrink */
+}</code></pre>
+  <div class="flex-container">
+    <div class="flex-item" style="flex: 1 0 auto;">1 0 auto</div>
+    <div class="flex-item" style="flex: 1 1 auto;">1 1 auto</div>
+  </div>
+</section>
+
+</body>
+</html>
