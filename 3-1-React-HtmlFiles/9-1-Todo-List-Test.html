@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Todo List</title>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.13.12/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      // Utility function
+      const getNextUniqueId = (items) =>
+        items.length === 0 ? '1001' : (Math.max(...items.map(item => +item.uniqueId)) + 1).toString();
+
+      // TodoItem Component
+      const TodoItem = ({ item, updateItem, completeItem, removeItem }) => {
+        const [text, setText] = React.useState(item.textVal);
+
+        return (
+          <div>
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            /> &nbsp;
+            <button onClick={() => updateItem(item.uniqueId, text)}>Update</button> &nbsp;
+            <button
+              style={{ backgroundColor: item.isCompleted ? 'blue' : '' }}
+              onClick={() => completeItem(item.uniqueId)}
+            >
+              Completed
+            </button> &nbsp;
+            <button onClick={() => removeItem(item.uniqueId)}>Delete</button> &nbsp;
+            Unique Id: {item.uniqueId}
+          </div>
+        );
+      };
+
+      // TodoApp Component
+      const TodoApp = () => {
+        const [todoItems, setTodoItems] = React.useState([]);
+        const [inputText, setInputText] = React.useState('');
+
+        React.useEffect(() => {
+          const fetchData = async () => {
+            try {
+              // // load from server
+              // const response = await fetch('/api/todos'); // Replace with your API
+              // const data = await response.json();
+              const data = [{ uniqueId: getNextUniqueId([]), textVal: 'item1', isCompleted: false }];
+              setTodoItems(data);
+            } catch (error) {
+              console.error("Failed to fetch todos:", error);
+            }
+          };
+
+          fetchData();
+        }, []);
+
+        const addItem = () => {
+          const newItem = {
+            uniqueId: getNextUniqueId(todoItems),
+            textVal: inputText,
+            isCompleted: false,
+          };
+          setTodoItems([...todoItems, newItem]);
+          setInputText('');
+        };
+
+        const updateItem = (id, textVal) =>
+          setTodoItems(todoItems.map(item =>
+            item.uniqueId === id ? { ...item, textVal } : item
+          ));
+
+        const completeItem = (id) =>
+          setTodoItems(todoItems.map(item =>
+            item.uniqueId === id ? { ...item, isCompleted: true } : item
+          ));
+
+        const removeItem = (id) =>
+          setTodoItems(todoItems.filter(item => item.uniqueId !== id));
+
+        return (
+          <>
+            <h2>Todo List</h2>
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+            /> &nbsp;
+            <button onClick={addItem}>Add</button>
+
+            <ul style={{ padding: 0 }}>
+              {todoItems.map(item => (
+                <li key={item.uniqueId} style={{ listStyleType: 'none', padding: '4px 0' }}>
+                  <TodoItem
+                    item={item}
+                    updateItem={updateItem}
+                    completeItem={completeItem}
+                    removeItem={removeItem}
+                  />
+                </li>
+              ))}
+            </ul>
+
+            <br /><br /><br />
+            <pre style={{ background: '#eee', padding: '10px' }}>
+              {JSON.stringify(todoItems, null, 2)}
+            </pre>
+          </>
+        );
+      };
+
+      // Root App Component
+      const App = () => {
+        return <TodoApp />;
+      };
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
