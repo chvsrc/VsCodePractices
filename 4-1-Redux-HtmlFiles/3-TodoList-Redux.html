@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo List with Redux (Single File)</title>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/redux@4.1.0/dist/redux.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Redux Setup
+    const { createStore } = Redux;
+    const { useState, useEffect } = React;
+
+    // Action Types
+    const ADD_ITEM = 'ADD_ITEM';
+    const UPDATE_ITEM = 'UPDATE_ITEM';
+    const COMPLETE_ITEM = 'COMPLETE_ITEM';
+    const REMOVE_ITEM = 'REMOVE_ITEM';
+
+    // Action Creators
+    const addItem = text => ({ type: ADD_ITEM, payload: { text } });
+    const updateItem = (id, newText) => ({ type: UPDATE_ITEM, payload: { id, newText } });
+    const completeItem = id => ({ type: COMPLETE_ITEM, payload: id });
+    const removeItem = id => ({ type: REMOVE_ITEM, payload: id });
+
+    // Initial State
+    const initialState = { todos: [{ id: '1001', text: 'item1', isCompleted: false }] };
+
+    // Reducer
+    const todoReducer = (state = initialState, action) => {
+      switch (action.type) {
+        case ADD_ITEM:
+          const newId = (Math.max(...state.todos.map(t => +t.id)) + 1).toString();
+          const text = action.payload.text.trim() ? action.payload.text : 'item ' + newId;
+          return { ...state, todos: [...state.todos, { id: newId, text, isCompleted: false }] };
+        case UPDATE_ITEM:
+          return {
+            ...state,
+            todos: state.todos.map(item =>
+              item.id === action.payload.id ? { ...item, text: action.payload.newText } : item
+            )
+          };
+        case COMPLETE_ITEM:
+          return {
+            ...state,
+            todos: state.todos.map(item =>
+              item.id === action.payload ? { ...item, isCompleted: true } : item
+            )
+          };
+        case REMOVE_ITEM:
+          return {
+            ...state,
+            todos: state.todos.filter(item => item.id !== action.payload)
+          };
+        default:
+          return state;
+      }
+    };
+
+    // Store
+    const store = createStore(todoReducer);
+
+    // Custom Hook: useReduxState
+    const useReduxState = () => {
+      const [state, setState] = useState(store.getState());
+      useEffect(() => {
+        const unsubscribe = store.subscribe(() => setState(store.getState()));
+        return () => unsubscribe();
+      }, []);
+      return state;
+    };
+
+    // TodoItem Component
+    const TodoItem = ({ item }) => {
+      const [text, setText] = useState(item.text);
+      useEffect(() => setText(item.text), [item.text]);
+
+      return (
+        <div>
+          <input
+            type="text"
+            value={text}
+            onChange={e => setText(e.target.value)}
+            disabled={item.isCompleted}
+          />
+          <button onClick={() => store.dispatch(updateItem(item.id, text))}>Update</button>
+          <button
+            style={{ backgroundColor: item.isCompleted ? 'blue' : '' }}
+            onClick={() => store.dispatch(completeItem(item.id))}
+            disabled={item.isCompleted}
+          >
+            Completed
+          </button>
+          <button onClick={() => store.dispatch(removeItem(item.id))}>Delete</button>
+          Unique Id: {item.id}
+        </div>
+      );
+    };
+
+    // TodoApp Component
+    const TodoApp = () => {
+      const { todos } = useReduxState();
+      const [inputText, setInputText] = useState('');
+
+      const handleAdd = () => {
+          store.dispatch(addItem(inputText));
+          setInputText('');
+      };
+
+      return (
+        <div>
+          <h2>Todo List with Redux (Single File)</h2>
+          <input
+            type="text"
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+            placeholder="Enter todo item"
+          />
+          <button onClick={handleAdd}>Add</button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: 20 }}>
+            <div style={{ width: 500 }}>
+              <ul style={{ padding: 0 }}>
+                {todos.map(item => (
+                  <li key={item.id} style={{ listStyleType: 'none', padding: '4px 0' }}>
+                    <TodoItem item={item} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ width: 50 }}></div>
+            <div style={{ width: 300 }}>
+              <pre style={{ background: '#eee', padding: 10 }}>
+                {JSON.stringify(todos, null, 2)}
+              </pre>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Render App
+    ReactDOM.render(<TodoApp />, document.getElementById('root'));
+  </script>
+</body>
+</html>
