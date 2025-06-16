@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@7.2.0/dist/react-redux.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { createStore } = Redux;
+      const { Provider, useDispatch, useSelector } = ReactRedux;
+
+      // Action Types
+      const INCREMENT = 'INCREMENT';
+      const DECREMENT = 'DECREMENT';
+      const RESET = 'RESET';
+
+      // Action Creators
+      const increment = (amount) => ({ type: INCREMENT, payload: amount });
+      const decrement = (amount) => ({ type: DECREMENT, payload: amount });
+      const reset = () => ({ type: RESET });
+
+      // Initial State
+      const initialState = { counter: { value: 0 } };
+
+      // Reducer
+      function rootReducer(state = initialState, action) {
+        switch (action.type) {
+          case INCREMENT:
+            return {...state, counter: { value: state.counter.value + action.payload }};
+          case DECREMENT:
+            return {...state, counter: { value: state.counter.value - action.payload }};
+          case RESET:
+            return {...state, counter: { value: 0 }};
+          default:
+            return state;
+        }
+      }
+
+      const store = createStore(rootReducer);
+
+      // Counter Component
+      function Counter() {
+        const count = useSelector(state => state.counter.value);
+        const dispatch = useDispatch();
+        const [inputValue, setInputValue] = React.useState(1);
+
+        const parsedValue = parseInt(inputValue, 10) || 0;
+
+        return (
+          <div>
+            <h2>Counter: {count}</h2>
+            <input 
+              type="number" 
+              value={inputValue} 
+              onChange={e => setInputValue(e.target.value)} 
+              placeholder="Enter value"
+            />
+            <br />
+            <button onClick={() => dispatch(increment(parsedValue))}>Increment</button>
+            <button onClick={() => dispatch(decrement(parsedValue))}>Decrement</button>
+            <button onClick={() => dispatch(reset())}>Reset</button>
+          </div>
+        );
+      }
+
+      // App Component
+      const App = () => (
+        <Provider store={store}>
+          <Counter />
+        </Provider>
+      );
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
