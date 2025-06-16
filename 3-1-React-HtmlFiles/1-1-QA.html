@@ -1,0 +1,505 @@
+1. What is React? <br/> 
+React is an open-source JavaScript library developed by Facebook for building user interfaces, especially single-page applications (SPAs). It focuses on creating reusable UI components that manage their own state, enabling efficient and declarative rendering of the UI.
+React uses a virtual DOM — an in-memory representation of the actual DOM. When state or props change, React updates the virtual DOM first, compares it to the previous version (diffing), and then applies only the necessary changes to the real DOM, improving performance.
+<br/>
+<br/>
+<br/>
+2. What are components in React? <br/> 
+Components are the building blocks of a React application. They encapsulate UI elements and logic, making the UI modular and reusable.
+There are two main types:
+Functional Components:
+These are JavaScript functions that accept props and return JSX. Since React 16.8, functional components can use hooks for managing state and lifecycle events. Example:
+Class Components:
+These are ES6 classes extending React.Component. They have a render() method that returns JSX and can maintain internal state and lifecycle methods.
+<br/>
+<br/>
+<br/>
+3. What is JSX? <br/> 
+JSX (JavaScript XML) is a syntax extension for JavaScript that looks similar to HTML and is used in React to describe what the UI should look like.
+JSX makes it easier to write and visualize UI components with embedded JavaScript expressions inside {}.
+// const element = h1>Hello, world!</h1>;
+to
+// const element = React.createElement('h1', null, 'Hello, world!');
+<br/>
+<br/>
+<br/>
+4. What are props in React? <br/> 
+Props/properties are inputs to components. They are passed from parent components to child components as attributes and are read-only inside the receiving component.
+Props enable data flow from parent to child and are fundamental to React’s component communication.
+<br/>
+<br/>
+<br/>
+5. What is state in React? <br/> 
+State is a built-in React object used to hold data that can change over the component’s lifecycle. Unlike props, state is managed internally within the component and can be updated with setState in class components or via hooks in functional components.
+When state changes, React triggers a re-render to update the UI with the new data.
+<br/>
+<br/>
+<br/>
+6. Difference between state and props? <br/> 
+Aspect.                              Props                                State
+Who manages it? <br/>                       Parent component (read-only)         Component itself (read/write)
+Purpose                              Pass data & callbacks                Store internal data
+Mutability                           Immutable inside the component       Mutable via setState/hooks
+Lifecycle                            Passed during render                 Maintained within component
+<br/>
+<br/>
+<br/>
+7. What is the virtual DOM? <br/> 
+The virtual DOM is an abstraction of the actual DOM, represented as a lightweight JavaScript object tree.
+When component state or props change, React:
+* Creates a new virtual DOM tree.
+* Compares it (diffing) with the previous virtual DOM tree.
+* Determines the minimal set of real DOM updates.
+* Applies those changes efficiently.
+This reduces expensive direct DOM manipulation and improves performance.
+<br/>
+<br/>
+<br/>
+8. What is the purpose of keys in React lists? <br/> 
+Keys help React uniquely identify elements in a list so it can detect which items changed, were added, or removed.
+Keys should be unique and stable (ideally unique IDs). Without keys, React may inefficiently re-render or reorder elements incorrectly.
+Example:
+const listItems = todos.map(todo =>
+  <li key={todo.id}>{todo.text}</li>
+);
+<br/>
+<br/>
+<br/>
+9. Explain the React component lifecycle (class components).
+React class components go through phases:
+Mounting: When the component is created and inserted into the DOM.
+constructor()
+static getDerivedStateFromProps()
+render()
+componentDidMount() — ideal for fetching data or subscriptions.
+Updating: When props or state changes.
+static getDerivedStateFromProps()
+shouldComponentUpdate() — optimize rendering by returning false if no update needed.
+render()
+getSnapshotBeforeUpdate() — capture info before DOM updates.
+componentDidUpdate() — perform side effects post-update.
+Unmounting: Component is removed from the DOM.
+componentWillUnmount() — cleanup (cancel timers, remove listeners).
+<br/>
+<br/>
+<br/>
+10. What are React hooks? <br/>
+Hooks are functions introduced in React 16.8 that let you “hook into” React state and lifecycle from functional components.
+Common hooks:
+useState: Adds state to functional components.
+useEffect: Manages side effects like fetching, subscriptions.
+useContext: Consumes React context.
+useReducer: For complex state management.
+useMemo, useCallback: Memoize values or functions for performance.
+Hooks let you write cleaner, reusable components without needing classes.
+<br/>
+<br/>
+<br/>
+11. What is useEffect hook and when is it used? <br/>
+useEffect runs side effects after rendering:
+useEffect(() => {
+  // Side effect: fetch data, subscribe, manipulate DOM, etc.
+  return () => {
+    // Cleanup before next effect or unmount
+  };
+}, [dependencies]);
+Runs after every render by default.
+Can optimize by specifying dependency array [] to run only once (on mount).
+Or include variables to run effect only when they change.
+Example:
+useEffect(() => {
+  fetchData();
+}, [userId]);  // Runs when userId changes
+<br/>
+<br/>
+<br/>
+12. Explain controlled vs uncontrolled components.
+Controlled Components: Form elements where React state drives the input value. The component fully controls input behavior.
+const [value, setValue] = React.useState('');
+return <input value={value} onChange={e => setValue(e.target.value)} />;
+Uncontrolled Components: Form elements where the DOM maintains their own state. Accessed via refs.
+const inputRef = React.useRef();
+<input ref={inputRef} />;
+Controlled components are preferred for validation and dynamic form behavior.
+<br/>
+<br/>
+<br/>
+13. What is context API? <br/>
+Context API allows passing data through the component tree without passing props down manually at every level.
+Use cases: themes, user auth, locale.
+const ThemeContext = React.createContext('light');
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+function Toolbar() {
+  return <ThemedButton />;
+}
+function ThemedButton() {
+  const theme = React.useContext(ThemeContext);
+  return <button className={theme}>Click me</button>;
+}
+<br/>
+<br/>
+<br/>
+14. What is Redux? <br/> How does it relate to React? <br/>
+Redux is a predictable state container for JavaScript apps, often used with React for managing global state.
+Stores application state in a single immutable state tree.
+State is updated by dispatching actions.
+Reducers specify how the state changes based on actions.
+Redux helps when many components need to access or update the same state, avoiding prop drilling.
+<br/>
+<br/>
+<br/>
+15. How does React’s reconciliation algorithm work? <br/>
+React uses a diffing algorithm to compare old and new virtual DOM trees. It assumes:
+Elements of different types produce different trees.
+Keys help identify which children changed.
+It calculates the minimum number of changes to update the real DOM efficiently.
+<br/>
+<br/>
+<br/>
+16. What are Higher Order Components (HOCs)? <br/>
+HOCs are functions that take a component and return a new enhanced component.
+Example:
+function withLogger(WrappedComponent) {
+  return function(props) {
+    console.log('Rendering', WrappedComponent.name);
+    return <WrappedComponent {...props} />;
+  }
+}
+They help reuse logic (e.g., authorization, data fetching).
+<br/>
+<br/>
+<br/>
+17. Difference between React.memo and useMemo
+React.memo is a HOC that memoizes a functional component, preventing re-render if props haven’t changed.
+useMemo memoizes the result of a function inside a component to avoid expensive calculations on every render.
+<br/>
+<br/>
+<br/>
+18. What are React portals? <br/>
+Portals let you render children into a DOM node outside the parent component’s DOM hierarchy.
+Useful for modals, tooltips.
+ReactDOM.createPortal(children, document.getElementById('modal-root'))
+<br/>
+<br/>
+<br/>
+19. How do you optimize React app performance? <br/>
+Use React.memo and PureComponent.
+Code splitting and lazy loading.
+Avoid inline functions/objects where possible.
+Use virtualization for large lists (e.g., react-window).
+Memoize expensive computations (useMemo).
+Avoid unnecessary renders (shouldComponentUpdate or React.memo).
+<br/>
+<br/>
+<br/>
+20. Explain Suspense and React.lazy
+React.lazy enables code-splitting components dynamically:
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+Use Suspense to show a fallback UI while loading:
+<Suspense fallback={<Loading />}>
+  <OtherComponent />
+</Suspense>
+<br/>
+<br/>
+<br/>
+21. How do you handle error boundaries in React? <br/>
+Error boundaries catch JS errors in child components during rendering, lifecycle, and constructors.
+You create a class component with:
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    // Log error
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return h1>Something went wrong.</h1>;
+    }
+    return this.props.children;
+  }
+}
+
+
+
+
+
+
+
+
+🟢 Beginner Level
+1. What is React?
+React is a JavaScript library developed by Facebook for building user interfaces, especially single-page applications. It allows developers to create reusable UI components.
+ 
+2. What are the features of React?
+•	Component-based architecture
+•	Virtual DOM for efficient rendering
+•	Declarative UI
+•	Unidirectional data flow
+•	JSX syntax
+•	Support for hooks and context
+ 
+3. What is JSX?
+JSX (JavaScript XML) is a syntax extension that allows writing HTML-like code in JavaScript. React components use JSX to describe the UI structure.
+jsx
+CopyEdit
+const element = <h1>Hello, world!</h1>;
+ 
+4. What is the virtual DOM?
+The virtual DOM is a lightweight JavaScript representation of the actual DOM. React uses it to detect changes and update the real DOM efficiently by diffing and patching only what’s changed.
+ 
+5. What are components in React?
+Components are the building blocks of a React application. They can be:
+•	Functional components – simple functions returning JSX.
+•	Class components – ES6 classes with state and lifecycle methods.
+ 
+6. Difference between functional and class components?
+Feature	Functional Component	Class Component
+Syntax	Function	Class extends React.Component
+State	useState hook	this.state
+Lifecycle methods	useEffect hook	componentDidMount etc
+Simpler?	Yes	No
+________________________________________
+7. What are props and state?
+•	Props: Read-only data passed to a component.
+•	State: Local, mutable data managed within a component.
+jsx
+CopyEdit
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+________________________________________
+8. How does React handle forms?
+React handles forms using controlled components where form inputs are tied to component state.
+jsx
+CopyEdit
+const [value, setValue] = useState('');
+<input value={value} onChange={(e) => setValue(e.target.value)} />
+________________________________________
+9. What are keys in React and why are they important?
+Keys are unique identifiers used in lists to help React identify which items have changed, been added, or removed. They improve rendering performance.
+jsx
+CopyEdit
+{items.map(item => <li key={item.id}>{item.name}</li>)}
+________________________________________
+10. What is the purpose of useState()?
+useState is a React Hook that lets you add state to functional components.
+jsx
+CopyEdit
+const [count, setCount] = useState(0);
+________________________________________
+Would you like me to continue with Intermediate and Advanced levels next, or would you prefer a PDF or quiz format instead?
+You said:
+Intermediate and Advanced
+ChatGPT said:
+Perfect! Here's a continuation of the React interview questions with answers, now covering both Intermediate and Advanced levels.
+________________________________________
+🟡 Intermediate Level
+1. What is the difference between controlled and uncontrolled components?
+Controlled Component	Uncontrolled Component
+State managed by React (useState)	State managed by DOM
+Uses onChange and value	Uses ref to access value
+More predictable	Less control
+Controlled Example:
+jsx
+CopyEdit
+<input value={name} onChange={(e) => setName(e.target.value)} />
+Uncontrolled Example:
+jsx
+CopyEdit
+<input ref={inputRef} />
+________________________________________
+2. What is useEffect() and how does it work?
+useEffect is a React Hook used to run side effects (e.g., API calls, subscriptions) after render.
+jsx
+CopyEdit
+useEffect(() => {
+  console.log("Component mounted or updated");
+}, [dependency]);
+•	Empty dependency array []: runs once on mount.
+•	With dependencies: runs when they change.
+•	Cleanup with return function: for things like unsubscribing.
+________________________________________
+3. Explain the component lifecycle in React.
+For class components:
+•	constructor()
+•	componentDidMount()
+•	componentDidUpdate()
+•	componentWillUnmount()
+In functional components, these are handled using useEffect.
+________________________________________
+4. How do you lift state up in React?
+When multiple components need to share state, you move (or “lift”) the state to their closest common parent and pass data via props.
+________________________________________
+5. What are React Fragments and why are they used?
+Fragments let you group multiple elements without adding extra nodes to the DOM.
+jsx
+CopyEdit
+<>
+  <h1>Title</h1>
+  <p>Description</p>
+</>
+________________________________________
+6. What is Context API and how do you use it?
+The Context API allows passing data through the component tree without props drilling.
+jsx
+CopyEdit
+const ThemeContext = React.createContext();
+
+<ThemeContext.Provider value="dark">
+  <App />
+</ThemeContext.Provider>
+
+const value = useContext(ThemeContext);
+________________________________________
+7. How does conditional rendering work in React?
+You can conditionally render JSX using:
+jsx
+CopyEdit
+{isLoggedIn ? <Dashboard /> : <Login />}
+or
+jsx
+CopyEdit
+{isAdmin && <AdminPanel />}
+________________________________________
+8. Explain the reconciliation process in React.
+Reconciliation is the process where React updates the DOM by comparing the new virtual DOM with the previous one and applying minimal changes (diffing algorithm).
+________________________________________
+9. What is the difference between useCallback and useMemo?
+•	useCallback: Caches a function reference.
+•	useMemo: Caches the result of a function.
+jsx
+CopyEdit
+const memoizedValue = useMemo(() => expensiveCalc(a), [a]);
+const memoizedCallback = useCallback(() => handleClick(), [dep]);
+________________________________________
+10. What are Higher-Order Components (HOC)?
+A HOC is a function that takes a component and returns a new component with additional functionality.
+js
+CopyEdit
+const withLogger = (Component) => (props) => {
+  console.log("Props:", props);
+  return <Component {...props} />;
+};
+ 
+🔴 Advanced Level
+1. What is React Fiber?
+React Fiber is the internal architecture of React starting from v16. It improves rendering performance and supports features like concurrent mode and interruptible rendering.
+ 
+2. Explain how React handles rendering performance.
+React improves performance by:
+•	Using virtual DOM
+•	Batching updates
+•	Memoization (React.memo, useMemo)
+•	Lazy loading (React.lazy)
+•	Code splitting
+ 
+3. What are React Hooks and how do custom hooks work?
+Hooks are functions that let you use state and lifecycle in functional components.
+Custom Hook Example:
+js
+CopyEdit
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  return width;
+}
+ 
+4. How do you optimize React application performance?
+•	Memoize components: React.memo, useMemo, useCallback
+•	Lazy load components: React.lazy, Suspense
+•	Avoid unnecessary re-renders
+•	Use keys in lists correctly
+•	Split code with Webpack
+ 
+5. Explain error boundaries in React.
+Error boundaries catch JavaScript errors in child components and display fallback UI.
+jsx
+CopyEdit
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  componentDidCatch(error, info) {
+    // Log error
+  }
+  render() {
+    return this.state.hasError ? <Fallback /> : this.props.children;
+  }
+}
+ 
+6. What is Server-Side Rendering (SSR)?
+SSR renders React components on the server and sends HTML to the client. It improves SEO and initial load performance. Example: Next.js framework.
+ 
+7. How does React 18’s concurrent features work?
+React 18 introduced concurrent rendering which allows React to interrupt rendering, prioritize updates, and show fallback UIs via startTransition, Suspense, etc.
+js
+CopyEdit
+startTransition(() => {
+  setInputValue(value);
+});
+ 
+8. What are portals in React and when would you use them?
+Portals let you render a child into a DOM node outside the parent hierarchy. Useful for modals, tooltips, etc.
+js
+CopyEdit
+ReactDOM.createPortal(child, document.getElementById('modal-root'));
+ 
+9. What is the difference between useLayoutEffect and useEffect?
+useEffect	useLayoutEffect
+Runs after paint	Runs before paint
+Non-blocking	Blocking, can cause jank
+Preferred in most cases	Use for layout measurement
+ 
+10. How do you handle memory leaks in React?
+•	Cleanup effects in useEffect:
+js
+CopyEdit
+useEffect(() => {
+  const id = setInterval(...);
+  return () => clearInterval(id);
+}, []);
+•	Cancel async calls if component unmounts
+•	Avoid stale closures
+
+
+
+
+
+
+
+
+
+
+Hook	Purpose	Example Usage
+useState	Add state to a functional component	const [count, setCount] = useState(0);
+useEffect	Perform side effects (e.g., data fetching, subscriptions)	useEffect(() => { fetchData(); }, []);
+useContext	Access React context value without <Context.Consumer>	const theme = useContext(ThemeContext);
+useReducer	Manage complex state logic with a reducer function	const [state, dispatch] = useReducer(reducer, initialState);
+useRef	Hold mutable values or access DOM elements	const inputRef = useRef(null);
+useMemo	Memoize expensive calculations to optimize performance	const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+useCallback	Memoize callback functions to prevent unnecessary re-renders	const memoizedCallback = useCallback(() => doSomething(a), [a]);
+useLayoutEffect	Like useEffect but runs synchronously after all DOM mutations	Used for DOM measurements before paint
+ 
+
+
+
+

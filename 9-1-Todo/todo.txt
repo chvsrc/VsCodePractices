@@ -106,6 +106,15 @@ You can think of the virtual DOM like a blueprint. It contains all the details n
 
 
 
+Don’t call Hooks inside loops, conditions, or nested functions. 
+🔴 Do not call Hooks inside conditions or loops.
+🔴 Do not call Hooks after a conditional return statement.
+🔴 Do not call Hooks in event handlers.
+🔴 Do not call Hooks in class components.
+🔴 Do not call Hooks inside functions passed to useMemo, useReducer, or useEffect.
+
+✅ Call them at the top level in the body of a function component.
+✅ Call them at the top level in the body of a custom Hook.
 
 //
 
