@@ -1,0 +1,46 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // Custom Hook: useMousePosition
+      function useMousePosition() {
+        const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
+
+        React.useEffect(() => {
+          const handleMouseMove = (event) => {
+            setMousePosition({ x: event.clientX, y: event.clientY });
+          };
+
+          // Attach event listener to track mouse movement
+          window.addEventListener('mousemove', handleMouseMove);
+
+          // Cleanup event listener on component unmount
+          return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+          };
+        }, []); // Empty dependency array ensures this runs only once on mount
+
+        return mousePosition;
+      }
+
+      // Main Component: ReactHookComponent
+      function ReactHookComponent() {
+        const { x, y } = useMousePosition();  // Using the custom hook
+
+        return (
+          <div>
+            <h1>Mouse Position</h1>
+            <p>X: {x}</p>
+            <p>Y: {y}</p>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<ReactHookComponent />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

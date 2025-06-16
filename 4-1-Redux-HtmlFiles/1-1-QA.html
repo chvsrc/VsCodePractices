@@ -1,0 +1,174 @@
+1. What is Redux and why is it used in React applications?
+Redux is a state management library that helps manage and centralize application state in a predictable way. It is commonly used in React applications to manage complex state logic, improve scalability, and maintain a single source of truth for the entire application.
+
+2. What are the main principles of Redux?
+Single source of truth: The state of the entire application is stored in a single object.
+State is read-only: The only way to change state is to emit an action.
+Changes are made with pure functions: Reducers specify how the state changes in response to an action.
+
+3. How is Redux different from Context API?
+Redux is more powerful and suited for complex state management across large applications.
+Context API is simpler and works well for light, non-frequent global data sharing (e.g., theme, language).
+Redux offers better debugging tools, middleware, and performance optimizations.
+
+4. What are the roles of useSelector and useDispatch hooks in Redux?
+useSelector: Extracts data from the Redux store state.
+useDispatch: Returns a reference to the dispatch function used to send actions to the store.
+
+5. What is the purpose of the Redux store?
+The Redux store holds the entire state tree of the application and allows components to access state, dispatch actions, and subscribe to changes.
+
+6. How do you connect a React component to Redux using hooks?
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from './counterSlice';
+function Counter() {
+  const count = useSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+    </div>
+  );
+}
+
+7. How do actions and reducers work in Redux?
+Actions: Plain JS objects that describe what happened.
+Reducers: Pure functions that determine how the state changes in response to actions.
+const incrementAction = { type: 'INCREMENT' };
+function counterReducer(state = { count: 0 }, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    default:
+      return state;
+  }
+}
+
+
+8. Explain how useSelector works internally. Does it cause re-renders?
+useSelector subscribes to the Redux store and causes the component to re-render only if the selected slice of state changes (shallow comparison). It is optimized to avoid unnecessary renders, but care should be taken to avoid selecting objects or arrays directly unless memoized.
+
+9. How do you prevent unnecessary re-renders when using useSelector?
+Use primitive values or memoized selectors.
+Use reselect to create memoized selectors.
+Avoid selecting entire objects or arrays unless needed.
+const count = useSelector(state => state.counter.value); // Good
+const user = useSelector(state => state.user); // Risky if user is a large object
+
+10. Can you use multiple useSelector calls in one component?
+Yes. You can call useSelector multiple times for different parts of the state. This is often better than selecting a large chunk of state at once.
+
+11. How would you dispatch an action with a payload using useDispatch?
+const dispatch = useDispatch();
+dispatch({ type: 'SET_NAME', payload: 'Alice' });
+Or with Redux Toolkit:
+
+dispatch(setName('Alice')); // assuming setName is a slice action
+
+12. What is useReducer and how is it different from Redux?
+useReducer is a React hook that manages local state using a reducer function. Unlike Redux, it's component-scoped and doesn't provide a global store or middleware support.
+Use useReducer for:
+Local complex state logic
+Avoiding prop drilling
+Keeping logic close to the component
+
+13. How do you handle asynchronous logic in Redux with hooks?
+Using Redux Thunk or Redux Toolkit's createAsyncThunk:
+export const fetchUser = createAsyncThunk(
+  'user/fetchUser',
+  async (id) => {
+    const response = await fetch(`/api/user/${id}`);
+    return response.json();
+  }
+);
+
+In component:
+const dispatch = useDispatch();
+useEffect(() => {
+  dispatch(fetchUser(1));
+}, []);
+
+14. What are Redux Thunk and Redux Toolkit, and how do they integrate with hooks?
+Redux Thunk: Middleware that lets you write action creators that return functions instead of actions.
+Redux Toolkit (RTK): Simplifies Redux with createSlice, createAsyncThunk, and built-in dev tools.
+They work with hooks like useDispatch and useSelector for dispatching actions and reading state.
+
+15. How do you initialize Redux state when the component mounts using hooks?
+Use useEffect to dispatch an action on mount:
+useEffect(() => {
+  dispatch(loadInitialData());
+}, []);
+
+16. How does Redux Toolkit simplify Redux usage with hooks?
+RTK:
+Reduces boilerplate using createSlice.
+Handles immutability with Immer.
+Offers createAsyncThunk for async logic.
+Works seamlessly with hooks like useDispatch and useSelector.
+
+17. What are the benefits of using createSlice and createAsyncThunk?
+Encapsulates actions and reducers in one place.
+Automatically generates action creators.
+Simplifies handling of loading/error states.
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {},
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+  }
+});
+
+
+18. How would you structure a large-scale React app using Redux and hooks?
+Feature-based structure: /features/user, /features/posts
+Use createSlice for modularity.
+Separate concerns (e.g., api, hooks, store, utils)
+Use custom hooks like useUser() to abstract selectors/dispatch logic.
+
+19. Can you memoize selectors in Redux? Why would you do that?
+Yes, using libraries like reselect. Memoizing selectors prevents unnecessary recalculations and re-renders.
+const selectUser = createSelector(
+  state => state.user,
+  user => user.name
+);
+
+20. How do you test a React component that uses useSelector and useDispatch?
+Use @testing-library/react
+Mock the store with configureStore (RTK) or redux-mock-store
+Wrap the component with <Provider> in tests.
+
+21. Explain the performance implications of using hooks with Redux.
+useSelector causes re-renders if the selected value changes.
+Improper use (e.g., selecting whole objects) leads to unnecessary renders.
+Use memoization (reselect) and React.memo() to optimize performance.
+
+22. How would you handle complex nested state updates in Redux using hooks?
+Use Immer (default in RTK), or manually spread deeply nested state. Example using Immer in a reducer:
+state.user.profile.name = 'Alice';
+No need to deep copy manually.
+
+23. What’s the best way to handle global error and loading states in Redux with hooks?
+Create a slice (e.g., uiSlice) to manage global UI states like loading and errors, and use hooks to interact:
+const isLoading = useSelector(state => state.ui.isLoading);
+Dispatch actions to show/hide loading spinner globally.
+
+24. How do middleware like Redux Saga or Thunk work with the hook-based approach?
+They intercept dispatched actions (from useDispatch) and allow you to run side effects like API calls or complex logic outside components.
+
+25. What are the limitations of Redux with hooks and how can they be mitigated?
+Limitations:
+Boilerplate (partially solved by RTK)
+Overhead for small apps
+Verbose for simple state
+
+Mitigations:
+Use Redux Toolkit
+Encapsulate logic in custom hooks
+Use Context API or useReducer for simpler cases
+
+

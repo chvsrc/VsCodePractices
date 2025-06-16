@@ -1,0 +1,64 @@
+<html>
+  <script src="https://unpkg.com/react@16.8/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // Custom Hook: useFetch
+      function useFetch(url) {
+        const [data, setData] = React.useState(null);
+        const [loading, setLoading] = React.useState(true);
+        const [error, setError] = React.useState(null);
+
+        React.useEffect(() => {
+          const fetchData = async () => {
+            try {
+              await new Promise(r => setTimeout(r, 1000));
+              const response = await fetch(url);
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              const result = await response.json();
+              setData(result);
+            } catch (error) {
+              setError(error.message);
+            } finally {
+              setLoading(false);
+            }
+          };
+
+          fetchData();
+        }, [url]); // The effect re-runs if the URL changes
+
+        return { data, loading, error };
+      }
+
+      // Component using the useFetch hook
+      function UserList() {
+        const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/users');
+
+        if (loading) return <div>Loading...</div>;
+        if (error) return <div>Error: {error}</div>;
+
+        return (
+          <div>
+            <h1>User List</h1>
+            <ul>
+              {data.map(user => (
+                <li key={user.id}>
+                  <h2>{user.name}</h2>
+                  <p>Email: {user.email}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      // Render the component
+      ReactDOM.render(<UserList />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
