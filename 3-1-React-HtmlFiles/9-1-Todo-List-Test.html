@@ -61,11 +61,7 @@
 
         const addItem = () => {
           const uniqueId = getNextUniqueId(todoItems);
-          const newItem = {
-            uniqueId,
-            textVal: inputText.trim() || 'item ' + uniqueId,
-            isCompleted: false,
-          };
+          const newItem = { uniqueId, textVal: inputText.trim() || 'item ' + uniqueId, isCompleted: false };
           setTodoItems(prev => [...prev, newItem]);
           setInputText('');
         };
