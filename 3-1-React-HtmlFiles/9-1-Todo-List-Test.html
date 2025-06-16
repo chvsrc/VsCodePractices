@@ -22,6 +22,8 @@
           <div>
             <input
               type="text"
+              id={`textId${item.uniqueId}`}
+              name={`textName${item.uniqueId}`}
               value={text}
               onChange={(e) => setText(e.target.value)}
             /> &nbsp;
@@ -80,6 +82,8 @@
             <h2>Todo List</h2>
             <input
               type="text"
+              id="inputTextId"
+              name="inputTextName"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             /> &nbsp;
