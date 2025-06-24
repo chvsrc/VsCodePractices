@@ -16,6 +16,11 @@ class Program
         {
             Console.WriteLine(userInput + " is not a valid date");
         }
+
+        // test 2
+        DateTime dt = DateTime.Now;
+        DateTime roundUpdt = dt.RoundUp(TimeSpan.FromMinutes(15));
+
     }
 }
 
@@ -35,5 +40,27 @@ public static class ExtensionMethodClass
         {
             return false;
         }
+    }
+}
+
+// DateTimeExtensions
+public static class DateTimeExtensions
+{
+    public static DateTime RoundUp(this DateTime dt, TimeSpan interval)
+    {
+        if (interval == TimeSpan.Zero)
+            throw new ArgumentException("Interval must be greater than zero.", nameof(interval));
+
+        long ticks = (dt.Ticks + interval.Ticks - 1) / interval.Ticks * interval.Ticks;
+        return new DateTime(ticks, dt.Kind);
+    }
+
+    public static DateTime RoundDown(this DateTime dt, TimeSpan interval)
+    {
+        if (interval == TimeSpan.Zero)
+            throw new ArgumentException("Interval must be greater than zero.", nameof(interval));
+
+        long ticks = dt.Ticks - (dt.Ticks % interval.Ticks);
+        return new DateTime(ticks, dt.Kind);
     }
 }
