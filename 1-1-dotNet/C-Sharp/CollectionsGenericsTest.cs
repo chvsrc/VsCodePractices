@@ -3,6 +3,8 @@
 // mono CollectionsGenericsTest.exe
 
 /*
+* Collections are used to store, manage, and manipulate groups of related objects.
+* Generic collections are type-safe, performance-optimized, and preferred over non-generic collections (System.Collections) because they avoid boxing/unboxing and runtime casting.
 Generics are declared with "Less than <" and "Greater than >" in C#
 
 Collections

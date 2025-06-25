@@ -1,0 +1,14 @@
+
+Both pass arguments by reference, so changes affect the original variable.
+ref: The variable must be initialized before passing.
+out: The variable can be uninitialized, but must be set inside the method.
+
+void RefTesting(ref int x) { x += x; }
+void OutTesting(out int y) { y = 101; }
+int i = 10;
+Console.WriteLine(i); // 10
+RefTesting(ref i);
+Console.WriteLine(i); // 20
+int i1=11;// int i1 = 1; // Declare variable i1 without initialization
+OutTesting(out i1);
+Console.WriteLine(i1); // 101

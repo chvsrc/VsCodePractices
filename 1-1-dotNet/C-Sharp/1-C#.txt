@@ -1,0 +1,362 @@
+Q1) What is the difference between `string` and `StringBuilder`?
+* `string` is immutable, which means once it's created, it cannot be changed. Every time you modify it, a new string is created in memory.
+* `StringBuilder` is mutable, so you can change its content without creating new objects.
+* Use `StringBuilder` when you are making lots of string changes (like in a loop) to improve performance.
+
+Q2) What is lazy loading?
+Lazy loading means loading or initializing an object only when it’s actually needed. This improves performance, especially when dealing with many resources or heavy objects.
+
+Q3) Can an abstract class have non-abstract methods?
+Yes, it can have both abstract and non-abstract (regular) methods.
+
+Q4) Can we create an abstract class without any class members?
+Yes, you can create an abstract class without any methods, fields, or properties.
+
+Q5) What is polymorphism in C#?
+Polymorphism means “many forms”. It allows:
+
+* A derived class object to be treated like a base class object.
+* Base class methods (marked `virtual`) to be overridden by derived classes.
+  At runtime, the method in the derived class gets called, even if the call was made through the base class reference.
+
+Q6) What are the benefits of using Generics?
+Generics provide:
+* Code reusability
+* Type safety
+* Better performance, especially with value types (like int, double) since no boxing/unboxing is needed.
+
+Q7) Can an abstract class have a constructor?
+Yes. Though you can’t directly create an object of an abstract class, its constructor is called when a derived class object is created.
+
+Q8) What is a generic collection?
+Generic collections (like `List<T>`, `Dictionary<TKey, TValue>`) are type-safe. They store only one data type, which prevents runtime errors and improves performance by avoiding type conversions.
+
+Q9) What are static constructors?
+* No access modifiers and no parameters allowed.
+* Only one static constructor per class.
+* It is called automatically once, before any object is created or static member is accessed.
+* You can’t control when it runs — it’s managed by the CLR.
+
+Q10) What is the difference between abstract and virtual methods?
+* `abstract` methods have no body and must be overridden in derived classes.
+* `virtual` methods have a default implementation and can be optionally overridden.
+
+Q11) Difference between `Finalize()` and `Dispose()`?
+* `Finalize()` is called automatically by the garbage collector to clean up memory.
+* `Dispose()` is called manually to release unmanaged resources (like files, database connections).
+* You use `Dispose()` when you want more control over resource cleanup.
+
+Q12) What is the difference between `const` and `readonly`?
+* `const`: Value is assigned at compile time and cannot be changed.
+* `readonly`: Value is assigned at runtime (in constructor) and can be different for each object.
+
+Q13) What is the Singleton design pattern?
+Singleton ensures that only one instance of a class is created.
+* Make the constructor private.
+* Create a static property to hold the instance.
+* The static property checks if the instance exists or creates one if it doesn't.
+
+Q14) Difference between Interface and Abstract Class?
+* Interface: Only contains method signatures (no code), no fields or constructors.
+* Abstract class: Can have both abstract and non-abstract methods, fields, and constructors.
+* A class can implement multiple interfaces but can inherit only one abstract class.
+
+Q15) How many catch blocks can be added for one try block?
+You can add multiple catch blocks.
+* Start with specific exceptions first.
+* Add a generic catch block (`catch(Exception ex)`) at the end.
+
+Q16) What is boxing and unboxing in C#?
+* Boxing: Converting a value type (like `int`) to a reference type (`object`).
+* Unboxing: Converting an object back to its value type.
+* Boxing is automatic, unboxing is manual.
+int i = 100;         // value type
+object o = i;        // boxing
+int j = (int)o;      // unboxing
+
+Q17) What is early binding and late binding in C#?
+* Early Binding: The compiler knows the object type and methods at compile time. (Faster)
+* Late Binding: The object type is determined at runtime, often using `dynamic` or reflection. (Slower)
+  Example:
+// Early Binding
+MyClass obj = new MyClass();  
+obj.Print();  
+// Late Binding
+dynamic obj = GetObject();  
+obj.Print();
+
+Q18) What is `enum` and why do we use it?
+An `enum` is a user-defined type that holds a set of named constants (like `Days.Monday`).
+It improves code readability and maintains fixed values for related items.
+
+Q19) What are extension methods in C#?
+* Extension methods add new methods to existing types without changing the original class.
+* Defined in a static class and are static methods with `this` before the first parameter.
+public static class MyExtensions
+{
+    public static int WordCount(this string str)
+    {
+        return str.Split(' ').Length;
+    }
+}
+
+Q20) What is the difference between `ref` and `out` keywords?
+* Both pass arguments by reference, so changes affect the original variable.
+* `ref`: The variable must be initialized before passing.
+* `out`: The variable can be uninitialized, but must be set inside the method.
+void RefTesting(ref int x) { x += x; }
+void OutTesting(out int y) { y = 101; }
+int i = 10;
+Console.WriteLine(i); // 10
+RefTesting(ref i);
+Console.WriteLine(i); // 20
+int i1=11;// int i1 = 1; // Declare variable i1 without initialization
+OutTesting(out i1);
+Console.WriteLine(i1); // 101
+
+
+ 
+Q3. What is the difference between value type and reference type?
+* Value types store the actual data. They are stored in the stack. Examples: `int`, `float`, `bool`, `struct`
+* Reference types store a reference (like an address) to the actual data, which lives in the heap. Examples: `class`, `string`, `array`, `object`
+Example:
+int x = 10; int y = x; y = 20;
+// x is still 10 because it's a value type
+
+class MyClass { public int num; }
+MyClass a = new MyClass();
+a.num = 10;
+MyClass b = a;
+b.num = 20;
+// a.num is also 20 because both a and b point to the same object in memory
+
+
+Q5. What is the difference between `abstract class` and `interface` in C#?
+| Feature          | Abstract Class                      | Interface                           |
+|      - |            -- |            -- |
+| Usage            | Used when classes share common code | Used to define capability           |
+| Methods          | Can have code and abstract methods  | Only method signatures (until C# 8) |
+| Inheritance      | One abstract class at a time        | Multiple interfaces supported       |
+| Access Modifiers | Allowed                             | Not allowed before C# 8             |
+Example:
+abstract class Animal
+{
+    public abstract void MakeSound();
+    public void Eat() { Console.WriteLine("Eating"); }
+}
+interface IFlyable
+{
+    void Fly();
+}
+class Bird : Animal, IFlyable
+{
+    public override void MakeSound() { Console.WriteLine("Tweet"); }
+    public void Fly() { Console.WriteLine("Flying"); }
+}
+
+ 
+Q6. What is `async` and `await` in C#?
+`async` and `await` are used for asynchronous programming. 
+This means your program can do something else while waiting for a task to finish (like calling an API or reading a file), so it doesn’t freeze.
+Example:
+public async Task<string> GetDataAsync()
+{
+    HttpClient client = new HttpClient();
+    string result = await client.GetStringAsync("https://example.com");
+    return result;
+}
+Here:
+* `async` means the method can run asynchronously.
+* `await` means pause this line until the work (like downloading data) is done.
+This makes your apps faster and smoother.
+
+
+Q8. What is a delegate in C#?
+A delegate is like a pointer to a method. It lets you pass methods as arguments or store them in variables.
+Simple example:
+public delegate void MyDelegate(string message);
+public class Program
+{
+    public static void ShowMessage(string msg)
+    {
+        Console.WriteLine(msg);
+    }
+    public static void Main()
+    {
+        MyDelegate del = ShowMessage;
+        del("Hello from delegate!");
+    }
+}
+This helps in event handling, callbacks, and more flexible code.
+ 
+
+Q9. What is LINQ in C#?
+LINQ (Language Integrated Query) lets you write queries directly in C# to work with collections like arrays, lists, or even databases.
+Example:
+List<int> numbers = new List<int>() { 1, 2, 3, 4, 5 };
+var even = numbers.Where(n => n % 2 == 0);
+foreach (var n in even)
+{
+    Console.WriteLine(n);
+}
+
+LINQ makes it easier to filter, sort, and transform data using clean code.
+
+ 
+Q10. What is garbage collection in C#?
+Garbage collection is the process where C# automatically cleans up unused memory. You don’t need to delete objects manually. The system checks for objects that are no longer used and frees up memory.
+This helps avoid memory leaks and crashes.
+
+
+
+Q1. What is C# and what are its main features?
+C# is a modern, object-oriented programming language developed by Microsoft. It is mainly used to build Windows apps, web apps, APIs, cloud services, and more, using the .NET framework or .NET Core.
+C# Main Features:
+* Object-Oriented: It uses classes and objects to organize code in a clean and reusable way.
+* Type Safe: Helps avoid errors by checking data types during compile time.
+* Memory Management: Uses a garbage collector to clean up unused memory automatically.
+* LINQ Support: Makes it easy to work with collections like arrays or database data.
+* Asynchronous Programming: With `async` and `await`, you can run long tasks without freezing the app.
+* Cross-platform with .NET Core: You can now build and run C# apps on Windows, Linux, and macOS.
+ 
+
+
+ 
+
+CD/CD?
+ 
+ 
+## Step 1: Prepare Your Azure Resources
+1. Create an Azure App Service:
+ * Go to [Azure Portal](https://portal.azure.com).
+ * Click Create a resource > Web App.
+ * Choose your subscription, resource group, name, runtime stack (.NET 6/7/8, whatever your app uses).
+ * Review and create the Web App.
+2. Get Publishing Profile (optional for manual):
+ * Go to your Web App > Overview > Get publish profile (you can use this later for manual deploy or connection info).
+
+
+
+## Step 2: Prepare Your GitHub Repository
+* Your .NET Core Web API project should be pushed to GitHub.
+* Make sure your code compiles and runs locally.
+* Your repo root should have the `.csproj` or `.sln` file.
+
+
+
+## Step 3: Create Azure DevOps Project and Connect GitHub Repo
+1. Go to [Azure DevOps](https://dev.azure.com).
+2. Create a new Project or use existing.
+3. Navigate to Pipelines > Create Pipeline.
+4. Select GitHub as the source.
+5. Authorize Azure DevOps to access your GitHub repo.
+6. Select your .NET Core Web API repository.
+
+
+
+
+## Step 4: Configure Pipeline (YAML)
+You can start with a simple YAML pipeline:
+```yaml
+trigger:
+- main # Or your branch
+
+pool:
+ vmImage: 'windows-latest'
+
+variables:
+ buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+ inputs:
+ packageType: 'sdk'
+ version: '7.x' # Change according to your .NET Core version
+
+- script: dotnet build --configuration $(buildConfiguration)
+ displayName: 'Build Project'
+
+- script: dotnet publish -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
+ displayName: 'Publish Project'
+
+- task: PublishBuildArtifacts@1
+ inputs:
+ PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+ ArtifactName: 'drop'
+```
+
+
+
+## Step 5: Create Release Pipeline (Classic or YAML)
+You have two options:
+### Option A: Classic Release Pipeline
+1. In Azure DevOps, go to Pipelines > Releases > New pipeline.
+2. Add an artifact:
+ * Source type: Build.
+ * Select the build pipeline created earlier.
+3. Add a stage:
+ * Select Azure App Service deployment template.
+4. Configure stage:
+ * Azure subscription: Authorize and select your Azure subscription.
+ * App Service name: Select the Azure Web App you created.
+ * Package or folder: `$(System.DefaultWorkingDirectory)/_your-build-pipeline-name/drop`
+5. Save and create a release.
+
+### Option B: YAML Multi-Stage Pipeline (build + deploy)
+Add the deploy stage to the YAML pipeline:
+```yaml
+- stage: Deploy
+ jobs:
+ - deployment: DeployWeb
+ environment: 'production'
+ pool:
+ vmImage: 'windows-latest'
+ strategy:
+ runOnce:
+ deploy:
+ steps:
+ - download: current
+ artifact: drop
+
+ - task: AzureWebApp@1
+ inputs:
+ azureSubscription: '<your-service-connection-name>'
+ appType: 'webApp'
+ appName: '<your-app-service-name>'
+ package: '$(Pipeline.Workspace)/drop/.zip'
+```
+
+Note: You need to create an Azure Service Connection in Azure DevOps for the subscription.
+ 
+## Step 6: Setup Azure Service Connection in Azure DevOps
+
+1. Go to Project Settings > Service connections.
+2. Click New service connection > Azure Resource Manager.
+3. Use automatic or manual service principal creation.
+4. Save it and use it in your pipeline YAML or release pipeline.
+ 
+## Step 7: Run the Pipeline and Verify
+
+* Commit and push changes to GitHub (e.g., `main` branch).
+* Azure DevOps pipeline triggers automatically (if trigger enabled).
+* Build runs, publishes artifact.
+* Release pipeline deploys artifact to Azure App Service.
+* Browse your Azure App Service URL to verify deployment.
+ 
+## Optional: Setup CORS, Environment Variables, App Settings in Azure Portal
+
+* Go to your App Service > Configuration to add environment variables or CORS settings.
+* Your API will use these at runtime.
+ 
+# Summary Checklist
+
+| Step | Action |
+| --------------------------- | ---------------------------------------------------- |
+| 1. Azure App Service | Create app service in Azure Portal |
+| 2. GitHub repo | Have .NET Core API code pushed |
+| 3. Azure DevOps Project | Create project, connect GitHub repo |
+| 4. Build pipeline (YAML) | Create build pipeline with `dotnet build/publish` |
+| 5. Release pipeline | Create release or deploy stage with AzureWebApp task |
+| 6. Azure Service Connection | Setup connection in Azure DevOps for Azure |
+| 7. Deploy & Verify | Run pipeline, verify deployment in Azure app |
+ 

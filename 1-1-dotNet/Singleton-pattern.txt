@@ -1,0 +1,6 @@
+Singleton Design Pattern:
+The Singleton pattern ensures that a class has only one instance throughout the application, 
+and provides a global access point to that instance.
+
+you can say like create only one object of the class, and everyone uses that same object.
+

@@ -6,11 +6,22 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 Console.WriteLine("Hello, World!");
 
 // Populate values from your OpenAI deployment
-var modelIdOrDeploymentName = "gpt-35-turbo";
-var endpoint = "https://<your-endpoint>.openai.azure.com/"; 
-var apiKey = "<your-api-key>";
+var modelIdOrDeploymentName = Env.Var("AZURE_OPENAI_CHAT_DEPLOYMENT_NAME"); // "gpt-35-turbo";
+var endpoint = Env.Var("AZURE_OPENAI_ENDPOINT"); //"https://<your-endpoint>.openai.azure.com/"; 
+var apiKey = Env.Var("AZURE_OPENAI_KEY");  // "<your-api-key>";
 
 var kernel = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(modelIdOrDeploymentName, endpoint, apiKey).Build();
+
+// var question = "What is Semantic Kernel?";
+// var context = kernel.CreateNewContext();
+// context.Variables.Set("input", question);
+// context.Variables.Set("data", sk_groundingContext);
+// // Run the prompt / semantic function
+// var citeSources = kernel.CreateSemanticFunction(sk_prompt, maxTokens: 150);
+// // Show the result
+// Console.WriteLine("--- Semantic Function result");
+// var result = await citeSources.InvokeAsync(context);
+// Console.WriteLine(result);
 
 Console.WriteLine("🤖 Chatbot started! Type 'exit' to quit.\n");
 

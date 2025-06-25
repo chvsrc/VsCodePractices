@@ -1,4 +1,141 @@
-It is software that is injected into the application pipeline to handle requests and responses. 
+
+* Middleware is software that sits in the request-response pipeline of an ASP.NET Core application. 
+* Middleware helps in processing incoming HTTP requests and outgoing HTTP responses.
+
+middleware chain of components like
+* Receives the HTTP request
+* Can perform some work
+* Can either pass the request to the next middleware or stop the request from going further (short-circuit the pipeline)
+* Also processes the response when it comes back, but in reverse order
+
+Key Points
+* ✅ Middleware has access to both Request and Response
+* 🔁 Middleware may simply pass the request to the next one
+* ⚙️ Middleware may do some processing and then pass it forward
+* ❌ Middleware may handle the request completely and stop further processing (short-circuit)
+* 📤 Middleware can also handle or modify the outgoing response
+* 🔢 Middlewares are executed in the exact order they are added in the `Startup` class
+
+InvokeAsync Method
+* InvokeAsync is the main method in any custom middleware.
+* It is called automatically by the ASP.NET Core runtime for every HTTP request.
+* Inside this method, we can write your logic to:
+  // * Work with the request
+  // * Call the next middleware (using `await _next(context)`)
+  // * Or stop the pipeline, if needed
+
+
+************** Example ************************
+
+bool maintenanceMode = true; // This can come from config, DB, or environment variable
+
+// Register middlewares in the pipeline
+app.UseMiddleware<CustomRequestLoggingMiddleware>();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<MaintenanceModeMiddleware>(maintenanceMode);
+
+************** Middleware Class MaintenanceModeMiddleware **************
+
+public class MaintenanceModeMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly bool _isMaintenanceMode;
+
+    public MaintenanceModeMiddleware(RequestDelegate next, bool isMaintenanceMode)
+    {
+        _next = next;
+        _isMaintenanceMode = isMaintenanceMode;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        // Log incoming request path and method
+        Debug.WriteLine($"[Request] HTTP {context.Request.Method} {context.Request.Path}");
+
+        if (_isMaintenanceMode)
+        {
+            context.Response.StatusCode = 503; // Service Unavailable
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync("The site is under maintenance. Please try again later.");
+            return; // 🔁 Short-circuit: do NOT call next middleware
+        }
+
+        // ✅ If not in maintenance mode, continue to next middleware
+        // Call the next middleware in the pipeline
+        await _next(context);
+
+        // Log response status code after response
+        Debug.WriteLine($"[Response] Status Code: {context.Response.StatusCode}");
+    }
+}
+
+************** Middleware Class ExceptionHandlerMiddleware **************
+
+public class ExceptionHandlerMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public ExceptionHandlerMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            // Call next middleware in pipeline
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            // Exception caught here, handle it globally
+            await HandleExceptionAsync(context, ex);
+        }
+    }
+
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        // Log exception here (omitted for brevity)
+
+        // Return JSON error response
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var response = new { error = exception.Message };
+        var json = JsonSerializer.Serialize(response);
+
+        return context.Response.WriteAsync(json);
+    }
+}
+
+************** Middleware Class CustomRequestLoggingMiddleware **************
+
+public class CustomRequestLoggingMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public CustomRequestLoggingMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        // Log incoming request path and method
+        Debug.WriteLine($"[Request] HTTP {context.Request.Method} {context.Request.Path}");
+
+        // Call the next middleware in the pipeline
+        await _next(context);
+
+        // Log response status code after response
+        Debug.WriteLine($"[Response] Status Code: {context.Response.StatusCode}");
+    }
+}
+
+************** OLD ************************
+
+Middleware is software that is injected into the application pipeline to handle requests and responses. 
 
 They are just like chained to each other and form as a pipeline. 
 
@@ -7,12 +144,15 @@ and middleware can perform some action on the request before passing it to the n
 Same as for the responses, they are also passing through the middleware but in reverse order.
 
 
-
-
 Middleware Has access to both Request and Response
 Middleware May simply pass the Request to next Middleware
 Middleware May process and then pass the Request to next Middleware
 Middleware May handle the Request and short-circuit the pipeline
 Middleware May process the outgoing Response
 Middlewares are executed in the order they are added
+
+InvokeAsync method:
+InvokeAsync is the core method of any ASP.NET Core middleware class. It gets called automatically by the ASP.NET Core runtime every time an HTTP request enters the middleware pipeline and reaches that middleware.
+
+
 
