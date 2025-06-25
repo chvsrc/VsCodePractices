@@ -218,17 +218,9 @@ class CollectionsAndGenericTesting
         {
             Console.WriteLine("LinkedListData :: " + number);
         }
-#endregion LinkedList
+        #endregion LinkedList
         #endregion Generic-Collections
-
-
-
-class Employee
-    {
-        public int empId { set; get; }
-        public string? empName { set; get; }
     }
-}
 }
 
 class Employee
