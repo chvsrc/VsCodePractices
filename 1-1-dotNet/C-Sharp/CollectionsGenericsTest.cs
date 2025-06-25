@@ -220,6 +220,66 @@ class CollectionsAndGenericTesting
         }
         #endregion LinkedList
         #endregion Generic-Collections
+
+        #region Array
+        int[] emptyArray;                                // Declare array without initialization
+        int[] defaultValues = new int[5];                // Initialized with default 0 values
+        int[] primeNumbers = new int[3] { 2, 3, 5 };     // Initialize with fixed size and values
+        int[] numbers = { 2, 3, 5, 7, 11 };              // Implicit size initialization
+
+        primeNumbers[1] = 17;                            // Set or modify element at index 1
+        Console.WriteLine(string.Join(", ", primeNumbers));
+
+        Console.WriteLine($"Prime numbers length: {primeNumbers.Length}");  // Array length property
+
+        int[] unsortedNumbers = { 5, 3, 8, 1, 9 };
+        Array.Sort(unsortedNumbers);                      // Sort array ascending
+        Console.WriteLine("Sort :: " + string.Join(", ", unsortedNumbers));
+
+        Array.Reverse(unsortedNumbers);                   // Reverse array elements
+        Console.WriteLine("Reverse :: " + string.Join(", ", unsortedNumbers));
+
+        int[] copiedPrimes = new int[primeNumbers.Length];
+        Array.Copy(primeNumbers, copiedPrimes, primeNumbers.Length);  // Copy elements to new array
+        Console.WriteLine("Copy :: " + string.Join(", ", copiedPrimes));
+
+        Array.Resize(ref primeNumbers, 7);                // Resize array to length 7
+        primeNumbers[5] = 19;                             // Add new element at index 5
+        primeNumbers[6] = 23;                             // Add new element at index 6
+        Console.WriteLine("Resize :: " + string.Join(", ", primeNumbers));
+
+        Console.WriteLine($"Max and Min prime number: {primeNumbers.Max()} and {primeNumbers.Min()}"); // Max and Min using LINQ
+
+        // Multidimensional (rectangular) array
+        int[,] matrix2D = new int[2, 3] { { 1, 2, 3 }, { 4, 5, 6 } };
+        Console.WriteLine("2D matrix:");
+        for (int row = 0; row < matrix2D.GetLength(0); row++)
+        {
+            for (int col = 0; col < matrix2D.GetLength(1); col++)
+            {
+                Console.Write(matrix2D[row, col] + " ");
+            }
+            Console.WriteLine();
+        }
+
+        // Jagged array (array of arrays)
+        int[][] jaggedArray = new int[3][];
+        jaggedArray[0] = new int[] { 1, 2 };
+        jaggedArray[1] = new int[] { 3, 4, 5 };
+        jaggedArray[2] = new int[] { 6 };
+
+        Console.WriteLine("Jagged array:");
+        for (int i = 0; i < jaggedArray.Length; i++)
+        {
+            Console.Write("Row " + i + ": ");
+            foreach (int value in jaggedArray[i])
+            {
+                Console.Write(value + " ");
+            }
+            Console.WriteLine();
+        }
+        #endregion Array
+
     }
 }
 
