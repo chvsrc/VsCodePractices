@@ -296,10 +296,10 @@ ArrayListData :: Testing
 ArrayListData :: 7
 ArrayListData :: 10/8/1985 12:00:00AM
 HashtableData :: cs.net
-HashtableData :: ora 10/8/1985 12:00:00AM
 HashtableData :: asp asp.net
-HashtableData :: cs cs.net
+HashtableData :: ora 10/8/1985 12:00:00AM
 HashtableData :: vb 333
+HashtableData :: cs cs.net
 SortedListData :: asp.net
 SortedListData :: asp asp.net
 SortedListData :: cs cs.net
@@ -349,4 +349,18 @@ LinkedListData :: 5
 LinkedListData :: 100
 LinkedListData :: 101
 LinkedListData :: 20
+2, 17, 5
+Prime numbers length: 3
+Sort :: 1, 3, 5, 8, 9
+Reverse :: 9, 8, 5, 3, 1
+Copy :: 2, 17, 5
+Resize :: 2, 17, 5, 0, 0, 19, 23
+Max and Min prime number: 23 and 0
+2D matrix:
+1 2 3
+4 5 6
+Jagged array:
+Row 0: 1 2
+Row 1: 3 4 5
+Row 2: 6
 */
