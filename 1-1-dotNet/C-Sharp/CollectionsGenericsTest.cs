@@ -213,7 +213,7 @@ class CollectionsAndGenericTesting
         {
             linkedList.AddAfter(node, 101);
         }
-        Console.WriteLine("LinkedList After inserting 101 after 101:");
+        Console.WriteLine("LinkedList After inserting 101 after 100:");
         foreach (int number in linkedList)
         {
             Console.WriteLine("LinkedListData :: " + number);
