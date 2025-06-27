@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Mapped Employees with Loading Component</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://unpkg.com/react@16.8.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16.8.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 8px solid #3498db;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 50px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .error {
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    //#region rest service file
+    const mockEmps = [
+      { empId: 1, name: 'John', departmentId: 1 },
+      { empId: 2, name: 'Jane', departmentId: 2 },
+      { empId: 3, name: 'Alice', departmentId: 1 },
+      { empId: 4, name: 'Bob', departmentId: 3 }
+    ];
+
+    const mockDeps = [
+      { departmentId: 1, department: 'IT', head: 'David' },
+      { departmentId: 2, department: 'HR', head: 'Sophie' },
+      { departmentId: 3, department: 'Finance', head: 'Emma' }
+    ];
+
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const restService = {
+      getEmpsData: async () => {
+        await delay(5000);
+        // throw new Error('Failed to fetch empDetails');
+        return mockEmps;
+      },
+      getDepsData: async () => {
+        await delay(1000);
+        return mockDeps;
+      }
+    };
+
+    // Rest service using fetch and then
+    const restService2 = {
+      getEmpsData: async () => {
+        const res = await fetch('/api/empDetails');
+        if (!res.ok) throw new Error('Failed to fetch empDetails');
+        return res.json();
+      },
+      getDepsData: async () => {
+        const res = await fetch('/api/depDetails');
+        if (!res.ok) throw new Error('Failed to fetch depDetails');
+        return res.json();
+      }
+    };
+    //#endregion rest service file
+
+    function App() {
+      const [empsWithDepData, setEmpsWithDepData] = React.useState([]);
+      const [error, setError] = React.useState(null);
+      const [activeComponent, setActiveComponent] = React.useState('isLoading');
+      const [loadTime, setLoadTime] = React.useState(null);
+
+      React.useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const startTime = performance.now(); // start timer
+            // Best way
+            const [emps, deps] = await Promise.all([
+              restService.getEmpsData(),
+              restService.getDepsData()
+            ]);
+
+            // way 2
+            // Promise.allSettled if you want to tolerate partial failures and show partial data.
+            // const results = await Promise.allSettled([
+            //   restService.getEmpsData(),
+            //   restService.getDepsData()
+            // ]);
+
+            // const empsResult = results[0];
+            // const depsResult = results[1];
+
+            // if (empsResult.status === 'fulfilled' && depsResult.status === 'fulfilled') {
+            //   const emps = empsResult.value;
+            //   const deps = depsResult.value;
+            //   // proceed with data
+            // } else {
+            //   // handle partial failures gracefully
+            // }
+
+            // way 3
+            // const depsPromise = restService.getDepsData();
+            // const empsPromise = restService.getEmpsData();
+            // const deps = await depsPromise;
+            // const emps = await empsPromise;
+
+            // Merge employee with their department info
+            const mergedData = emps.map(emp => {
+              const dept = deps.find(d => d.departmentId === emp.departmentId);
+              return {
+                ...emp,
+                departmentName: dept ? dept.department : 'N/A',
+                departmentHead: dept ? dept.head : 'N/A'
+              };
+            });
+            setEmpsWithDepData(mergedData);
+            setActiveComponent('mapedEmps');
+            const endTime = performance.now(); // end timer
+            setLoadTime((endTime - startTime).toFixed(0)); // time in ms rounded
+          } catch (err) {
+            setError('Error loading data');
+            setActiveComponent('mapedEmps'); // stop loading spinner even if error
+            console.error(err);
+          }
+        };
+        fetchData();
+      }, []);
+
+      if (activeComponent === 'isLoading') return <div className="loader"></div>;
+      if (error) return <div className="error">{error}</div>;
+
+      return (
+        <div>
+         <div style={{ marginTop: 10 }}>
+            Load Time: <strong>{loadTime} ms</strong>
+          </div>
+          <table border="1" cellPadding="8" style={{ margin: 'auto', marginTop: 20 }}>
+            <thead>
+              <tr>
+                <th>Emp ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Department Head</th>
+              </tr>
+            </thead>
+            <tbody>
+              {empsWithDepData.map(emp => (
+                <tr key={emp.empId}>
+                  <td>{emp.empId}</td>
+                  <td>{emp.name}</td>
+                  <td>{emp.departmentName}</td>
+                  <td>{emp.departmentHead}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
