@@ -1,63 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * { box-sizing: border-box; }
-    textarea {
-      width: 100%;
-      height: 480px;
-      padding: 12px 20px;
-      border: 2px solid #2600fc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    .row { display: flex; flex-wrap: wrap; gap: 2%; }
-    .column { flex: 1 1 48%; }
-    .buttons { display: flex; justify-content: center; margin-top: 10px; }
-    @media (max-width: 600px) {
-      .column { flex: 1 1 100%; }
-    }
-  </style>
-</head>
-<body>
-  <div class="row">
-    <div class="column"><textarea id="input"></textarea></div>
-    <div class="column"><textarea id="output" readonly></textarea></div>
-  </div>
-  <div class="buttons">
-    <button onclick="generate()">Generate Entities</button>
-  </div>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      textarea {
+        width: 100%;
+        height: 480px;
+        padding: 12px 20px;
+        border: 2px solid #2600fc;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2%;
+      }
+      .column {
+        flex: 1 1 48%;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+      @media (max-width: 600px) {
+        .column {
+          flex: 1 1 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="column"><textarea id="input"></textarea></div>
+      <div class="column"><textarea id="output" readonly></textarea></div>
+    </div>
+    <div class="buttons">
+      <button onclick="generate()">Generate Entities</button>
+    </div>
 
-  <script>
-    const $ = id => document.getElementById(id);
+    <script>
+      const $ = (id) => document.getElementById(id);
 
-    const toCamel = (s, cap = false) =>
-      s.replace(/[^a-zA-Z0-9]+/g, " ")
-       .trim()
-       .split(" ")
-       .map((w, i) =>
-         i || cap ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w.toLowerCase()
-       ).join("");
+      const toCamel = (s, cap = false) =>
+        s
+          .replace(/[^a-zA-Z0-9]+/g, " ")
+          .trim()
+          .split(" ")
+          .map((w, i) =>
+            i || cap
+              ? w[0].toUpperCase() + w.slice(1).toLowerCase()
+              : w.toLowerCase()
+          )
+          .join("");
 
-    const toColumn = s =>
-      s.replace(/[^a-zA-Z0-9_ ]/g, "").toUpperCase().trim().replace(/\s+/g, "_");
+      const toColumn = (s) =>
+        s
+          .replace(/[^a-zA-Z0-9_ ]/g, "")
+          .toUpperCase()
+          .trim()
+          .replace(/\s+/g, "_");
 
-    const generate = () => {
-      const lines = $("input").value.split("\n").map(l => l.trim()).filter(Boolean);
-      const fields = lines.map(l =>
-        `@Column(name = "${toColumn(l)}")\nprivate String ${toCamel(l)};\n`
-      ).join("\n");
+      const generate = () => {
+        const lines = $("input")
+          .value.split("\n")
+          .map((l) => l.trim())
+          .filter(Boolean);
+        const fields = lines
+          .map(
+            (l) =>
+              `@Column(name = "${toColumn(l)}")\nprivate String ${toCamel(
+                l
+              )};\n`
+          )
+          .join("\n");
 
-      const setters = lines.map(l => {
-        const name = toCamel(l, true);
-        return `obj1.set${name}(obj2.get${name}());`;
-      }).join("\n");
+        const setters = lines
+          .map((l, index) => {
+            const name = toCamel(l, true);
+            return `obj1.set${name}(objArray[${index + 1}]);`;
+          })
+          .join("\n");
 
-      $("output").value = `${fields}\n\n\n${setters}`;
-    };
+        const setterGetters = lines
+          .map((l) => {
+            const name = toCamel(l, true);
+            return `obj1.set${name}(obj2.get${name}());`;
+          })
+          .join("\n");
 
-    $("input").value = `EmpName ,\nEMP_AGE ,\nEmp_Name_2 ,\nEmp_AGE_2 ,\n`;
-  </script>
-</body>
+        $("output").value = `${fields}\n\n\n${setters}\n\n\n${setterGetters}`;
+      };
+
+      $(
+        "input"
+      ).value = `Emp_Full_Name ,\nemp_full_name ,\nEMP_FULL_NAME ,\nEMP_AGE ,\nEmp_Name_2 ,\nEmp_AGE_2 ,\n`;
+    </script>
+  </body>
 </html>
