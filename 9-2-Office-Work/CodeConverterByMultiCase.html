@@ -1,252 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CodeConverterByMultiCase</title>
-  <style>
-    * { box-sizing: border-box; }
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodeConverterByMultiCase</title>
+    <style>
+      * { box-sizing: border-box; }
 
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .column {
-      padding: 0 5px;
-    }
-
-    .left, .right {
-      width: 40%;
-    }
-
-    .middle {
-      width: 20%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    textarea {
-      width: 100%;
-      height: 50vh;
-      padding: 12px 20px;
-      border: 2px solid #2600fc;
-      border-radius: 4px;
-      font-size: 16px;
-      resize: vertical;
-    }
-
-    select, button {
-      padding: 10px;
-      font-size: 16px;
-      border: 2px solid #2600fc;
-      border-radius: 4px;
-    }
-
-    .format-list {
-      height: 50vh;
-      border: 2px solid #2600fc;
-      border-radius: 4px;
-      padding: 5px;
-      font-size: 16px;
-      background: #f9f9f9;
-      overflow-y: auto;
-    }
-
-    .format-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 0;
-    }
-
-    .remove-btn {
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 2px 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .select-row {
-      display: flex;
-      gap: 5px;
-    }
-
-    .select-row select {
-      flex: 2;
-    }
-
-    .select-row button {
-      flex: 1;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 800px) {
-      .left, .middle, .right {
-        width: 100%;
+      .row {
+        display: flex;
+        flex-wrap: wrap;
         margin-bottom: 10px;
       }
-      .select-row {
-        flex-direction: column;
+
+      .column {
+        padding: 0 5px;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <div class="row">
-    <!-- Input Textarea -->
-    <div class="column left">
-      <textarea id="input"></textarea>
-    </div>
+      .left, .right {
+        width: 40%;
+      }
 
-    <!-- Middle Column: Selected formats -->
-    <div class="column middle">  
-      <div id="addedItems" class="format-list"></div>
+      .middle {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-      <div class="select-row">
-        <select id="selectCase">
-          <option value="camel">camelCase</option>
-          <option value="pascal">PascalCase</option>
-          <option value="snake">snake_case</option>
-          <option value="kebab">kebab-case</option>
-          <option value="lower">lowercase</option>
-          <option value="upper">UPPERCASE</option>
-          <option value="title">Title Case</option>
-          <option value="number">Line Number</option> <!-- ✅ renamed -->
-        </select>
-        <button onclick="addFormat()">Add</button>
+      textarea {
+        width: 100%;
+        height: 50vh;
+        padding: 12px 20px;
+        border: 2px solid #2600fc;
+        border-radius: 4px;
+        font-size: 16px;
+        resize: vertical;
+      }
+
+      select, button {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #2600fc;
+        border-radius: 4px;
+      }
+
+      .format-list {
+        height: 50vh;
+        border: 2px solid #2600fc;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 16px;
+        background: #f9f9f9;
+        overflow-y: auto;
+      }
+
+      .format-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+      }
+
+      .remove-btn {
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 2px 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .select-row {
+        display: flex;
+        gap: 5px;
+      }
+
+      .select-row select {
+        flex: 2;
+      }
+
+      .select-row button {
+        flex: 1;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 800px) {
+        .left, .middle, .right {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+        .select-row {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <!-- Input Textarea -->
+      <div class="column left">
+        <textarea id="input"></textarea>
+      </div>
+
+      <!-- Middle Column: Selected formats -->
+      <div class="column middle">
+        <div id="addedItems" class="format-list"></div>
+
+        <div class="select-row">
+          <select id="selectCase">
+            <option value="camel">camelCase</option>
+            <option value="pascal">PascalCase</option>
+            <option value="snake">snake_case</option>
+            <option value="kebab">kebab-case</option>
+            <option value="lower">lowercase</option>
+            <option value="upper">UPPERCASE</option>
+            <option value="title">Title Case</option>
+            <option value="number">Line Number</option>
+            <!-- ✅ renamed -->
+          </select>
+          <button onclick="addFormat()">Add</button>
+        </div>
+      </div>
+
+      <!-- Output Textarea -->
+      <div class="column right">
+        <textarea id="output" readonly></textarea>
       </div>
     </div>
 
-    <!-- Output Textarea -->
-    <div class="column right">
-      <textarea id="output" readonly></textarea>
+    <div class="buttons">
+      <button onclick="generate()">Generate</button>
     </div>
-  </div>
 
-  <div class="buttons">
-    <button onclick="generate()">Generate</button>
-  </div>
+    <script>
+      const $ = (id) => document.getElementById(id);
 
-  <script>
-    const $ = id => document.getElementById(id);
+      const formatLabels = {
+        camel: "camelCase",
+        pascal: "PascalCase",
+        snake: "snake_case",
+        kebab: "kebab-case",
+        lower: "lowercase",
+        upper: "UPPERCASE",
+        title: "Title Case",
+        number: "Line Number", // ✅ display name
+      };
 
-    const formatLabels = {
-      camel: "camelCase",
-      pascal: "PascalCase",
-      snake: "snake_case",
-      kebab: "kebab-case",
-      lower: "lowercase",
-      upper: "UPPERCASE",
-      title: "Title Case",
-      number: "Line Number"  // ✅ display name
-    };
+      let addedFormats = [];
 
-    let addedFormats = [];
+      function addFormat() {
+        const selected = $("selectCase").value;
+        addedFormats.push(selected);
+        updateAddedItems();
+      }
 
-    function addFormat() {
-      const selected = $("selectCase").value;
-      addedFormats.push(selected);
-      updateAddedItems();
-    }
+      function removeFormat(index) {
+        addedFormats.splice(index, 1);
+        updateAddedItems();
+      }
 
-    function removeFormat(index) {
-      addedFormats.splice(index, 1);
-      updateAddedItems();
-    }
-
-    function updateAddedItems() {
-      const container = $("addedItems");
-      container.innerHTML = "";
-      addedFormats.forEach((f, i) => {
-        const div = document.createElement("div");
-        div.className = "format-item";
-        div.innerHTML = `<span>${i + 1}. ${formatLabels[f]}</span>
+      function updateAddedItems() {
+        const container = $("addedItems");
+        container.innerHTML = "";
+        addedFormats.forEach((f, i) => {
+          const div = document.createElement("div");
+          div.className = "format-item";
+          div.innerHTML = `<span>${i + 1}. ${formatLabels[f]}</span>
                          <button class="remove-btn" onclick="removeFormat(${i})">X</button>`;
-        container.appendChild(div);
-      });
-    }
-
-    function formatCase(input, format, lineIndex) {
-      const words = input.replace(/[^a-zA-Z0-9]+/g, " ").trim().split(/\s+/);
-      switch (format) {
-        case "camel":
-          return words.map((w, i) =>
-            i === 0 ? w.toLowerCase() : w[0].toUpperCase() + w.slice(1).toLowerCase()
-          ).join("");
-        case "pascal":
-          return words.map(w =>
-            w[0].toUpperCase() + w.slice(1).toLowerCase()
-          ).join("");
-        case "snake":
-          return words.map(w => w.toLowerCase()).join("_");
-        case "kebab":
-          return words.map(w => w.toLowerCase()).join("-");
-        case "lower":
-          return words.join("").toLowerCase();
-        case "upper":
-          return words.join("").toUpperCase();
-        case "title":
-          return words.map(w =>
-            w[0].toUpperCase() + w.slice(1).toLowerCase()
-          ).join(" ");
-        case "number":  // ✅ Line Number format
-          return `${lineIndex + 1}`;
-        default:
-          return input;
-      }
-    }
-
-    function generate() {
-      const inputText = $("input").value.trim();
-      if (!inputText) {
-        $("output").value = "⚠️ Please enter some text first.";
-        return;
-      }
-
-      if (addedFormats.length === 0) {
-        $("output").value = "⚠️ Please add at least one format.";
-        return;
-      }
-
-      const lines = inputText
-        .split(/\r?\n/)
-        .map(l => l.trim())
-        .filter(l => l);
-
-      let allOutput = "";
-
-      lines.forEach((line, lineIndex) => {
-        addedFormats.forEach((format, idx) => {
-          const formatted = formatCase(line, format, lineIndex);
-          const label = formatLabels[format];
-          allOutput += `${idx + 1}${label}Start ${formatted} ${idx + 1}${label}End\n`;
+          container.appendChild(div);
         });
-        allOutput += "//\n";
-      });
+      }
 
-      $("output").value = allOutput.trim();
-    }
+      function formatCase(input, format, lineIndex) {
+        const words = input
+          .replace(/[^a-zA-Z0-9]+/g, " ")
+          .trim()
+          .split(/\s+/);
+        switch (format) {
+          case "camel":
+            return words
+              .map((w, i) =>
+                i === 0
+                  ? w.toLowerCase()
+                  : w[0].toUpperCase() + w.slice(1).toLowerCase()
+              )
+              .join("");
+          case "pascal":
+            return words
+              .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+              .join("");
+          case "snake":
+            return words.map((w) => w.toLowerCase()).join("_");
+          case "kebab":
+            return words.map((w) => w.toLowerCase()).join("-");
+          case "lower":
+            return words.join("").toLowerCase();
+          case "upper":
+            return words.join("").toUpperCase();
+          case "title":
+            return words
+              .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+              .join(" ");
+          case "number": // ✅ Line Number format
+            return `${lineIndex + 1}`;
+          default:
+            return input;
+        }
+      }
 
-    // Default input fields
-    $("input").value = `Emp_Full_Name ,\nemp_full_name ,\nEMP_FULL_NAME ,\nEMP_AGE ,\nEmp_Name_2 ,\nEmp_AGE_2 ,\n`;
+      function generate() {
+        const inputText = $("input").value.trim();
+        if (!inputText) {
+          $("output").value = "⚠️ Please enter some text first.";
+          return;
+        }
 
-    // ✅ Preload all formats by default
-    window.onload = function () {
-      addedFormats = ["camel", "pascal", "snake", "kebab", "lower", "upper", "title", "number"];
-      updateAddedItems();
-    };
-  </script>
+        if (addedFormats.length === 0) {
+          $("output").value = "⚠️ Please add at least one format.";
+          return;
+        }
 
-</body>
+        const lines = inputText
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter((l) => l);
+
+        let allOutput = "";
+
+        lines.forEach((line, lineIndex) => {
+          addedFormats.forEach((format, idx) => {
+            const formatted = formatCase(line, format, lineIndex);
+            const label = formatLabels[format];
+            allOutput += `${idx + 1}${label}Start ${formatted} ${
+              idx + 1
+            }${label}End\n`;
+          });
+          allOutput += "//\n";
+        });
+
+        $("output").value = allOutput.trim();
+      }
+
+      // Default input fields
+      $(
+        "input"
+      ).value = `Emp_Full_Name ,\nemp_full_name ,\nEMP_FULL_NAME ,\nEMP_AGE ,\nEmp_Name_2 ,\nEmp_AGE_2 ,\n`;
+
+      // ✅ Preload all formats by default
+      window.onload = function () {
+        addedFormats = [
+          "camel",
+          "pascal",
+          "snake",
+          "kebab",
+          "lower",
+          "upper",
+          "title",
+          "number",
+        ];
+        updateAddedItems();
+      };
+    </script>
+  </body>
 </html>
