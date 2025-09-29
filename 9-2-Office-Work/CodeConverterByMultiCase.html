@@ -46,6 +46,26 @@
         font-size: 16px;
         border: 2px solid #2600fc;
         border-radius: 4px;
+        background-color: #ffffff;
+        color: #2600fc;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      /* Hover effect */
+      select:hover,
+      button:hover {
+        background-color: #2600fc;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(38, 0, 252, 0.3);
+      }
+
+      /* Click/active effect */
+      select:active,
+      button:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 4px rgba(38, 0, 252, 0.5) inset;
       }
 
       .format-list {
@@ -92,6 +112,38 @@
         display: flex;
         justify-content: center;
         margin-top: 10px;
+        gap: 10px;
+      }
+
+      .output-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 2px solid #2600fc;
+        border-radius: 4px;
+        background-color: #ffffff;
+        color: #2600fc;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .copy-btn:hover {
+        background-color: #2600fc;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(38, 0, 252, 0.3);
+      }
+
+      .copy-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 4px rgba(38, 0, 252, 0.5) inset;
       }
 
       @media (max-width: 800px) {
@@ -128,15 +180,17 @@
             <option value="upper">UPPERCASE</option>
             <option value="title">Title Case</option>
             <option value="number">Line Number</option>
-            <!-- ✅ renamed -->
           </select>
           <button onclick="addFormat()">Add</button>
         </div>
       </div>
 
-      <!-- Output Textarea -->
+      <!-- Output Column -->
       <div class="column right">
-        <textarea id="output" readonly></textarea>
+        <div class="output-container">
+          <textarea id="output" readonly></textarea>
+          <button class="copy-btn" onclick="copyOutput()">Copy</button>
+        </div>
       </div>
     </div>
 
@@ -155,7 +209,7 @@
         lower: "lowercase",
         upper: "UPPERCASE",
         title: "Title Case",
-        number: "Line Number", // ✅ display name
+        number: "Line Number",
       };
 
       let addedFormats = [];
@@ -213,7 +267,7 @@
             return words
               .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
               .join(" ");
-          case "number": // ✅ Line Number format
+          case "number":
             return `${lineIndex + 1}`;
           default:
             return input;
@@ -251,6 +305,18 @@
         });
 
         $("output").value = allOutput.trim();
+      }
+
+      // ✅ Copy output function
+      function copyOutput() {
+        const output = $("output");
+        output.select();
+        output.setSelectionRange(0, 99999); // for mobile
+        navigator.clipboard.writeText(output.value).then(() => {
+          const btn = document.querySelector(".copy-btn");
+          btn.textContent = "Copied!";
+          setTimeout(() => (btn.textContent = "Copy"), 1500);
+        });
       }
 
       // Default input fields
