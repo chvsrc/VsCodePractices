@@ -57,7 +57,8 @@
       }
 
       #menu-btn,
-      #theme-toggle {
+      #theme-toggle,
+      #reload-btn {
         background: rgba(255, 255, 255, 0.2);
         border: none;
         color: #fff;
@@ -69,7 +70,8 @@
       }
 
       #menu-btn:hover,
-      #theme-toggle:hover {
+      #theme-toggle:hover,
+      #reload-btn:hover {
         background: rgba(255, 255, 255, 0.35);
       }
 
@@ -131,18 +133,22 @@
       .section-header:hover {
         background: rgba(255, 122, 24, 0.15);
       }
+
       .arrow {
         transition: transform 0.3s ease;
       }
+
       .section.open .arrow {
         transform: rotate(-180deg);
       }
+
       .section ul {
         list-style: none;
         padding: 0 0 10px 25px;
         margin: 0;
         display: none;
       }
+
       .section.open ul {
         display: block;
       }
@@ -291,6 +297,7 @@
       <button id="menu-btn">☰</button>
       <h1>CourseViewerApp</h1>
       <button id="theme-toggle">☀️</button>
+      <button id="reload-btn">🔄</button>
     </header>
 
     <div id="app-container">
@@ -320,7 +327,9 @@
             📂 Choose a folder to begin learning.
           </p>
         </div>
-        <footer>© 2025 CourseViewerApp • Sunset Glass Theme 🧡</footer>
+        <footer>
+          © 2025 CourseViewerApp • Sunset Glass Theme 🧡
+        </footer>
       </div>
     </div>
 
@@ -334,12 +343,13 @@
       const themeToggle = document.getElementById("theme-toggle");
       const menuBtn = document.getElementById("menu-btn");
       const sidebar = document.getElementById("sidebar");
+      const reloadBtn = document.getElementById("reload-btn");
 
       let allLessons = [];
       let currentIndex = -1;
       const videoFormats = ["mp4", "webm", "ogg", "mov", "mkv", "avi", "flv"];
+      const subtitleFormats = ["vtt"];
 
-      // Default dark mode
       if (!localStorage.getItem("theme")) localStorage.setItem("theme", "dark");
       if (localStorage.getItem("theme") === "light")
         document.body.classList.add("light");
@@ -362,7 +372,6 @@
           : "☀️";
       }
 
-      // Folder load
       picker.addEventListener("change", (e) => {
         const files = [...e.target.files];
         const grouped = {};
@@ -370,11 +379,17 @@
           const parts = f.webkitRelativePath.split("/");
           const folder = parts[1] || "Root";
           const name = parts.slice(2).join("/");
-          if (
-            name.toLowerCase().endsWith(".srt") ||
-            name.toLowerCase().includes(".ds_store")
-          )
-            return;
+
+          // Skip .str files entirely and ignore them in the sidebar
+          if (name.toLowerCase().endsWith(".str")) return;
+
+          // Skip .vtt files from sidebar display
+          if (name.toLowerCase().endsWith(".vtt")) {
+            f.isDisplay = false; // Set isDisplay to false for .vtt files
+          } else {
+            f.isDisplay = true; // Set isDisplay to true for other files
+          }
+
           if (!grouped[folder]) grouped[folder] = [];
           grouped[folder].push({ name, file: f });
         });
@@ -390,21 +405,24 @@
             sec.innerHTML = `<div class="section-header"><span>${folder}</span><span class="arrow">▼</span></div>`;
             const ul = document.createElement("ul");
             grouped[folder].forEach((item) => {
-              const li = document.createElement("li");
-              const a = document.createElement("a");
-              a.href = "#";
-              a.textContent = item.name;
-              a.onclick = () => {
-                currentIndex = allLessons.findIndex(
-                  (x) => x.file === item.file
-                );
-                highlightCurrentLesson(a);
-                showFile(item.file, item.name);
-                sidebar.classList.remove("open");
-              };
-              li.appendChild(a);
-              ul.appendChild(li);
-              allLessons.push({ folder, name: item.name, file: item.file });
+              // Only add items with isDisplay true to the sidebar
+              if (item.file.isDisplay) {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href = "#";
+                a.textContent = item.name;
+                a.onclick = () => {
+                  currentIndex = allLessons.findIndex(
+                    (x) => x.file === item.file
+                  );
+                  highlightCurrentLesson(a);
+                  showFile(item.file, item.name);
+                  sidebar.classList.remove("open");
+                };
+                li.appendChild(a);
+                ul.appendChild(li);
+                allLessons.push({ folder, name: item.name, file: item.file });
+              }
             });
             sec.appendChild(ul);
             sec.querySelector(".section-header").onclick = () =>
@@ -413,28 +431,43 @@
           });
       });
 
-      // Highlight current lesson
       function highlightCurrentLesson(selectedLink) {
         document
           .querySelectorAll("#sections a")
           .forEach((link) => link.classList.remove("active"));
         selectedLink.classList.add("active");
+        updateNavigation();
       }
 
-      // Show file
+      function updateNavigation() {
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= allLessons.length - 1;
+      }
+
       function showFile(file, name) {
         viewer.innerHTML = "";
         viewerTitle.textContent = name;
         const ext = name.split(".").pop().toLowerCase();
         const isLight = document.body.classList.contains("light");
 
-        prevBtn.disabled = currentIndex <= 0;
-        nextBtn.disabled = currentIndex >= allLessons.length - 1;
-
         if (videoFormats.includes(ext)) {
           const vid = document.createElement("video");
           vid.src = URL.createObjectURL(file);
           vid.controls = true;
+
+          // Check for associated .vtt file and add as subtitles
+          const subtitleFile = allLessons.find(
+            (item) => item.name === name.replace(/\.[^/.]+$/, ".vtt")
+          );
+          if (subtitleFile) {
+            const track = document.createElement("track");
+            track.kind = "subtitles";
+            track.label = "English";
+            track.src = URL.createObjectURL(subtitleFile.file);
+            track.default = true;
+            vid.appendChild(track);
+          }
+
           vid.style.minHeight = "66vh";
           viewer.appendChild(vid);
         } else if (["html", "htm"].includes(ext)) {
@@ -483,20 +516,30 @@
         }
       }
 
-      // Navigation
       prevBtn.onclick = () => {
         if (currentIndex > 0) {
           currentIndex--;
           const item = allLessons[currentIndex];
+          highlightCurrentLesson(
+            document.querySelectorAll("#sections a")[currentIndex]
+          );
           showFile(item.file, item.name);
         }
       };
+
       nextBtn.onclick = () => {
         if (currentIndex < allLessons.length - 1) {
           currentIndex++;
           const item = allLessons[currentIndex];
+          highlightCurrentLesson(
+            document.querySelectorAll("#sections a")[currentIndex]
+          );
           showFile(item.file, item.name);
         }
+      };
+
+      reloadBtn.onclick = function () {
+        location.reload(true);
       };
     </script>
   </body>
