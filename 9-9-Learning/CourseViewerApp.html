@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CourseViewerApp - Sunset Glass Theme</title>
+    <style>
+      :root {
+        --primary: #ff7a18;
+        --secondary: #ffae42;
+        --bg: #0d1117;
+        --text: #f8f9fa;
+        --card-bg: #1a1f29;
+        --active-bg: linear-gradient(90deg, #ff7a18, #ffae42);
+        --active-text: #ffffff;
+      }
+
+      body.light {
+        --bg: #f9f9f9;
+        --text: #1a1a1a;
+        --card-bg: #ffffff;
+        --primary: #e85d04;
+        --secondary: #ffba08;
+        --active-bg: linear-gradient(90deg, #e85d04, #ffba08);
+        --active-text: #fff;
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      header h1 {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: 600;
+      }
+
+      #menu-btn,
+      #theme-toggle {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #fff;
+        border-radius: 10px;
+        padding: 6px 10px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+      }
+
+      #menu-btn:hover,
+      #theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+
+      #app-container {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+      }
+
+      #sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 270px;
+        height: 100%;
+        background: var(--card-bg);
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 10;
+        overflow-y: auto;
+      }
+
+      #sidebar.open {
+        transform: translateX(0);
+      }
+
+      #folder-input {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      #folderPicker {
+        padding: 8px;
+        border-radius: 8px;
+        border: 1px solid #555;
+        background: var(--bg);
+        color: var(--text);
+        width: 100%;
+      }
+
+      .section {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .section-header {
+        padding: 12px 18px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        color: var(--primary);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .section-header:hover {
+        background: rgba(255, 122, 24, 0.15);
+      }
+      .arrow {
+        transition: transform 0.3s ease;
+      }
+      .section.open .arrow {
+        transform: rotate(-180deg);
+      }
+      .section ul {
+        list-style: none;
+        padding: 0 0 10px 25px;
+        margin: 0;
+        display: none;
+      }
+      .section.open ul {
+        display: block;
+      }
+
+      .section li a {
+        display: block;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        padding: 6px 10px;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s, transform 0.2s;
+      }
+
+      .section li a:hover {
+        background: rgba(255, 122, 24, 0.15);
+        transform: translateX(4px);
+      }
+
+      .section li a.active {
+        background: var(--active-bg);
+        color: var(--active-text);
+        font-weight: 500;
+        box-shadow: 0 0 10px rgba(255, 122, 24, 0.4);
+      }
+
+      #main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        width: 100%;
+      }
+
+      #viewer-header {
+        padding: 12px 15px;
+        background: var(--card-bg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      #viewer-title {
+        flex: 1;
+        font-size: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #nav-buttons button {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 6px 12px;
+        margin-left: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      #nav-buttons button:hover {
+        background: var(--secondary);
+      }
+
+      #nav-buttons button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      #viewer {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: linear-gradient(180deg, #0d1117, #1a1f29);
+        min-height: 66vh;
+      }
+
+      #viewer video,
+      #viewer iframe {
+        width: 100%;
+        max-width: 900px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        animation: fadeIn 0.3s ease;
+        min-height: 66vh;
+      }
+
+      #viewer pre {
+        background: var(--card-bg);
+        padding: 18px;
+        border-radius: 8px;
+        width: 100%;
+        line-height: 1.5;
+        font-size: 0.9rem;
+        overflow-x: auto;
+        color: var(--text);
+        animation: fadeIn 0.3s ease;
+        min-height: 66vh;
+      }
+
+      footer {
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--text);
+        padding: 10px;
+        background: var(--card-bg);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (min-width: 768px) {
+        #menu-btn {
+          display: none;
+        }
+        #app-container {
+          flex-direction: row;
+        }
+        #sidebar {
+          position: relative;
+          transform: translateX(0);
+          width: 280px;
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button id="menu-btn">☰</button>
+      <h1>CourseViewerApp</h1>
+      <button id="theme-toggle">☀️</button>
+    </header>
+
+    <div id="app-container">
+      <div id="sidebar">
+        <div id="folder-input">
+          <input
+            type="file"
+            id="folderPicker"
+            webkitdirectory
+            directory
+            multiple
+          />
+        </div>
+        <div id="sections"></div>
+      </div>
+
+      <div id="main">
+        <div id="viewer-header">
+          <h2 id="viewer-title">Select a lesson</h2>
+          <div id="nav-buttons">
+            <button id="prevBtn" disabled>Prev</button>
+            <button id="nextBtn" disabled>Next</button>
+          </div>
+        </div>
+        <div id="viewer">
+          <p style="text-align: center; color: var(--text); opacity: 0.7">
+            📂 Choose a folder to begin learning.
+          </p>
+        </div>
+        <footer>© 2025 CourseViewerApp • Sunset Glass Theme 🧡</footer>
+      </div>
+    </div>
+
+    <script>
+      const picker = document.getElementById("folderPicker");
+      const sectionsDiv = document.getElementById("sections");
+      const viewer = document.getElementById("viewer");
+      const viewerTitle = document.getElementById("viewer-title");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const themeToggle = document.getElementById("theme-toggle");
+      const menuBtn = document.getElementById("menu-btn");
+      const sidebar = document.getElementById("sidebar");
+
+      let allLessons = [];
+      let currentIndex = -1;
+      const videoFormats = ["mp4", "webm", "ogg", "mov", "mkv", "avi", "flv"];
+
+      // Default dark mode
+      if (!localStorage.getItem("theme")) localStorage.setItem("theme", "dark");
+      if (localStorage.getItem("theme") === "light")
+        document.body.classList.add("light");
+      updateThemeButton();
+
+      menuBtn.onclick = () => sidebar.classList.toggle("open");
+
+      themeToggle.onclick = () => {
+        document.body.classList.toggle("light");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("light") ? "light" : "dark"
+        );
+        updateThemeButton();
+      };
+
+      function updateThemeButton() {
+        themeToggle.textContent = document.body.classList.contains("light")
+          ? "🌙"
+          : "☀️";
+      }
+
+      // Folder load
+      picker.addEventListener("change", (e) => {
+        const files = [...e.target.files];
+        const grouped = {};
+        files.forEach((f) => {
+          const parts = f.webkitRelativePath.split("/");
+          const folder = parts[1] || "Root";
+          const name = parts.slice(2).join("/");
+          if (
+            name.toLowerCase().endsWith(".srt") ||
+            name.toLowerCase().includes(".ds_store")
+          )
+            return;
+          if (!grouped[folder]) grouped[folder] = [];
+          grouped[folder].push({ name, file: f });
+        });
+
+        sectionsDiv.innerHTML = "";
+        allLessons = [];
+        Object.keys(grouped)
+          .sort()
+          .forEach((folder) => {
+            grouped[folder].sort((a, b) => a.name.localeCompare(b.name));
+            const sec = document.createElement("div");
+            sec.className = "section";
+            sec.innerHTML = `<div class="section-header"><span>${folder}</span><span class="arrow">▼</span></div>`;
+            const ul = document.createElement("ul");
+            grouped[folder].forEach((item) => {
+              const li = document.createElement("li");
+              const a = document.createElement("a");
+              a.href = "#";
+              a.textContent = item.name;
+              a.onclick = () => {
+                currentIndex = allLessons.findIndex(
+                  (x) => x.file === item.file
+                );
+                highlightCurrentLesson(a);
+                showFile(item.file, item.name);
+                sidebar.classList.remove("open");
+              };
+              li.appendChild(a);
+              ul.appendChild(li);
+              allLessons.push({ folder, name: item.name, file: item.file });
+            });
+            sec.appendChild(ul);
+            sec.querySelector(".section-header").onclick = () =>
+              sec.classList.toggle("open");
+            sectionsDiv.appendChild(sec);
+          });
+      });
+
+      // Highlight current lesson
+      function highlightCurrentLesson(selectedLink) {
+        document
+          .querySelectorAll("#sections a")
+          .forEach((link) => link.classList.remove("active"));
+        selectedLink.classList.add("active");
+      }
+
+      // Show file
+      function showFile(file, name) {
+        viewer.innerHTML = "";
+        viewerTitle.textContent = name;
+        const ext = name.split(".").pop().toLowerCase();
+        const isLight = document.body.classList.contains("light");
+
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= allLessons.length - 1;
+
+        if (videoFormats.includes(ext)) {
+          const vid = document.createElement("video");
+          vid.src = URL.createObjectURL(file);
+          vid.controls = true;
+          vid.style.minHeight = "66vh";
+          viewer.appendChild(vid);
+        } else if (["html", "htm"].includes(ext)) {
+          const iframe = document.createElement("iframe");
+          iframe.src = URL.createObjectURL(file);
+          iframe.style.width = "100%";
+          iframe.style.minHeight = "66vh";
+          iframe.style.border = "1px solid rgba(255,255,255,0.15)";
+          iframe.style.borderRadius = "12px";
+          iframe.style.backdropFilter = "blur(14px)";
+          iframe.style.background = isLight
+            ? "rgba(255,255,255,0.7)"
+            : "rgba(30,30,30,0.4)";
+          iframe.style.boxShadow = "0 8px 32px rgba(0,0,0,0.5)";
+          iframe.onload = () => {
+            try {
+              const doc =
+                iframe.contentDocument || iframe.contentWindow.document;
+              const style = doc.createElement("style");
+              style.textContent = isLight
+                ? `body{background:rgba(255,255,255,0.7)!important;color:#111!important;} a{color:#e85d04!important;}`
+                : `body{background:rgba(20,20,20,0.4)!important;color:#fff!important;} 
+         a{color:#ffae42!important;} *{color:#fff!important;}`;
+              doc.head.appendChild(style);
+            } catch (err) {
+              console.warn("Cannot style iframe content:", err);
+            }
+          };
+          viewer.appendChild(iframe);
+        } else if (["pdf"].includes(ext)) {
+          const iframe = document.createElement("iframe");
+          iframe.src = URL.createObjectURL(file) + "#toolbar=1";
+          iframe.style.minHeight = "66vh";
+          viewer.appendChild(iframe);
+        } else if (["txt", "url", "js", "css"].includes(ext)) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const pre = document.createElement("pre");
+            pre.textContent = reader.result;
+            pre.style.minHeight = "66vh";
+            viewer.appendChild(pre);
+          };
+          reader.readAsText(file);
+        } else {
+          viewer.innerHTML = `<p style="text-align:center;color:var(--text);opacity:0.8;">⚠️ Unsupported file type.</p>`;
+        }
+      }
+
+      // Navigation
+      prevBtn.onclick = () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          const item = allLessons[currentIndex];
+          showFile(item.file, item.name);
+        }
+      };
+      nextBtn.onclick = () => {
+        if (currentIndex < allLessons.length - 1) {
+          currentIndex++;
+          const item = allLessons[currentIndex];
+          showFile(item.file, item.name);
+        }
+      };
+    </script>
+  </body>
+</html>
