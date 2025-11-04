@@ -3,314 +3,230 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CourseViewerApp - Sunset Glass Theme</title>
+    <title>CourseViewerApp • Warm Sunset Glass</title>
     <style>
       :root {
-        --primary: #ff7a18;
-        --secondary: #ffae42;
-        --bg: #0d1117;
-        --text: #f8f9fa;
-        --card-bg: #1a1f29;
-        --active-bg: linear-gradient(90deg, #ff7a18, #ffae42);
-        --active-text: #ffffff;
+        --bg1: #ff7e5f;
+        --bg2: #feb47b;
+        --accent: #ff9a4d;
+        --glass-light: rgba(255, 255, 255, 0.2);
+        --glass-dark: rgba(30, 20, 10, 0.55);
+        --text-light: #fff6f0;
+        --text-dark: #2c2c2c;
+        --shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        --highlight: rgba(255, 180, 100, 0.25);
       }
-
-      body.light {
-        --bg: #f9f9f9;
-        --text: #1a1a1a;
-        --card-bg: #ffffff;
-        --primary: #e85d04;
-        --secondary: #ffba08;
-        --active-bg: linear-gradient(90deg, #e85d04, #ffba08);
-        --active-text: #fff;
-      }
-
       * {
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-        transition: background 0.3s, color 0.3s;
       }
-
       body {
         margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, var(--bg1), var(--bg2));
         height: 100vh;
-        background: var(--bg);
-        color: var(--text);
         display: flex;
         flex-direction: column;
+        color: var(--text-light);
+        overflow: hidden;
       }
-
       header {
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        color: #fff;
-        padding: 15px 20px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        justify-content: space-between;
+        background: var(--glass-dark);
+        backdrop-filter: blur(10px);
+        padding: 8px 14px;
+        flex-shrink: 0;
+        box-shadow: var(--shadow);
+        border-bottom: 1px solid var(--highlight);
       }
-
       header h1 {
-        font-size: 1.2rem;
         margin: 0;
-        font-weight: 600;
+        font-size: 1.2em;
+        color: var(--accent);
       }
-
-      #menu-btn,
-      #theme-toggle,
-      #reload-btn {
-        background: rgba(255, 255, 255, 0.2);
+      header button {
+        background: none;
         border: none;
-        color: #fff;
-        border-radius: 10px;
-        padding: 6px 10px;
-        font-size: 0.9rem;
+        color: var(--text-light);
+        font-size: 1.3em;
         cursor: pointer;
-        backdrop-filter: blur(5px);
       }
-
-      #menu-btn:hover,
-      #theme-toggle:hover,
-      #reload-btn:hover {
-        background: rgba(255, 255, 255, 0.35);
-      }
-
       #app-container {
         flex: 1;
         display: flex;
+        min-height: 0;
         overflow: hidden;
-        position: relative;
       }
-
       #sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 270px;
-        height: 100%;
-        background: var(--card-bg);
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        z-index: 10;
-        overflow-y: auto;
-      }
-
-      #sidebar.open {
-        transform: translateX(0);
-      }
-
-      #folder-input {
-        padding: 15px;
-        text-align: center;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      #folderPicker {
-        padding: 8px;
-        border-radius: 8px;
-        border: 1px solid #555;
-        background: var(--bg);
-        color: var(--text);
-        width: 100%;
-      }
-
-      .section {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      .section-header {
-        padding: 12px 18px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        width: 260px;
+        background: var(--glass-light);
+        backdrop-filter: blur(14px);
+        border-right: 2px solid var(--highlight);
+        padding: 10px;
+        color: var(--text-dark);
         font-weight: 500;
-        color: var(--primary);
-        background: rgba(255, 255, 255, 0.02);
+        overflow-y: auto;
+        box-shadow: var(--shadow);
+        transition: width 0.3s ease;
       }
-
-      .section-header:hover {
-        background: rgba(255, 122, 24, 0.15);
+      #sidebar.hidden {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
       }
-
-      .arrow {
-        transition: transform 0.3s ease;
+      .folder {
+        margin-left: 8px;
       }
-
-      .section.open .arrow {
-        transform: rotate(-180deg);
-      }
-
-      .section ul {
+      .folder > summary {
         list-style: none;
-        padding: 0 0 10px 25px;
-        margin: 0;
+        cursor: pointer;
+        padding: 4px 6px;
+        border-radius: 6px;
+      }
+      .folder > summary:hover {
+        background: var(--highlight);
+        color: #fff;
+      }
+      .folder summary::-webkit-details-marker {
         display: none;
       }
-
-      .section.open ul {
+      .file-btn {
         display: block;
+        text-align: left;
+        margin: 2px 0 2px 16px;
+        padding: 5px 7px;
+        border: none;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        cursor: pointer;
+        color: #2a1a1a;
+        width: calc(100%-20px);
+        font-size: 0.9em;
       }
-
-      .section li a {
-        display: block;
-        color: var(--text);
-        text-decoration: none;
-        font-size: 0.9rem;
-        padding: 6px 10px;
-        border-radius: 8px;
-        transition: background 0.2s, color 0.2s, transform 0.2s;
+      .file-btn:hover {
+        background: var(--accent);
+        color: #fff;
       }
-
-      .section li a:hover {
-        background: rgba(255, 122, 24, 0.15);
-        transform: translateX(4px);
-      }
-
-      .section li a.active {
-        background: var(--active-bg);
-        color: var(--active-text);
-        font-weight: 500;
-        box-shadow: 0 0 10px rgba(255, 122, 24, 0.4);
+      .file-btn.active {
+        background: var(--accent);
+        color: #fff;
       }
 
       #main {
         flex: 1;
         display: flex;
         flex-direction: column;
-        background: var(--bg);
-        width: 100%;
+        background: var(--glass-dark);
+        backdrop-filter: blur(12px);
+        color: var(--text-light);
+        min-height: 0;
       }
-
       #viewer-header {
-        padding: 12px 15px;
-        background: var(--card-bg);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        flex-shrink: 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 5;
+        padding: 6px 12px;
+        background: var(--glass-dark);
+        border-bottom: 1px solid var(--highlight);
+        box-shadow: var(--shadow);
       }
-
-      #viewer-title {
-        flex: 1;
-        font-size: 1rem;
-        overflow: hidden;
+      #viewer-header h2 {
+        font-size: 0.95em;
+        margin: 0;
         text-overflow: ellipsis;
+        overflow: hidden;
         white-space: nowrap;
       }
-
-      #nav-buttons button {
-        background: var(--primary);
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        padding: 6px 12px;
-        margin-left: 6px;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-
-      #nav-buttons button:hover {
-        background: var(--secondary);
-      }
-
-      #nav-buttons button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-
       #viewer {
         flex: 1;
-        overflow-y: auto;
+        overflow: auto;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
-        background: linear-gradient(180deg, #0d1117, #1a1f29);
-        min-height: 66vh;
+        flex-direction: column;
+        padding: 12px;
       }
-
-      #viewer video,
-      #viewer iframe {
-        width: 100%;
-        max-width: 900px;
-        border-radius: 12px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-        animation: fadeIn 0.3s ease;
-        min-height: 66vh;
-      }
-
-      #viewer pre {
-        background: var(--card-bg);
-        padding: 18px;
-        border-radius: 8px;
-        width: 100%;
-        line-height: 1.5;
-        font-size: 0.9rem;
-        overflow-x: auto;
-        color: var(--text);
-        animation: fadeIn 0.3s ease;
-        min-height: 66vh;
-      }
-
       footer {
+        flex-shrink: 0;
         text-align: center;
-        font-size: 0.8rem;
-        color: var(--text);
-        padding: 10px;
-        background: var(--card-bg);
+        padding: 8px;
+        font-size: 0.85em;
+        background: var(--glass-dark);
+        color: #fff;
+        border-top: 1px solid var(--highlight);
+        box-shadow: var(--shadow);
       }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      #nav-buttons button {
+        margin: 0 3px;
+        padding: 5px 10px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.85em;
+        box-shadow: var(--shadow);
       }
-
-      @media (min-width: 768px) {
-        #menu-btn {
-          display: none;
+      video {
+        max-width: 100%;
+        max-height: 75vh;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+      }
+      .cc-toggle {
+        margin-top: 8px;
+        padding: 4px 10px;
+        border: none;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        font-size: 0.85em;
+        box-shadow: var(--shadow);
+        transition: 0.3s ease;
+      }
+      .cc-toggle.active {
+        background: #ffd59f;
+        color: #3a2a1a;
+        box-shadow: 0 0 10px rgba(255, 180, 100, 0.7);
+      }
+      @media (max-height: 750px) {
+        header h1 {
+          font-size: 1.05em;
         }
-        #app-container {
-          flex-direction: row;
+        #viewer-header h2 {
+          font-size: 0.9em;
         }
-        #sidebar {
-          position: relative;
-          transform: translateX(0);
-          width: 280px;
-          box-shadow: none;
+        #nav-buttons button {
+          font-size: 0.8em;
+          padding: 4px 8px;
+        }
+        video {
+          max-height: 70vh;
         }
       }
     </style>
   </head>
+
   <body>
     <header>
       <button id="menu-btn">☰</button>
-      <h1>CourseViewerApp</h1>
-      <button id="theme-toggle">☀️</button>
+      <h1>CourseViewerApp • Warm Sunset Glass</h1>
       <button id="reload-btn">🔄</button>
     </header>
 
     <div id="app-container">
       <div id="sidebar">
-        <div id="folder-input">
-          <input
-            type="file"
-            id="folderPicker"
-            webkitdirectory
-            directory
-            multiple
-          />
-        </div>
+        <input
+          type="file"
+          id="folderPicker"
+          webkitdirectory
+          directory
+          multiple
+        />
         <div id="sections"></div>
       </div>
 
@@ -323,224 +239,195 @@
           </div>
         </div>
         <div id="viewer">
-          <p style="text-align: center; color: var(--text); opacity: 0.7">
+          <p style="opacity: 0.8; text-align: center">
             📂 Choose a folder to begin learning.
           </p>
         </div>
-        <footer>
-          © 2025 CourseViewerApp • Sunset Glass Theme 🧡
-        </footer>
+        <footer>© 2025 CourseViewerApp • Warm Sunset Glass 🌇</footer>
       </div>
     </div>
 
     <script>
-      const picker = document.getElementById("folderPicker");
+      const folderPicker = document.getElementById("folderPicker");
       const sectionsDiv = document.getElementById("sections");
       const viewer = document.getElementById("viewer");
       const viewerTitle = document.getElementById("viewer-title");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const themeToggle = document.getElementById("theme-toggle");
       const menuBtn = document.getElementById("menu-btn");
       const sidebar = document.getElementById("sidebar");
       const reloadBtn = document.getElementById("reload-btn");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
 
-      let allLessons = [];
-      let currentIndex = -1;
-      const videoFormats = ["mp4", "webm", "ogg", "mov", "mkv", "avi", "flv"];
-      const subtitleFormats = ["vtt"];
+      let allFiles = [],
+        flatLessons = [],
+        currentIndex = -1;
+      const videoExts = ["mp4", "webm", "ogg", "mov", "mkv", "avi", "flv"];
 
-      if (!localStorage.getItem("theme")) localStorage.setItem("theme", "dark");
-      if (localStorage.getItem("theme") === "light")
-        document.body.classList.add("light");
-      updateThemeButton();
-
-      menuBtn.onclick = () => sidebar.classList.toggle("open");
-
-      themeToggle.onclick = () => {
-        document.body.classList.toggle("light");
-        localStorage.setItem(
-          "theme",
-          document.body.classList.contains("light") ? "light" : "dark"
-        );
-        updateThemeButton();
-      };
-
-      function updateThemeButton() {
-        themeToggle.textContent = document.body.classList.contains("light")
-          ? "🌙"
-          : "☀️";
+      function naturalSort(a, b) {
+        return a.localeCompare(b, undefined, {
+          numeric: true,
+          sensitivity: "base",
+        });
       }
 
-      picker.addEventListener("change", (e) => {
-        const files = [...e.target.files];
-        const grouped = {};
-        files.forEach((f) => {
-          const parts = f.webkitRelativePath.split("/");
-          const folder = parts[1] || "Root";
-          const name = parts.slice(2).join("/");
+      folderPicker.addEventListener("change", (e) => {
+        allFiles = Array.from(e.target.files);
 
-          // Skip .str files entirely and ignore them in the sidebar
-          if (name.toLowerCase().endsWith(".str")) return;
+        // 🔥 Hide .srt, .vtt, and .DS_Store from sidebar
+        const visibleFiles = allFiles.filter(
+          (f) => !f.name.match(/\.(vtt|srt)$/i) && f.name !== ".DS_Store"
+        );
 
-          // Skip .vtt files from sidebar display
-          if (name.toLowerCase().endsWith(".vtt")) {
-            f.isDisplay = false; // Set isDisplay to false for .vtt files
-          } else {
-            f.isDisplay = true; // Set isDisplay to true for other files
-          }
-
-          if (!grouped[folder]) grouped[folder] = [];
-          grouped[folder].push({ name, file: f });
-        });
-
+        flatLessons = [];
+        const tree = buildTree(visibleFiles);
         sectionsDiv.innerHTML = "";
-        allLessons = [];
-        Object.keys(grouped)
-          .sort()
-          .forEach((folder) => {
-            grouped[folder].sort((a, b) => a.name.localeCompare(b.name));
-            const sec = document.createElement("div");
-            sec.className = "section";
-            sec.innerHTML = `<div class="section-header"><span>${folder}</span><span class="arrow">▼</span></div>`;
-            const ul = document.createElement("ul");
-            grouped[folder].forEach((item) => {
-              // Only add items with isDisplay true to the sidebar
-              if (item.file.isDisplay) {
-                const li = document.createElement("li");
-                const a = document.createElement("a");
-                a.href = "#";
-                a.textContent = item.name;
-                a.onclick = () => {
-                  currentIndex = allLessons.findIndex(
-                    (x) => x.file === item.file
-                  );
-                  highlightCurrentLesson(a);
-                  showFile(item.file, item.name);
-                  sidebar.classList.remove("open");
-                };
-                li.appendChild(a);
-                ul.appendChild(li);
-                allLessons.push({ folder, name: item.name, file: item.file });
-              }
-            });
-            sec.appendChild(ul);
-            sec.querySelector(".section-header").onclick = () =>
-              sec.classList.toggle("open");
-            sectionsDiv.appendChild(sec);
-          });
+        sectionsDiv.appendChild(renderTree(tree));
       });
 
-      function highlightCurrentLesson(selectedLink) {
-        document
-          .querySelectorAll("#sections a")
-          .forEach((link) => link.classList.remove("active"));
-        selectedLink.classList.add("active");
-        updateNavigation();
-      }
-
-      function updateNavigation() {
-        prevBtn.disabled = currentIndex <= 0;
-        nextBtn.disabled = currentIndex >= allLessons.length - 1;
-      }
-
-      function showFile(file, name) {
-        viewer.innerHTML = "";
-        viewerTitle.textContent = name;
-        const ext = name.split(".").pop().toLowerCase();
-        const isLight = document.body.classList.contains("light");
-
-        if (videoFormats.includes(ext)) {
-          const vid = document.createElement("video");
-          vid.src = URL.createObjectURL(file);
-          vid.controls = true;
-
-          // Check for associated .vtt file and add as subtitles
-          const subtitleFile = allLessons.find(
-            (item) => item.name === name.replace(/\.[^/.]+$/, ".vtt")
-          );
-          if (subtitleFile) {
-            const track = document.createElement("track");
-            track.kind = "subtitles";
-            track.label = "English";
-            track.src = URL.createObjectURL(subtitleFile.file);
-            track.default = true;
-            vid.appendChild(track);
-          }
-
-          vid.style.minHeight = "66vh";
-          viewer.appendChild(vid);
-        } else if (["html", "htm"].includes(ext)) {
-          const iframe = document.createElement("iframe");
-          iframe.src = URL.createObjectURL(file);
-          iframe.style.width = "100%";
-          iframe.style.minHeight = "66vh";
-          iframe.style.border = "1px solid rgba(255,255,255,0.15)";
-          iframe.style.borderRadius = "12px";
-          iframe.style.backdropFilter = "blur(14px)";
-          iframe.style.background = isLight
-            ? "rgba(255,255,255,0.7)"
-            : "rgba(30,30,30,0.4)";
-          iframe.style.boxShadow = "0 8px 32px rgba(0,0,0,0.5)";
-          iframe.onload = () => {
-            try {
-              const doc =
-                iframe.contentDocument || iframe.contentWindow.document;
-              const style = doc.createElement("style");
-              style.textContent = isLight
-                ? `body{background:rgba(255,255,255,0.7)!important;color:#111!important;} a{color:#e85d04!important;}`
-                : `body{background:rgba(20,20,20,0.4)!important;color:#fff!important;} 
-         a{color:#ffae42!important;} *{color:#fff!important;}`;
-              doc.head.appendChild(style);
-            } catch (err) {
-              console.warn("Cannot style iframe content:", err);
+      function buildTree(files) {
+        const root = {};
+        files.forEach((file) => {
+          const parts = file.webkitRelativePath.split("/");
+          parts.reduce((acc, part, idx) => {
+            if (idx === parts.length - 1) {
+              acc.files = acc.files || [];
+              acc.files.push(file);
+            } else {
+              acc.folders = acc.folders || {};
+              acc.folders[part] = acc.folders[part] || {};
             }
-          };
-          viewer.appendChild(iframe);
-        } else if (["pdf"].includes(ext)) {
-          const iframe = document.createElement("iframe");
-          iframe.src = URL.createObjectURL(file) + "#toolbar=1";
-          iframe.style.minHeight = "66vh";
-          viewer.appendChild(iframe);
-        } else if (["txt", "url", "js", "css"].includes(ext)) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const pre = document.createElement("pre");
-            pre.textContent = reader.result;
-            pre.style.minHeight = "66vh";
-            viewer.appendChild(pre);
-          };
-          reader.readAsText(file);
-        } else {
-          viewer.innerHTML = `<p style="text-align:center;color:var(--text);opacity:0.8;">⚠️ Unsupported file type.</p>`;
+            return acc.folders ? acc.folders[part] || acc : acc;
+          }, root);
+        });
+        return root;
+      }
+
+      function renderTree(node) {
+        const container = document.createElement("div");
+        const folderNames = node.folders
+          ? Object.keys(node.folders).sort(naturalSort)
+          : [];
+        folderNames.forEach((name) => {
+          const details = document.createElement("details");
+          details.classList.add("folder");
+          const summary = document.createElement("summary");
+          summary.textContent = "📁 " + name;
+          details.appendChild(summary);
+          details.appendChild(renderTree(node.folders[name]));
+          container.appendChild(details);
+        });
+        if (node.files) {
+          node.files
+            .sort((a, b) => naturalSort(a.name, b.name))
+            .forEach((file) => {
+              const btn = document.createElement("button");
+              btn.textContent = file.name;
+              btn.classList.add("file-btn");
+              btn.onclick = (e) => loadLesson(file, e);
+              container.appendChild(btn);
+              flatLessons.push(file);
+            });
         }
+        return container;
+      }
+
+      function findSubtitle(videoFile) {
+        const base = videoFile.name.replace(/\.[^/.]+$/, "");
+        return allFiles.find(
+          (f) => f.name.startsWith(base) && /\.(vtt|srt)$/i.test(f.name)
+        );
+      }
+
+      function srtToVtt(srt) {
+        return (
+          "WEBVTT\n\n" +
+          srt
+            .replace(/\r+/g, "")
+            .replace(/^\s+|\s+$/g, "")
+            .split("\n")
+            .map((l) => l.replace(/(\d+):(\d+):(\d+),(\d+)/g, "$1:$2:$3.$4"))
+            .join("\n")
+        );
+      }
+
+      function loadLesson(file, event) {
+        currentIndex = flatLessons.indexOf(file);
+        document
+          .querySelectorAll(".file-btn")
+          .forEach((b) => b.classList.remove("active"));
+        if (event && event.target) event.target.classList.add("active");
+        viewerTitle.textContent = file.name;
+        const ext = file.name.split(".").pop().toLowerCase();
+
+        if (videoExts.includes(ext)) {
+          const sub = findSubtitle(file);
+          if (sub) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              let subURL;
+              if (sub.name.endsWith(".srt")) {
+                const blob = new Blob([srtToVtt(e.target.result)], {
+                  type: "text/vtt",
+                });
+                subURL = URL.createObjectURL(blob);
+              } else subURL = URL.createObjectURL(sub);
+
+              viewer.innerHTML = `<div style="text-align:center;">
+          <video id="video" controls autoplay>
+            <source src="${URL.createObjectURL(file)}" type="video/${ext}">
+            <track src="${subURL}" kind="subtitles" srclang="en" label="English" default>
+          </video>
+          <button class="cc-toggle" id="ccBtn">CC</button>
+        </div>`;
+
+              const v = document.getElementById("video");
+              const track = v.textTracks[0];
+              if (track) track.mode = "hidden";
+              const ccBtn = document.getElementById("ccBtn");
+              ccBtn.onclick = () => {
+                if (!track) return;
+                const isOn = track.mode === "showing";
+                track.mode = isOn ? "hidden" : "showing";
+                ccBtn.classList.toggle("active", !isOn);
+              };
+            };
+            reader.readAsText(sub);
+          } else {
+            viewer.innerHTML = `<video controls autoplay>
+        <source src="${URL.createObjectURL(file)}" type="video/${ext}">
+      </video>`;
+          }
+        } else if (ext === "pdf") {
+          viewer.innerHTML = `<embed src="${URL.createObjectURL(
+            file
+          )}" type="application/pdf" width="100%" style="height:80vh;"/>`;
+        } else {
+          const r = new FileReader();
+          r.onload = (e) =>
+            (viewer.innerHTML = `<pre style="white-space:pre-wrap;color:#fff;">${e.target.result}</pre>`);
+          r.readAsText(file);
+        }
+        prevBtn.disabled = currentIndex <= 0;
+        nextBtn.disabled = currentIndex >= flatLessons.length - 1;
       }
 
       prevBtn.onclick = () => {
-        if (currentIndex > 0) {
-          currentIndex--;
-          const item = allLessons[currentIndex];
-          highlightCurrentLesson(
-            document.querySelectorAll("#sections a")[currentIndex]
-          );
-          showFile(item.file, item.name);
-        }
+        if (currentIndex > 0)
+          loadLesson(flatLessons[currentIndex - 1], {
+            target: findBtn(currentIndex - 1),
+          });
       };
-
       nextBtn.onclick = () => {
-        if (currentIndex < allLessons.length - 1) {
-          currentIndex++;
-          const item = allLessons[currentIndex];
-          highlightCurrentLesson(
-            document.querySelectorAll("#sections a")[currentIndex]
-          );
-          showFile(item.file, item.name);
-        }
+        if (currentIndex < flatLessons.length - 1)
+          loadLesson(flatLessons[currentIndex + 1], {
+            target: findBtn(currentIndex + 1),
+          });
       };
-
-      reloadBtn.onclick = function () {
-        location.reload(true);
-      };
+      function findBtn(i) {
+        return document.querySelectorAll(".file-btn")[i];
+      }
+      menuBtn.onclick = () => sidebar.classList.toggle("hidden");
+      reloadBtn.onclick = () => location.reload();
     </script>
   </body>
 </html>
